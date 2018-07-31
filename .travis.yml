@@ -1,0 +1,8 @@
+sudo: required
+
+language: java
+
+install:
+  - jdk_switcher use oraclejdk8
+  - mvn clean install
+
