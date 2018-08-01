@@ -1,0 +1,32 @@
+
+*****************************************************
+Summary
+-------
+Generated at: 2018-08-01T22:31:10+08:00
+
+Notes: 0
+Binaries: 0
+Archives: 0
+Standards: 6
+
+Apache Licensed: 6
+Generated Documents: 0
+
+JavaDocs are generated, thus a license header is optional.
+Generated files do not require license headers.
+
+0 Unknown Licenses
+
+*****************************************************
+  Files with Apache License headers will be marked AL
+  Binary files (which do not require any license headers) will be marked B
+  Compressed archives will be marked A
+  Notices, licenses etc. will be marked N
+  AL    /Users/wusheng/Documents/GitHub/incubator-skywalking-oal-tool/oal-syntax/pom.xml
+  AL    /Users/wusheng/Documents/GitHub/incubator-skywalking-oal-tool/oal-syntax/src/test/resources/oal_test.oal
+  AL    /Users/wusheng/Documents/GitHub/incubator-skywalking-oal-tool/oal-syntax/src/main/java/org/apache/skywalking/oal/tool/Main.java
+  AL    /Users/wusheng/Documents/GitHub/incubator-skywalking-oal-tool/oal-syntax/src/main/antlr4/org/apache/skywalking/oal/tool/grammar/OALLexer.tokens
+  AL    /Users/wusheng/Documents/GitHub/incubator-skywalking-oal-tool/oal-syntax/src/main/antlr4/org/apache/skywalking/oal/tool/grammar/OALLexer.g4
+  AL    /Users/wusheng/Documents/GitHub/incubator-skywalking-oal-tool/oal-syntax/src/main/antlr4/org/apache/skywalking/oal/tool/grammar/OALParser.g4
+ 
+*****************************************************
