@@ -59,6 +59,8 @@ LineComment
       -> channel(HIDDEN)
     ;
 
+SPACE:                               [ \t\r\n]+    -> channel(HIDDEN);
+
 // Identifiers
 
 IDENTIFIER:         Letter LetterOrDigit*;
@@ -101,3 +103,4 @@ LR_BRACKET:                          '(';
 RR_BRACKET:                          ')';
 COMMA:                               ',';
 SEMI:                                ';';
+EQUAL:                               '=';

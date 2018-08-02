@@ -28,10 +28,6 @@ From: 'Oracle' (http://www.oracle.com)
   - JSR 353 (JSON Processing) Default Provider (http://jsonp.java.net) org.glassfish:javax.json:bundle:1.0.4
     License: Dual license consisting of the CDDL v1.1 and GPL v2  (https://glassfish.java.net/public/CDDL+GPL_1_1.html)
 
-From: 'The Apache Software Foundation' (https://www.apache.org/)
-  - Apache Commons CLI (http://commons.apache.org/proper/commons-cli/) commons-cli:commons-cli:jar:1.4
-    License: Apache License, Version 2.0  (https://www.apache.org/licenses/LICENSE-2.0.txt)
-
 
 
 

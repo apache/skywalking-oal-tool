@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>oal-syntax</module>
+        <module>oal-parser</module>
     </modules>
 
     <parent>

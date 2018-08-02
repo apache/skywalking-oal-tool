@@ -26,19 +26,35 @@ options { tokenVocab=OALLexer; }
 // Top Level Description
 
 root
-    : metricStatements? DelimitedComment ? LineComment ? EOF
+    : (aggregationStatement)*
     ;
 
-metricStatements
-    : metricStatement*
+aggregationStatement
+    : variable (SPACE)? EQUAL (SPACE)? metricStatement DelimitedComment? LineComment? (SEMI|EOF)
     ;
 
 metricStatement
-    : FROM '(' source  '.' IDENTIFIER ')'
+    : FROM LR_BRACKET source  DOT IDENTIFIER RR_BRACKET DOT aggregateFunction
     ;
 
 source
     : SRC_ALL | SRC_SERVICE | SRC_SERVICE_INSTANCE | SRC_ENDPOINT |
       SRC_SERVICE_RELATION | SRC_SERVICE_INSTANCE_RELATION | SRC_ENDPOINT_RELATION |
       SRC_SERVICE_INSTANCE_JVM_CPU | SRC_SERVICE_INSTANCE_JVM_MEMORY | SRC_SERVICE_INSTANCE_JVM_MEMORY_POOL // JVM source of service instance
+    ;
+
+variable
+    : IDENTIFIER
+    ;
+
+aggregateFunction
+    : functionName LR_BRACKET (filterExpression)? RR_BRACKET
+    ;
+
+functionName
+    : IDENTIFIER
+    ;
+
+filterExpression
+    :
     ;
