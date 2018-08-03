@@ -16,25 +16,12 @@
  *
  */
 
-package org.apache.skywalking.oal.tool.parser;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.skywalking.oap.server.core.remote.selector.Selector;
+package org.apache.skywalking.oap.server.core.remote.selector;
 
-@Getter(AccessLevel.PUBLIC)
-@Setter(AccessLevel.PUBLIC)
-public class AnalysisResult {
-    private String metricName;
-
-    private String packageName;
-
-    private String sourceName;
-
-    private String sourceAttribute;
-
-    private String aggregationFunctionName;
-
-    private Selector remoteSelector;
+/**
+ * @author peng-yongsheng
+ */
+public enum Selector {
+    HashCode, Rolling, ForeverFirst
 }

@@ -28,16 +28,22 @@ public class ScriptParserTest {
     public void testParse() throws IOException {
         ScriptParser parser = ScriptParser.createFromScriptText(
             "Endpoint_avg = from(Endpoint.latency).avg(); //comment test" + "\n" +
-                "Service_avg = from(Endpoint.latency).avg()"
+                "Service_avg = from(Service.latency).avg()"
         );
         List<AnalysisResult> results = parser.parse();
 
         Assert.assertEquals(2, results.size());
 
         AnalysisResult endpointAvg = results.get(0);
-        Assert.assertEquals("Endpoint_avg", endpointAvg.getMetricName());
+        Assert.assertEquals("EndpointAvg", endpointAvg.getMetricName());
+        Assert.assertEquals("Endpoint", endpointAvg.getSourceName());
+        Assert.assertEquals("latency", endpointAvg.getSourceAttribute());
+        Assert.assertEquals("avg", endpointAvg.getAggregationFunctionName());
 
         AnalysisResult serviceAvg = results.get(1);
-        Assert.assertEquals("Service_avg", serviceAvg.getMetricName());
+        Assert.assertEquals("ServiceAvg", serviceAvg.getMetricName());
+        Assert.assertEquals("Service", serviceAvg.getSourceName());
+        Assert.assertEquals("latency", serviceAvg.getSourceAttribute());
+        Assert.assertEquals("avg", serviceAvg.getAggregationFunctionName());
     }
 }

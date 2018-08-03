@@ -38,14 +38,41 @@ public class OALListener extends OALParserBaseListener {
 
     @Override
     public void exitAggregationStatement(@NotNull OALParser.AggregationStatementContext ctx) {
+        current.setPackageName(current.getSourceName().toLowerCase() + "." + current.getMetricName().toLowerCase());
         results.add(current);
         current = null;
+    }
+
+    @Override public void enterSource(OALParser.SourceContext ctx) {
+        current.setSourceName(ctx.getText());
+    }
+
+    @Override
+    public void enterSourceAttribute(OALParser.SourceAttributeContext ctx) {
+        current.setSourceAttribute(ctx.getText());
     }
 
     @Override public void enterVariable(OALParser.VariableContext ctx) {
     }
 
     @Override public void exitVariable(OALParser.VariableContext ctx) {
-        current.setMetricName(ctx.getText());
+        current.setMetricName(nameFormat(ctx.getText()));
+    }
+
+    @Override public void enterFunctionName(OALParser.FunctionNameContext ctx) {
+        current.setAggregationFunctionName(ctx.getText());
+    }
+
+    private String nameFormat(String source) {
+        source = firstLetterUpper(source);
+        int idx;
+        while ((idx = source.indexOf("_")) > -1) {
+            source = source.substring(0, idx) + firstLetterUpper(source.substring(idx + 1));
+        }
+        return source;
+    }
+
+    private String firstLetterUpper(String source){
+        return source.substring(0, 1).toUpperCase() + source.substring(1);
     }
 }

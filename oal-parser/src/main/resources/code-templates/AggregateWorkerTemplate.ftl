@@ -16,25 +16,23 @@
  *
  */
 
-package org.apache.skywalking.oal.tool.parser;
+package org.apache.skywalking.oap.server.core.analysis.${packageName};
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.skywalking.oap.server.core.remote.selector.Selector;
+import org.apache.skywalking.oap.server.core.analysis.worker.AbstractAggregatorWorker;
+import org.apache.skywalking.oap.server.library.module.ModuleManager;
 
-@Getter(AccessLevel.PUBLIC)
-@Setter(AccessLevel.PUBLIC)
-public class AnalysisResult {
-    private String metricName;
+/**
+ * This class is auto generated. Please don't change this class manually.
+ *
+ * @author Observability Analysis Language code generator
+ */
+public class ${metricName}AggregateWorker extends AbstractAggregatorWorker<${metricName}Indicator> {
 
-    private String packageName;
+    public ${metricName}AggregateWorker(ModuleManager moduleManager) {
+        super(moduleManager);
+    }
 
-    private String sourceName;
-
-    private String sourceAttribute;
-
-    private String aggregationFunctionName;
-
-    private Selector remoteSelector;
+    @Override public Class nextWorkerClass() {
+        return ${metricName}RemoteWorker.class;
+    }
 }

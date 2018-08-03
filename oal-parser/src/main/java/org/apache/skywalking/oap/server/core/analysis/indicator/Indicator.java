@@ -16,25 +16,29 @@
  *
  */
 
-package org.apache.skywalking.oal.tool.parser;
+package org.apache.skywalking.oap.server.core.analysis.indicator;
 
-import lombok.AccessLevel;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.skywalking.oap.server.core.remote.selector.Selector;
+import org.apache.skywalking.oap.server.core.storage.annotation.Column;
 
-@Getter(AccessLevel.PUBLIC)
-@Setter(AccessLevel.PUBLIC)
-public class AnalysisResult {
-    private String metricName;
+/**
+ * @author peng-yongsheng
+ */
+public abstract class Indicator {
 
-    private String packageName;
+    protected static final String TIME_BUCKET = "time_bucket";
 
-    private String sourceName;
+    @Getter @Setter @Column(columnName = TIME_BUCKET) private long timeBucket;
 
-    private String sourceAttribute;
+    public abstract String id();
 
-    private String aggregationFunctionName;
+    public abstract void combine(Indicator indicator);
 
-    private Selector remoteSelector;
+    public abstract String name();
+
+    public abstract Map<String, Object> toMap();
+
+    public abstract Indicator newOne(Map<String, Object> dbMap);
 }

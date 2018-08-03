@@ -16,25 +16,27 @@
  *
  */
 
-package org.apache.skywalking.oal.tool.parser;
+package org.apache.skywalking.oap.server.core;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.skywalking.oap.server.core.remote.selector.Selector;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.skywalking.oap.server.core.analysis.indicator.AvgIndicator;
+import org.apache.skywalking.oap.server.core.analysis.indicator.Indicator;
 
-@Getter(AccessLevel.PUBLIC)
-@Setter(AccessLevel.PUBLIC)
-public class AnalysisResult {
-    private String metricName;
+public class Indicators {
+    private static Map<String, Class<? extends Indicator>> REGISTER = new HashMap<>();
 
-    private String packageName;
+    static {
+        REGISTER.put("avg", AvgIndicator.class);
+    }
 
-    private String sourceName;
+    public static Class<? extends Indicator> find(String functionName) {
+        String func = functionName.toLowerCase();
+        Class<? extends Indicator> indicatorClass = REGISTER.get(func);
+        if (indicatorClass == null) {
+            throw new IllegalArgumentException("Can't find indicator.");
+        }
+        return indicatorClass;
+    }
 
-    private String sourceAttribute;
-
-    private String aggregationFunctionName;
-
-    private Selector remoteSelector;
 }

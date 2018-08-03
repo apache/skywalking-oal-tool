@@ -16,25 +16,21 @@
  *
  */
 
-package org.apache.skywalking.oal.tool.parser;
+package org.apache.skywalking.oap.server.core.analysis.indicator.annotation;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import org.apache.skywalking.oap.server.core.remote.selector.Selector;
 
-@Getter(AccessLevel.PUBLIC)
-@Setter(AccessLevel.PUBLIC)
-public class AnalysisResult {
-    private String metricName;
+/**
+ * @author peng-yongsheng
+ */
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface IndicatorType {
+    Selector selector();
 
-    private String packageName;
-
-    private String sourceName;
-
-    private String sourceAttribute;
-
-    private String aggregationFunctionName;
-
-    private Selector remoteSelector;
+    boolean needMerge();
 }

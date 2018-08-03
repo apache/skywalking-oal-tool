@@ -34,13 +34,17 @@ aggregationStatement
     ;
 
 metricStatement
-    : FROM LR_BRACKET source  DOT IDENTIFIER RR_BRACKET DOT aggregateFunction
+    : FROM LR_BRACKET source  DOT sourceAttribute RR_BRACKET DOT aggregateFunction
     ;
 
 source
     : SRC_ALL | SRC_SERVICE | SRC_SERVICE_INSTANCE | SRC_ENDPOINT |
       SRC_SERVICE_RELATION | SRC_SERVICE_INSTANCE_RELATION | SRC_ENDPOINT_RELATION |
       SRC_SERVICE_INSTANCE_JVM_CPU | SRC_SERVICE_INSTANCE_JVM_MEMORY | SRC_SERVICE_INSTANCE_JVM_MEMORY_POOL // JVM source of service instance
+    ;
+
+sourceAttribute
+    : IDENTIFIER
     ;
 
 variable
