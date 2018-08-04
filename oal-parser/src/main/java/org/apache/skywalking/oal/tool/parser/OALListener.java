@@ -38,8 +38,8 @@ public class OALListener extends OALParserBaseListener {
 
     @Override
     public void exitAggregationStatement(@NotNull OALParser.AggregationStatementContext ctx) {
-        current.setPackageName(current.getSourceName().toLowerCase() + "." + current.getMetricName().toLowerCase());
-        results.add(current);
+        DeepAnalysis deepAnalysis = new DeepAnalysis();
+        results.add(deepAnalysis.analysis(current));
         current = null;
     }
 

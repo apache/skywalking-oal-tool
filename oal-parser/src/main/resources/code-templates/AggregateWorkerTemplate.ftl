@@ -16,7 +16,7 @@
  *
  */
 
-package org.apache.skywalking.oap.server.core.analysis.${packageName};
+package org.apache.skywalking.oap.server.core.analysis.generated.${packageName};
 
 import org.apache.skywalking.oap.server.core.analysis.worker.AbstractAggregatorWorker;
 import org.apache.skywalking.oap.server.library.module.ModuleManager;

@@ -16,23 +16,30 @@
  *
  */
 
-package org.apache.skywalking.oap.server.core.analysis.generated.service.serviceavg;
+package org.apache.skywalking.oal.tool.parser;
 
-import org.apache.skywalking.oap.server.core.analysis.worker.AbstractAggregatorWorker;
-import org.apache.skywalking.oap.server.library.module.ModuleManager;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.skywalking.oal.tool.util.ClassMethodUtil;
 
-/**
- * This class is auto generated. Please don't change this class manually.
- *
- * @author Observability Analysis Language code generator
- */
-public class ServiceAvgAggregateWorker extends AbstractAggregatorWorker<ServiceAvgIndicator> {
+@Getter(AccessLevel.PUBLIC)
+@Setter(AccessLevel.PUBLIC)
+public class DataColumn {
+    private String fieldName;
+    private String columnName;
+    private Class<?> type;
+    private String typeName;
+    private String fieldSetter;
+    private String fieldGetter;
 
-    public ServiceAvgAggregateWorker(ModuleManager moduleManager) {
-        super(moduleManager);
-    }
+    public DataColumn(String fieldName, String columnName, Class<?> type) {
+        this.fieldName = fieldName;
+        this.columnName = columnName;
+        this.type = type;
+        this.typeName = type.getName();
 
-    @Override public Class nextWorkerClass() {
-        return ServiceAvgRemoteWorker.class;
+        this.fieldGetter = ClassMethodUtil.toGetMethod(fieldName);
+        this.fieldSetter = ClassMethodUtil.toSetMethod(fieldName);
     }
 }

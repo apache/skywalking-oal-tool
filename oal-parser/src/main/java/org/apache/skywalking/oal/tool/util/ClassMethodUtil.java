@@ -16,23 +16,14 @@
  *
  */
 
-package org.apache.skywalking.oap.server.core.analysis.generated.service.serviceavg;
+package org.apache.skywalking.oal.tool.util;
 
-import org.apache.skywalking.oap.server.core.analysis.worker.AbstractAggregatorWorker;
-import org.apache.skywalking.oap.server.library.module.ModuleManager;
-
-/**
- * This class is auto generated. Please don't change this class manually.
- *
- * @author Observability Analysis Language code generator
- */
-public class ServiceAvgAggregateWorker extends AbstractAggregatorWorker<ServiceAvgIndicator> {
-
-    public ServiceAvgAggregateWorker(ModuleManager moduleManager) {
-        super(moduleManager);
+public class ClassMethodUtil {
+    public static String toGetMethod(String attribute) {
+        return "get" + attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
     }
 
-    @Override public Class nextWorkerClass() {
-        return ServiceAvgRemoteWorker.class;
+    public static String toSetMethod(String attribute) {
+        return "set" + attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
     }
 }

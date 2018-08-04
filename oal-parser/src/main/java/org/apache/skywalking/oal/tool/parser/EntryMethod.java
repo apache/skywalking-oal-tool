@@ -16,23 +16,25 @@
  *
  */
 
-package org.apache.skywalking.oap.server.core.analysis.generated.service.serviceavg;
+package org.apache.skywalking.oal.tool.parser;
 
-import org.apache.skywalking.oap.server.core.analysis.worker.AbstractAggregatorWorker;
-import org.apache.skywalking.oap.server.library.module.ModuleManager;
+import java.util.LinkedList;
+import java.util.List;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
-/**
- * This class is auto generated. Please don't change this class manually.
- *
- * @author Observability Analysis Language code generator
- */
-public class ServiceAvgAggregateWorker extends AbstractAggregatorWorker<ServiceAvgIndicator> {
+@Getter(AccessLevel.PUBLIC)
+@Setter(AccessLevel.PUBLIC)
+public class EntryMethod {
+    private String methodName;
 
-    public ServiceAvgAggregateWorker(ModuleManager moduleManager) {
-        super(moduleManager);
-    }
+    private List<String> argsExpressions;
 
-    @Override public Class nextWorkerClass() {
-        return ServiceAvgRemoteWorker.class;
+    public void addArg(String expression) {
+        if (argsExpressions == null) {
+            argsExpressions = new LinkedList<>();
+        }
+        argsExpressions.add(expression);
     }
 }

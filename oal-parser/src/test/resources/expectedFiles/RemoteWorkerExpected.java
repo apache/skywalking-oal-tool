@@ -16,7 +16,7 @@
  *
  */
 
-package org.apache.skywalking.oap.server.core.analysis.service.serviceavg;
+package org.apache.skywalking.oap.server.core.analysis.generated.service.serviceavg;
 
 import org.apache.skywalking.oap.server.core.analysis.worker.AbstractRemoteWorker;
 import org.apache.skywalking.oap.server.core.remote.selector.Selector;

@@ -26,6 +26,7 @@ import java.io.StringWriter;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.skywalking.oal.tool.parser.AnalysisResult;
+import org.apache.skywalking.oal.tool.parser.SourceColumnsFactory;
 import org.apache.skywalking.oap.server.core.remote.selector.Selector;
 import org.junit.Assert;
 import org.junit.Test;
@@ -39,6 +40,13 @@ public class FileGeneratorTest {
         result.setMetricName("ServiceAvg");
         result.setAggregationFunctionName("avg");
         result.setRemoteSelector(Selector.HashCode);
+        result.setNeedMerge(true);
+        result.setIndicatorClassName("AvgIndicator");
+        result.addPersistentField("summation", "summation", long.class);
+        result.addPersistentField("count", "count", int.class);
+        result.addPersistentField("value", "value", long.class);
+        result.setFieldsFromSource(SourceColumnsFactory.getColumns("Service"));
+        result.generateSerializeFields();
 
         return result;
     }
@@ -71,6 +79,37 @@ public class FileGeneratorTest {
         Assert.assertEquals(readExpectedFile("RemoteWorkerExpected.java"), writer.toString());
 
         //fileGenerator.generateRemoteWorker(result, new OutputStreamWriter(System.out));
+    }
+
+    @Test
+    public void testGeneratePersistentWorker() throws IOException, TemplateException {
+        AnalysisResult result = buildResult();
+
+        List<AnalysisResult> results = new LinkedList<>();
+        results.add(result);
+
+        FileGenerator fileGenerator = new FileGenerator(results, ".");
+        StringWriter writer = new StringWriter();
+        fileGenerator.generatePersistentWorker(result, writer);
+
+        Assert.assertEquals(readExpectedFile("PersistentWorkerExpected.java"), writer.toString());
+
+        //fileGenerator.generatePersistentWorker(result, new OutputStreamWriter(System.out));
+    }
+
+    @Test
+    public void testGenerateIndicatorImplementor() throws IOException, TemplateException {
+        AnalysisResult result = buildResult();
+
+        List<AnalysisResult> results = new LinkedList<>();
+        results.add(result);
+
+        FileGenerator fileGenerator = new FileGenerator(results, ".");
+        StringWriter writer = new StringWriter();
+        fileGenerator.generateIndicatorImplementor(result, writer);
+        Assert.assertEquals(readExpectedFile("IndicatorImplementorExpected.java"), writer.toString());
+
+        //fileGenerator.generateIndicatorImplementor(result, new OutputStreamWriter(System.out));
     }
 
     private String readExpectedFile(String filename) throws IOException {

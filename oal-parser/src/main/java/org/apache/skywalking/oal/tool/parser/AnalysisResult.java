@@ -18,6 +18,8 @@
 
 package org.apache.skywalking.oal.tool.parser;
 
+import java.util.LinkedList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,5 +38,69 @@ public class AnalysisResult {
 
     private String aggregationFunctionName;
 
+    private String indicatorClassName;
+
     private Selector remoteSelector;
+
+    private boolean needMerge;
+
+    private EntryMethod entryMethod;
+
+    private List<DataColumn> persistentFields;
+
+    private List<SourceColumn> fieldsFromSource;
+
+    private PersistenceColumns serializeFields;
+
+    public void addPersistentField(String fieldName, String columnName, Class<?> type) {
+        if (persistentFields == null) {
+            persistentFields = new LinkedList<>();
+        }
+        DataColumn dataColumn = new DataColumn(fieldName, columnName, type);
+        persistentFields.add(dataColumn);
+    }
+
+    public void generateSerializeFields() {
+        serializeFields = new PersistenceColumns();
+        serializeFields.addLongField("timeBucket");
+        for (SourceColumn sourceColumn : fieldsFromSource) {
+            String type = sourceColumn.getType().getSimpleName();
+            switch (type) {
+                case "int":
+                    serializeFields.addIntField(sourceColumn.getFieldName());
+                    break;
+                case "double":
+                    serializeFields.addDoubleField(sourceColumn.getFieldName());
+                    break;
+                case "String":
+                    serializeFields.addStringField(sourceColumn.getFieldName());
+                    break;
+                case "long":
+                    serializeFields.addLongField(sourceColumn.getFieldName());
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected field type [" + type + "] of source sourceColumn [" + sourceColumn.getFieldName() + "]");
+            }
+        }
+
+        for (DataColumn column : persistentFields) {
+            String type = column.getType().getSimpleName();
+            switch (type) {
+                case "int":
+                    serializeFields.addIntField(column.getFieldName());
+                    break;
+                case "double":
+                    serializeFields.addDoubleField(column.getFieldName());
+                    break;
+                case "String":
+                    serializeFields.addStringField(column.getFieldName());
+                    break;
+                case "long":
+                    serializeFields.addLongField(column.getFieldName());
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected field type [" + type + "] of persistence column [" + column.getFieldName() + "]");
+            }
+        }
+    }
 }

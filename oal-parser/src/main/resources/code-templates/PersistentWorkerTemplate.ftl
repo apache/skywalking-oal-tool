@@ -18,8 +18,7 @@
 
 package org.apache.skywalking.oap.server.core.analysis.generated.${packageName};
 
-import org.apache.skywalking.oap.server.core.analysis.worker.AbstractRemoteWorker;
-import org.apache.skywalking.oap.server.core.remote.selector.Selector;
+import org.apache.skywalking.oap.server.core.analysis.worker.AbstractPersistentWorker;
 import org.apache.skywalking.oap.server.library.module.ModuleManager;
 
 /**
@@ -27,17 +26,13 @@ import org.apache.skywalking.oap.server.library.module.ModuleManager;
  *
  * @author Observability Analysis Language code generator
  */
-public class ${metricName}RemoteWorker extends AbstractRemoteWorker<${metricName}Indicator> {
+public class ${metricName}PersistentWorker extends AbstractPersistentWorker<${metricName}Indicator> {
 
-    public ${metricName}RemoteWorker(ModuleManager moduleManager) {
+    public ${metricName}PersistentWorker(ModuleManager moduleManager) {
         super(moduleManager);
     }
 
-    @Override public Selector selector() {
-        return Selector.${remoteSelector};
-    }
-
-    @Override public Class nextWorkerClass() {
-        return ${metricName}PersistentWorker.class;
+    @Override protected boolean needMergeDBData() {
+        return ${needMerge?then('true', 'false')};
     }
 }

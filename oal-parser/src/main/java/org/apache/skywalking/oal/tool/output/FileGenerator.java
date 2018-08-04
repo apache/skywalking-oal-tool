@@ -55,4 +55,12 @@ public class FileGenerator {
     void generateRemoteWorker(AnalysisResult result, Writer output) throws IOException, TemplateException {
         configuration.getTemplate("RemoteWorkerTemplate.ftl").process(result, output);
     }
+
+    void generatePersistentWorker(AnalysisResult result, Writer output) throws IOException, TemplateException {
+        configuration.getTemplate("PersistentWorkerTemplate.ftl").process(result, output);
+    }
+
+    void generateIndicatorImplementor(AnalysisResult result, Writer output) throws IOException, TemplateException {
+        configuration.getTemplate("IndicatorImplementor.ftl").process(result, output);
+    }
 }
