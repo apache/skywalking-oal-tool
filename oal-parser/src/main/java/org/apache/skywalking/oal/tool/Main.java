@@ -18,24 +18,30 @@
 
 package org.apache.skywalking.oal.tool;
 
+import freemarker.template.TemplateException;
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.skywalking.oal.tool.output.FileGenerator;
+import org.apache.skywalking.oal.tool.parser.AnalysisResult;
+import org.apache.skywalking.oal.tool.parser.ScriptParser;
 
 /**
  * The main of SkyWalking OAL tool
  */
 public class Main {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) throws ParseException, IOException, TemplateException {
         Options options = new Options();
         options.addRequiredOption("s", "script-filepath", true, "Need the absolute file path of OAL script.");
         options.addRequiredOption("o", "output", true, "Need the root output folder of the generated codes.");
 
         CommandLineParser parser = new DefaultParser();
-        CommandLine line = parser.parse( options, args );
+        CommandLine line = parser.parse(options, args);
 
         String scriptFilePath = line.getOptionValue("s");
         String outputPath = line.getOptionValue("o");
@@ -44,5 +50,11 @@ public class Main {
         if (!scriptFile.exists()) {
             throw new IllegalArgumentException("OAL script file [" + scriptFilePath + "] doesn't exist");
         }
+
+        ScriptParser scriptParser = ScriptParser.createFromFile(scriptFilePath);
+        List<AnalysisResult> analysisResults = scriptParser.parse();
+
+        FileGenerator generator = new FileGenerator(analysisResults, outputPath);
+        generator.generate();
     }
 }

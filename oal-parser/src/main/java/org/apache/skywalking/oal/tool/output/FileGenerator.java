@@ -21,6 +21,8 @@ package org.apache.skywalking.oal.tool.output;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import freemarker.template.Version;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
@@ -42,8 +44,35 @@ public class FileGenerator {
         this.toDispatchers();
     }
 
-    public void generate() {
+    public void generate() throws IOException, TemplateException {
+        for (AnalysisResult result : results) {
+            generate(result, "AggregateWorker.java", (writer) -> generateAggregateWorker(result, writer));
+        }
 
+    }
+
+    private void generate(AnalysisResult result, String fileSuffix,
+        WriteWrapper writeWrapper) throws IOException, TemplateException {
+        File file = new File(outputPath, buildSubFolderName(result, fileSuffix));
+        if (!file.exists()) {
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            file.createNewFile();
+        }
+        FileWriter fileWriter = new FileWriter(file);
+        try {
+            writeWrapper.execute(fileWriter);
+        } finally {
+            fileWriter.close();
+        }
+    }
+
+    private String buildSubFolderName(AnalysisResult result, String suffix) {
+        return "generated/"
+            + result.getSourceName().toLowerCase() + "/"
+            + result.getMetricName().toLowerCase() + "/"
+            + result.getMetricName() + suffix;
     }
 
     void generateAggregateWorker(AnalysisResult result, Writer output) throws IOException, TemplateException {

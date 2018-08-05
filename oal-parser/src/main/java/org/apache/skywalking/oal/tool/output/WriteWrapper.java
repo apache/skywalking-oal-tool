@@ -16,4 +16,12 @@
  *
  */
 
-ServiceAvg = from(Service.latency).avg();
+package org.apache.skywalking.oal.tool.output;
+
+import freemarker.template.TemplateException;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public interface WriteWrapper {
+    void execute(FileWriter fileWriter) throws IOException, TemplateException;
+}
