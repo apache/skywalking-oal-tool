@@ -26,6 +26,7 @@ import java.io.StringWriter;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.skywalking.oal.tool.parser.AnalysisResult;
+import org.apache.skywalking.oal.tool.parser.EntryMethod;
 import org.apache.skywalking.oal.tool.parser.SourceColumnsFactory;
 import org.apache.skywalking.oap.server.core.remote.selector.Selector;
 import org.junit.Assert;
@@ -42,6 +43,12 @@ public class FileGeneratorTest {
         result.setRemoteSelector(Selector.HashCode);
         result.setNeedMerge(true);
         result.setIndicatorClassName("AvgIndicator");
+        EntryMethod method = new EntryMethod();
+        method.setMethodName("combine");
+        method.setArgsExpressions(new LinkedList<>());
+        method.getArgsExpressions().add("source.getLatency()");
+        method.getArgsExpressions().add("1");
+        result.setEntryMethod(method);
         result.addPersistentField("summation", "summation", long.class);
         result.addPersistentField("count", "count", int.class);
         result.addPersistentField("value", "value", long.class);
@@ -110,6 +117,21 @@ public class FileGeneratorTest {
         Assert.assertEquals(readExpectedFile("IndicatorImplementorExpected.java"), writer.toString());
 
         //fileGenerator.generateIndicatorImplementor(result, new OutputStreamWriter(System.out));
+    }
+
+    @Test
+    public void testServiceDispatcher() throws IOException, TemplateException {
+        AnalysisResult result = buildResult();
+
+        List<AnalysisResult> results = new LinkedList<>();
+        results.add(result);
+
+        FileGenerator fileGenerator = new FileGenerator(results, ".");
+        StringWriter writer = new StringWriter();
+        fileGenerator.generateServiceDispatcher(writer);
+        Assert.assertEquals(readExpectedFile("ServiceDispatcherExpected.java"), writer.toString());
+
+        //fileGenerator.generateServiceDispatcher(new OutputStreamWriter(System.out));
     }
 
     private String readExpectedFile(String filename) throws IOException {
