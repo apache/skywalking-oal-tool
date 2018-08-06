@@ -37,6 +37,7 @@ public class FileGeneratorTest {
         AnalysisResult result = new AnalysisResult();
         result.setSourceName("Service");
         result.setPackageName("service.serviceavg");
+        result.setTableName("service_avg");
         result.setSourceAttribute("latency");
         result.setMetricName("ServiceAvg");
         result.setAggregationFunctionName("avg");

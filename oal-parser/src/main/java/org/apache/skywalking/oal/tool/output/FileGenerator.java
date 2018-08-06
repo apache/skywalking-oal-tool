@@ -47,9 +47,22 @@ public class FileGenerator {
     public void generate() throws IOException, TemplateException {
         for (AnalysisResult result : results) {
             generate(result, "AggregateWorker.java", (writer) -> generateAggregateWorker(result, writer));
+            generate(result, "Indicator.java", (writer) -> generateIndicatorImplementor(result, writer));
+            generate(result, "PersistentWorker.java", (writer) -> generatePersistentWorker(result, writer));
+            generate(result, "RemoteWorker.java", (writer) -> generateRemoteWorker(result, writer));
         }
 
+        File file = new File(outputPath, "generated/service/ServiceDispatcher.java");
+        if (!file.exists()) {
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            file.createNewFile();
+        }
+        this.generateServiceDispatcher(new FileWriter(file));
     }
+
+
 
     private void generate(AnalysisResult result, String fileSuffix,
         WriteWrapper writeWrapper) throws IOException, TemplateException {

@@ -30,6 +30,8 @@ import org.apache.skywalking.oap.server.core.remote.selector.Selector;
 public class AnalysisResult {
     private String metricName;
 
+    private String tableName;
+
     private String packageName;
 
     private String sourceName;

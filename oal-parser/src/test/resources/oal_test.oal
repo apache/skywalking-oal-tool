@@ -16,4 +16,4 @@
  *
  */
 
-ServiceAvg = from(Service.latency).avg();
+Service_Avg = from(Service.latency).avg();

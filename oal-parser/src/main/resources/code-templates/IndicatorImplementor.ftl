@@ -37,7 +37,7 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
 </#list>
 
     @Override public String name() {
-        return ${metricName};
+        return "${tableName}";
     }
 
     @Override public String id() {

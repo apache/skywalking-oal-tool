@@ -37,7 +37,7 @@ public class ServiceAvgIndicator extends AvgIndicator {
     @Setter @Getter @Column(columnName = "serviceInstanceId") private int serviceInstanceId;
 
     @Override public String name() {
-        return ServiceAvg;
+        return "service_avg";
     }
 
     @Override public String id() {

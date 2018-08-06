@@ -56,14 +56,15 @@ public class OALListener extends OALParserBaseListener {
     }
 
     @Override public void exitVariable(OALParser.VariableContext ctx) {
-        current.setMetricName(nameFormat(ctx.getText()));
+        current.setMetricName(metricNameFormat(ctx.getText()));
+        current.setTableName(ctx.getText().toLowerCase());
     }
 
     @Override public void enterFunctionName(OALParser.FunctionNameContext ctx) {
         current.setAggregationFunctionName(ctx.getText());
     }
 
-    private String nameFormat(String source) {
+    private String metricNameFormat(String source) {
         source = firstLetterUpper(source);
         int idx;
         while ((idx = source.indexOf("_")) > -1) {
