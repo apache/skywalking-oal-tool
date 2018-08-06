@@ -52,8 +52,6 @@ public class ServiceDispatcher implements SourceDispatcher<Service> {
 
         indicator.setTimeBucket(source.getTimeBucket());
         indicator.setId(source.getId())
-        indicator.setServiceId(source.getServiceId())
-        indicator.setServiceInstanceId(source.getServiceInstanceId())
         indicator.combine(
             source.getLatency(), 1);
         avgAggregator.in(indicator);

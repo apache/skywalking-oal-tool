@@ -33,8 +33,6 @@ import org.apache.skywalking.oap.server.core.storage.annotation.Column;
 public class ServiceAvgIndicator extends AvgIndicator {
 
     @Setter @Getter @Column(columnName = "id") private int id;
-    @Setter @Getter @Column(columnName = "serviceId") private int serviceId;
-    @Setter @Getter @Column(columnName = "serviceInstanceId") private int serviceInstanceId;
 
     @Override public String name() {
         return "service_avg";
@@ -79,9 +77,7 @@ public class ServiceAvgIndicator extends AvgIndicator {
 
 
         remoteBuilder.setDataIntegers(0, getId());
-        remoteBuilder.setDataIntegers(1, getServiceId());
-        remoteBuilder.setDataIntegers(2, getServiceInstanceId());
-        remoteBuilder.setDataIntegers(3, getCount());
+        remoteBuilder.setDataIntegers(1, getCount());
 
         return remoteBuilder;
     }
@@ -94,16 +90,12 @@ public class ServiceAvgIndicator extends AvgIndicator {
 
 
         setId(remoteData.getDataIntegers(0));
-        setServiceId(remoteData.getDataIntegers(1));
-        setServiceInstanceId(remoteData.getDataIntegers(2));
-        setCount(remoteData.getDataIntegers(3));
+        setCount(remoteData.getDataIntegers(1));
     }
 
     @Override public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("id", getId());
-        map.put("serviceId", getServiceId());
-        map.put("serviceInstanceId", getServiceInstanceId());
         map.put("summation", getSummation());
         map.put("count", getCount());
         map.put("value", getValue());
@@ -113,8 +105,6 @@ public class ServiceAvgIndicator extends AvgIndicator {
     @Override public Indicator newOne(Map<String, Object> dbMap) {
         ServiceAvgIndicator indicator = new ServiceAvgIndicator();
         indicator.setId((int)dbMap.get("id"));
-        indicator.setServiceId((int)dbMap.get("serviceId"));
-        indicator.setServiceInstanceId((int)dbMap.get("serviceInstanceId"));
         indicator.setSummation((long)dbMap.get("summation"));
         indicator.setCount((int)dbMap.get("count"));
         indicator.setValue((long)dbMap.get("value"));

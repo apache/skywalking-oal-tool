@@ -28,18 +28,71 @@ public class SourceColumnsFactory {
         switch (source) {
             case "Service":
                 columnList = new LinkedList<>();
+                // Service id;
                 idColumn = new SourceColumn("id", "id", int.class, true);
                 columnList.add(idColumn);
-                SourceColumn serviceIdColumn = new SourceColumn("serviceId", "serviceId", int.class, false);
+                return columnList;
+            case "ServiceInstance":
+                columnList = new LinkedList<>();
+                // Service instance id;
+                idColumn = new SourceColumn("id", "id", int.class, true);
+                columnList.add(idColumn);
+                SourceColumn serviceIdColumn = new SourceColumn("serviceId", "service_id", int.class, false);
                 columnList.add(serviceIdColumn);
-                SourceColumn serviceInstanceIdColumn = new SourceColumn("serviceInstanceId", "serviceInstanceId", int.class, false);
-                columnList.add(serviceInstanceIdColumn);
                 return columnList;
             case "Endpoint":
                 columnList = new LinkedList<>();
+                // Endpoint id;
                 idColumn = new SourceColumn("id", "id", int.class, true);
                 columnList.add(idColumn);
+                serviceIdColumn = new SourceColumn("serviceId", "service_id", int.class, false);
+                columnList.add(serviceIdColumn);
+                SourceColumn serviceInstanceIdColumn = new SourceColumn("serviceInstanceId", "service_instance_id", int.class, false);
+                columnList.add(serviceInstanceIdColumn);
                 return columnList;
+            case "ServiceInstance_JVM_CPU":
+            case "ServiceInstance_JVM_Memory":
+            case "ServiceInstance_JVM_Memory_Pool":
+            case "ServiceInstance_JVM_GC":
+                columnList = new LinkedList<>();
+                // Service instance id;
+                idColumn = new SourceColumn("id", "id", int.class, true);
+                columnList.add(idColumn);
+                serviceIdColumn = new SourceColumn("serviceId", "service_id", int.class, false);
+                columnList.add(serviceIdColumn);
+                return columnList;
+            case "ServiceRelation":
+                columnList = new LinkedList<>();
+                idColumn = new SourceColumn("id", "id", int.class, true);
+                columnList.add(idColumn);
+                SourceColumn sourceService = new SourceColumn("sourceServiceId", "source_service_id", int.class, false);
+                columnList.add(sourceService);
+                SourceColumn destService = new SourceColumn("destServiceId", "dest_service_id", int.class, false);
+                columnList.add(destService);
+            case "ServiceInstanceRelation":
+                columnList = new LinkedList<>();
+                idColumn = new SourceColumn("id", "id", int.class, true);
+                columnList.add(idColumn);
+                sourceService = new SourceColumn("sourceServiceId", "source_service_id", int.class, false);
+                columnList.add(sourceService);
+                destService = new SourceColumn("destServiceId", "dest_service_id", int.class, false);
+                columnList.add(destService);
+                SourceColumn sourceServiceInstance = new SourceColumn("sourceServiceInstanceId", "source_service_instance_id", int.class, false);
+                columnList.add(sourceServiceInstance);
+                SourceColumn destServiceInstance = new SourceColumn("destServiceInstanceId", "dest_service_instance_id", int.class, false);
+                columnList.add(destServiceInstance);
+            case "EndpointRelation":
+                columnList = new LinkedList<>();
+                idColumn = new SourceColumn("id", "id", int.class, true);
+                columnList.add(idColumn);
+                sourceService = new SourceColumn("sourceServiceId", "source_service_id", int.class, false);
+                columnList.add(sourceService);
+                destService = new SourceColumn("destServiceId", "dest_service_id", int.class, false);
+                columnList.add(destService);
+                sourceServiceInstance = new SourceColumn("sourceServiceInstanceId", "source_service_instance_id", int.class, false);
+                columnList.add(sourceServiceInstance);
+                destServiceInstance = new SourceColumn("destServiceInstanceId", "dest_service_instance_id", int.class, false);
+                columnList.add(destServiceInstance);
             default:
                 throw new IllegalArgumentException("Illegal source :" + source);
         }

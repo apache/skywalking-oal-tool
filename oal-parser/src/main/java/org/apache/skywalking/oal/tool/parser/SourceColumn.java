@@ -44,4 +44,13 @@ public class SourceColumn {
         this.fieldGetter = ClassMethodUtil.toGetMethod(fieldName);
         this.fieldSetter = ClassMethodUtil.toSetMethod(fieldName);
     }
+
+    @Override public String toString() {
+        return "SourceColumn{" +
+            "fieldName='" + fieldName + '\'' +
+            ", columnName='" + columnName + '\'' +
+            ", type=" + type +
+            ", isID=" + isID +
+            '}';
+    }
 }

@@ -25,12 +25,38 @@ import org.junit.Test;
 
 public class DeepAnalysisTest {
     @Test
-    public void testAnalysis(){
+    public void testServiceAnalysis(){
         AnalysisResult result = new AnalysisResult();
         result.setSourceName("Service");
         result.setPackageName("service.serviceavg");
         result.setSourceAttribute("latency");
         result.setMetricName("ServiceAvg");
+        result.setAggregationFunctionName("avg");
+
+        DeepAnalysis analysis = new DeepAnalysis();
+        result = analysis.analysis(result);
+
+        Assert.assertEquals(Selector.HashCode, result.getRemoteSelector());
+        Assert.assertEquals(true, result.isNeedMerge());
+        EntryMethod method = result.getEntryMethod();
+        Assert.assertEquals("combine", method.getMethodName());
+        Assert.assertEquals("source.getLatency()", method.getArgsExpressions().get(0));
+        Assert.assertEquals("1", method.getArgsExpressions().get(1));
+
+        List<SourceColumn> source = result.getFieldsFromSource();
+        Assert.assertEquals(1, source.size());
+
+        List<DataColumn> persistentFields = result.getPersistentFields();
+        Assert.assertEquals(4, persistentFields.size());
+    }
+
+    @Test
+    public void testEndpointAnalysis(){
+        AnalysisResult result = new AnalysisResult();
+        result.setSourceName("Endpoint");
+        result.setPackageName("endpoint.endpointavg");
+        result.setSourceAttribute("latency");
+        result.setMetricName("EndpointAvg");
         result.setAggregationFunctionName("avg");
 
         DeepAnalysis analysis = new DeepAnalysis();
