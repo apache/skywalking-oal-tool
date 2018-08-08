@@ -21,15 +21,17 @@ package org.apache.skywalking.oap.server.core.analysis.generated.${packageName};
 import java.util.*;
 import lombok.*;
 import org.apache.skywalking.oap.server.core.analysis.indicator.*;
+import org.apache.skywalking.oap.server.core.remote.annotation.StreamData;
 import org.apache.skywalking.oap.server.core.remote.grpc.proto.RemoteData;
-import org.apache.skywalking.oap.server.core.storage.annotation.Column;
+import org.apache.skywalking.oap.server.core.storage.annotation.*;
 
 /**
  * This class is auto generated. Please don't change this class manually.
  *
  * @author Observability Analysis Language code generator
  */
-
+@StreamData
+@StorageEntity(name = "${tableName}")
 public class ${metricName}Indicator extends ${indicatorClassName} {
 
 <#list fieldsFromSource as sourceField>

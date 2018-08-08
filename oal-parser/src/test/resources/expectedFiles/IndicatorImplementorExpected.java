@@ -21,15 +21,17 @@ package org.apache.skywalking.oap.server.core.analysis.generated.service.service
 import java.util.*;
 import lombok.*;
 import org.apache.skywalking.oap.server.core.analysis.indicator.*;
+import org.apache.skywalking.oap.server.core.remote.annotation.StreamData;
 import org.apache.skywalking.oap.server.core.remote.grpc.proto.RemoteData;
-import org.apache.skywalking.oap.server.core.storage.annotation.Column;
+import org.apache.skywalking.oap.server.core.storage.annotation.*;
 
 /**
  * This class is auto generated. Please don't change this class manually.
  *
  * @author Observability Analysis Language code generator
  */
-
+@StreamData
+@StorageEntity(name = "service_avg")
 public class ServiceAvgIndicator extends AvgIndicator {
 
     @Setter @Getter @Column(columnName = "id") private int id;

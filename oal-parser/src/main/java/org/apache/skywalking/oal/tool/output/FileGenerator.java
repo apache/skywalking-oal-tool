@@ -53,31 +53,33 @@ public class FileGenerator {
         }
 
         File file = new File(outputPath, "generated/service/ServiceDispatcher.java");
-        if (!file.exists()) {
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
-            }
-            file.createNewFile();
-        }
+        createFile(file);
         this.generateServiceDispatcher(new FileWriter(file));
+
+        file = new File(outputPath, "generated/endpoint/EndpointDispatcher.java");
+        createFile(file);
+        this.generateEndpointDispatcher(new FileWriter(file));
+
     }
-
-
 
     private void generate(AnalysisResult result, String fileSuffix,
         WriteWrapper writeWrapper) throws IOException, TemplateException {
         File file = new File(outputPath, buildSubFolderName(result, fileSuffix));
-        if (!file.exists()) {
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
-            }
-            file.createNewFile();
-        }
+        createFile(file);
         FileWriter fileWriter = new FileWriter(file);
         try {
             writeWrapper.execute(fileWriter);
         } finally {
             fileWriter.close();
+        }
+    }
+
+    private void createFile(File file) throws IOException {
+        if (!file.exists()) {
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            file.createNewFile();
         }
     }
 
@@ -106,6 +108,10 @@ public class FileGenerator {
 
     void generateServiceDispatcher(Writer output) throws IOException, TemplateException {
         configuration.getTemplate("ServiceDispatcherTemplate.ftl").process(dispatcherContext, output);
+    }
+
+    void generateEndpointDispatcher(Writer output) throws IOException, TemplateException {
+        configuration.getTemplate("EndpointDispatcherTemplate.ftl").process(dispatcherContext, output);
     }
 
     private void toDispatchers() {

@@ -21,7 +21,7 @@ package org.apache.skywalking.oap.server.core.analysis.generated;
 import org.apache.skywalking.oap.server.core.CoreModule;
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
 import org.apache.skywalking.oap.server.core.analysis.worker.define.WorkerMapper;
-import org.apache.skywalking.oap.server.core.source.Service;
+import org.apache.skywalking.oap.server.core.source.Endpoint;
 import org.apache.skywalking.oap.server.library.module.ModuleManager;
 
 /**
@@ -29,38 +29,38 @@ import org.apache.skywalking.oap.server.library.module.ModuleManager;
  *
  * @author Observability Analysis Language code generator
  */
-public class ServiceDispatcher implements SourceDispatcher<Service> {
+public class EndpointDispatcher implements SourceDispatcher<Endpoint> {
 
     private final ModuleManager moduleManager;
-<#list serviceIndicators as indicator>
+<#list endpointIndicators as indicator>
     private ${indicator.metricName}AggregateWorker ${indicator.metricName};
 </#list>
 
     public ServiceDispatcher(ModuleManager moduleManager) {
-        this.moduleManager = moduleManager;
+    this.moduleManager = moduleManager;
     }
 
     @Override public void dispatch(Service source) {
-<#list serviceIndicators as indicator>
+<#list endpointIndicators as indicator>
         do${indicator.metricName}(source);
 </#list>
     }
 
-<#list serviceIndicators as indicator>
+<#list endpointIndicators as indicator>
     private void do${indicator.metricName}(Service source) {
         if (avgAggregator == null) {
             WorkerMapper workerMapper = moduleManager.find(CoreModule.NAME).getService(WorkerMapper.class);
             avgAggregator = (${indicator.metricName}AggregateWorker)workerMapper.findInstanceByClass(${indicator.metricName}AggregateWorker.class);
         }
 
-        ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
+    ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
 
         indicator.setTimeBucket(source.getTimeBucket());
     <#list indicator.fieldsFromSource as field>
         indicator.${field.fieldSetter}(source.${field.fieldGetter}())
     </#list>
         indicator.${indicator.entryMethod.methodName}(
-            <#list indicator.entryMethod.argsExpressions as arg>${arg}<#if arg_has_next>, </#if></#list>);
+    <#list indicator.entryMethod.argsExpressions as arg>${arg}<#if arg_has_next>, </#if></#list>);
         avgAggregator.in(indicator);
     }
 </#list>
