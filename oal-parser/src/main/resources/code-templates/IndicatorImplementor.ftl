@@ -21,6 +21,7 @@ package org.apache.skywalking.oap.server.core.analysis.generated.${packageName};
 import java.util.*;
 import lombok.*;
 import org.apache.skywalking.oap.server.core.analysis.indicator.*;
+import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.IndicatorType;
 import org.apache.skywalking.oap.server.core.remote.annotation.StreamData;
 import org.apache.skywalking.oap.server.core.remote.grpc.proto.RemoteData;
 import org.apache.skywalking.oap.server.core.storage.annotation.*;
@@ -30,8 +31,9 @@ import org.apache.skywalking.oap.server.core.storage.annotation.*;
  *
  * @author Observability Analysis Language code generator
  */
+@IndicatorType
 @StreamData
-@StorageEntity(name = "${tableName}")
+@StorageEntity(name = "${tableName}", builder = ${metricName}Indicator.Builder.class)
 public class ${metricName}Indicator extends ${indicatorClassName} {
 
 <#list fieldsFromSource as sourceField>
@@ -119,25 +121,28 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
 </#list>
     }
 
-    @Override public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-<#list fieldsFromSource as field>
-        map.put("${field.columnName}", ${field.fieldGetter}());
-</#list>
-<#list persistentFields as field>
-        map.put("${field.columnName}", ${field.fieldGetter}());
-</#list>
-        return map;
-    }
+    static class Builder implements StorageBuilder<${metricName}Indicator> {
 
-    @Override public Indicator newOne(Map<String, Object> dbMap) {
-        ${metricName}Indicator indicator = new ${metricName}Indicator();
-<#list fieldsFromSource as field>
-        indicator.${field.fieldSetter}((${field.typeName})dbMap.get("${field.columnName}"));
-</#list>
-<#list persistentFields as field>
-        indicator.${field.fieldSetter}((${field.typeName})dbMap.get("${field.columnName}"));
-</#list>
-        return indicator;
+        @Override public Map<String, Object> data2Map(${metricName}Indicator storageData) {
+            Map<String, Object> map = new HashMap<>();
+    <#list fieldsFromSource as field>
+            map.put("${field.columnName}", storageData.${field.fieldGetter}());
+    </#list>
+    <#list persistentFields as field>
+            map.put("${field.columnName}", storageData.${field.fieldGetter}());
+    </#list>
+            return map;
+        }
+
+        @Override public ${metricName}Indicator map2Data(Map<String, Object> dbMap) {
+            ${metricName}Indicator indicator = new ${metricName}Indicator();
+    <#list fieldsFromSource as field>
+            indicator.${field.fieldSetter}((${field.typeName})dbMap.get("${field.columnName}"));
+    </#list>
+    <#list persistentFields as field>
+            indicator.${field.fieldSetter}((${field.typeName})dbMap.get("${field.columnName}"));
+    </#list>
+            return indicator;
+        }
     }
 }

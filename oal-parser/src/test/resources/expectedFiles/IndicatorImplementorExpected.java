@@ -21,6 +21,7 @@ package org.apache.skywalking.oap.server.core.analysis.generated.service.service
 import java.util.*;
 import lombok.*;
 import org.apache.skywalking.oap.server.core.analysis.indicator.*;
+import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.IndicatorType;
 import org.apache.skywalking.oap.server.core.remote.annotation.StreamData;
 import org.apache.skywalking.oap.server.core.remote.grpc.proto.RemoteData;
 import org.apache.skywalking.oap.server.core.storage.annotation.*;
@@ -30,8 +31,9 @@ import org.apache.skywalking.oap.server.core.storage.annotation.*;
  *
  * @author Observability Analysis Language code generator
  */
+@IndicatorType
 @StreamData
-@StorageEntity(name = "service_avg")
+@StorageEntity(name = "service_avg", builder = ServiceAvgIndicator.Builder.class)
 public class ServiceAvgIndicator extends AvgIndicator {
 
     @Setter @Getter @Column(columnName = "id") private int id;
@@ -95,21 +97,24 @@ public class ServiceAvgIndicator extends AvgIndicator {
         setCount(remoteData.getDataIntegers(1));
     }
 
-    @Override public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("id", getId());
-        map.put("summation", getSummation());
-        map.put("count", getCount());
-        map.put("value", getValue());
-        return map;
-    }
+    static class Builder implements StorageBuilder<ServiceAvgIndicator> {
 
-    @Override public Indicator newOne(Map<String, Object> dbMap) {
-        ServiceAvgIndicator indicator = new ServiceAvgIndicator();
-        indicator.setId((int)dbMap.get("id"));
-        indicator.setSummation((long)dbMap.get("summation"));
-        indicator.setCount((int)dbMap.get("count"));
-        indicator.setValue((long)dbMap.get("value"));
-        return indicator;
+        @Override public Map<String, Object> data2Map(ServiceAvgIndicator storageData) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", storageData.getId());
+            map.put("summation", storageData.getSummation());
+            map.put("count", storageData.getCount());
+            map.put("value", storageData.getValue());
+            return map;
+        }
+
+        @Override public ServiceAvgIndicator map2Data(Map<String, Object> dbMap) {
+            ServiceAvgIndicator indicator = new ServiceAvgIndicator();
+            indicator.setId((int)dbMap.get("id"));
+            indicator.setSummation((long)dbMap.get("summation"));
+            indicator.setCount((int)dbMap.get("count"));
+            indicator.setValue((long)dbMap.get("value"));
+            return indicator;
+        }
     }
 }

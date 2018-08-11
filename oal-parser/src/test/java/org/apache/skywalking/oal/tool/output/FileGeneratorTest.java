@@ -60,52 +60,6 @@ public class FileGeneratorTest {
     }
 
     @Test
-    public void testGenerateAggregateWorker() throws IOException, TemplateException {
-        AnalysisResult result = buildResult();
-        List<AnalysisResult> results = new LinkedList<>();
-        results.add(result);
-
-        FileGenerator fileGenerator = new FileGenerator(results, ".");
-
-        StringWriter writer = new StringWriter();
-        fileGenerator.generateAggregateWorker(result, writer);
-
-        Assert.assertEquals(readExpectedFile("AggregateWorkerExpected.java"), writer.toString());
-    }
-
-    @Test
-    public void testGenerateRemoteWorker() throws IOException, TemplateException {
-        AnalysisResult result = buildResult();
-
-        List<AnalysisResult> results = new LinkedList<>();
-        results.add(result);
-
-        FileGenerator fileGenerator = new FileGenerator(results, ".");
-        StringWriter writer = new StringWriter();
-        fileGenerator.generateRemoteWorker(result, writer);
-
-        Assert.assertEquals(readExpectedFile("RemoteWorkerExpected.java"), writer.toString());
-
-        //fileGenerator.generateRemoteWorker(result, new OutputStreamWriter(System.out));
-    }
-
-    @Test
-    public void testGeneratePersistentWorker() throws IOException, TemplateException {
-        AnalysisResult result = buildResult();
-
-        List<AnalysisResult> results = new LinkedList<>();
-        results.add(result);
-
-        FileGenerator fileGenerator = new FileGenerator(results, ".");
-        StringWriter writer = new StringWriter();
-        fileGenerator.generatePersistentWorker(result, writer);
-
-        Assert.assertEquals(readExpectedFile("PersistentWorkerExpected.java"), writer.toString());
-
-        //fileGenerator.generatePersistentWorker(result, new OutputStreamWriter(System.out));
-    }
-
-    @Test
     public void testGenerateIndicatorImplementor() throws IOException, TemplateException {
         AnalysisResult result = buildResult();
 

@@ -18,11 +18,9 @@
 
 package org.apache.skywalking.oap.server.core.analysis.generated;
 
-import org.apache.skywalking.oap.server.core.CoreModule;
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
-import org.apache.skywalking.oap.server.core.analysis.worker.define.WorkerMapper;
+import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
 import org.apache.skywalking.oap.server.core.source.Service;
-import org.apache.skywalking.oap.server.library.module.ModuleManager;
 
 /**
  * This class is auto generated. Please don't change this class manually.
@@ -30,16 +28,6 @@ import org.apache.skywalking.oap.server.library.module.ModuleManager;
  * @author Observability Analysis Language code generator
  */
 public class ServiceDispatcher implements SourceDispatcher<Service> {
-
-    private final ModuleManager moduleManager;
-<#list serviceIndicators as indicator>
-    private ${indicator.metricName}AggregateWorker ${indicator.metricName};
-</#list>
-
-    public ServiceDispatcher(ModuleManager moduleManager) {
-        this.moduleManager = moduleManager;
-    }
-
     @Override public void dispatch(Service source) {
 <#list serviceIndicators as indicator>
         do${indicator.metricName}(source);
@@ -48,11 +36,6 @@ public class ServiceDispatcher implements SourceDispatcher<Service> {
 
 <#list serviceIndicators as indicator>
     private void do${indicator.metricName}(Service source) {
-        if (avgAggregator == null) {
-            WorkerMapper workerMapper = moduleManager.find(CoreModule.NAME).getService(WorkerMapper.class);
-            avgAggregator = (${indicator.metricName}AggregateWorker)workerMapper.findInstanceByClass(${indicator.metricName}AggregateWorker.class);
-        }
-
         ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
 
         indicator.setTimeBucket(source.getTimeBucket());

@@ -18,11 +18,9 @@
 
 package org.apache.skywalking.oap.server.core.analysis.generated;
 
-import org.apache.skywalking.oap.server.core.CoreModule;
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
-import org.apache.skywalking.oap.server.core.analysis.worker.define.WorkerMapper;
+import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
 import org.apache.skywalking.oap.server.core.source.Endpoint;
-import org.apache.skywalking.oap.server.library.module.ModuleManager;
 
 /**
  * This class is auto generated. Please don't change this class manually.
@@ -31,14 +29,6 @@ import org.apache.skywalking.oap.server.library.module.ModuleManager;
  */
 public class EndpointDispatcher implements SourceDispatcher<Endpoint> {
 
-    private final ModuleManager moduleManager;
-<#list endpointIndicators as indicator>
-    private ${indicator.metricName}AggregateWorker ${indicator.metricName};
-</#list>
-
-    public ServiceDispatcher(ModuleManager moduleManager) {
-    this.moduleManager = moduleManager;
-    }
 
     @Override public void dispatch(Service source) {
 <#list endpointIndicators as indicator>
@@ -48,12 +38,7 @@ public class EndpointDispatcher implements SourceDispatcher<Endpoint> {
 
 <#list endpointIndicators as indicator>
     private void do${indicator.metricName}(Service source) {
-        if (avgAggregator == null) {
-            WorkerMapper workerMapper = moduleManager.find(CoreModule.NAME).getService(WorkerMapper.class);
-            avgAggregator = (${indicator.metricName}AggregateWorker)workerMapper.findInstanceByClass(${indicator.metricName}AggregateWorker.class);
-        }
-
-    ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
+        ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
 
         indicator.setTimeBucket(source.getTimeBucket());
     <#list indicator.fieldsFromSource as field>
@@ -61,7 +46,7 @@ public class EndpointDispatcher implements SourceDispatcher<Endpoint> {
     </#list>
         indicator.${indicator.entryMethod.methodName}(
     <#list indicator.entryMethod.argsExpressions as arg>${arg}<#if arg_has_next>, </#if></#list>);
-        avgAggregator.in(indicator);
+        IndicatorProcess.INSTANCE.in(indicator);
     }
 </#list>
 }
