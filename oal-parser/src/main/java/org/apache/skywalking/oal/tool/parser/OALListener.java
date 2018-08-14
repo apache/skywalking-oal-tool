@@ -27,6 +27,8 @@ public class OALListener extends OALParserBaseListener {
     private List<AnalysisResult> results;
     private AnalysisResult current;
 
+    private ConditionExpression conditionExpression;
+
     public OALListener(List<AnalysisResult> results) {
         this.results = results;
     }
@@ -64,6 +66,29 @@ public class OALListener extends OALParserBaseListener {
         current.setAggregationFunctionName(ctx.getText());
     }
 
+    @Override public void enterConditionAttribute(OALParser.ConditionAttributeContext ctx) {
+        conditionExpression.setAttribute(ctx.getText());
+    }
+
+    @Override public void enterBooleanBinaryMatch(OALParser.BooleanBinaryMatchContext ctx) {
+        conditionExpression.setExpressionType("booleanMatch");
+    }
+
+    @Override public void enterConditionValue(OALParser.ConditionValueContext ctx) {
+        conditionExpression.setValue(ctx.getText());
+    }
+
+    @Override public void enterFuncParamExpression(OALParser.FuncParamExpressionContext ctx) {
+        conditionExpression = new ConditionExpression();
+    }
+
+    @Override public void exitFuncParamExpression(OALParser.FuncParamExpressionContext ctx) {
+        current.addFuncConditionExpression(conditionExpression);
+    }
+
+    @Override public void exitBooleanBinaryMatch(OALParser.BooleanBinaryMatchContext ctx) {
+    }
+
     private String metricNameFormat(String source) {
         source = firstLetterUpper(source);
         int idx;
@@ -73,7 +98,7 @@ public class OALListener extends OALParserBaseListener {
         return source;
     }
 
-    private String firstLetterUpper(String source){
+    private String firstLetterUpper(String source) {
         return source.substring(0, 1).toUpperCase() + source.substring(1);
     }
 }

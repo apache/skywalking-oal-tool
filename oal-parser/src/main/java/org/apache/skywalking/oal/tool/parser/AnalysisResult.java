@@ -23,7 +23,6 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.skywalking.oap.server.core.remote.selector.Selector;
 
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PUBLIC)
@@ -44,6 +43,8 @@ public class AnalysisResult {
 
     private EntryMethod entryMethod;
 
+    private List<ConditionExpression> funcConditionExpressions;
+
     private List<DataColumn> persistentFields;
 
     private List<SourceColumn> fieldsFromSource;
@@ -56,6 +57,13 @@ public class AnalysisResult {
         }
         DataColumn dataColumn = new DataColumn(fieldName, columnName, type);
         persistentFields.add(dataColumn);
+    }
+
+    public void addFuncConditionExpression(ConditionExpression conditionExpression) {
+        if (funcConditionExpressions == null) {
+            funcConditionExpressions = new LinkedList<>();
+        }
+        funcConditionExpressions.add(conditionExpression);
     }
 
     public void generateSerializeFields() {

@@ -16,18 +16,14 @@
  *
  */
 
-package org.apache.skywalking.oal.tool.util;
+package org.apache.skywalking.oap.server.core.analysis.indicator.expression;
 
-public class ClassMethodUtil {
-    public static String toGetMethod(String attribute) {
-        return "get" + attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
-    }
-
-    public static String toSetMethod(String attribute) {
-        return "set" + attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
-    }
-
-    public static String toIsMethod(String attribute) {
-        return "is" + attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
+/**
+ *
+ * @author wusheng
+ */
+public class BooleanBinaryMatch extends BinaryMatchExpression {
+    @Override public boolean match() {
+        return left == right;
     }
 }

@@ -22,12 +22,14 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.skywalking.oap.server.core.analysis.indicator.AvgIndicator;
 import org.apache.skywalking.oap.server.core.analysis.indicator.Indicator;
+import org.apache.skywalking.oap.server.core.analysis.indicator.PercentIndicator;
 
 public class Indicators {
     private static Map<String, Class<? extends Indicator>> REGISTER = new HashMap<>();
 
     static {
         REGISTER.put("avg", AvgIndicator.class);
+        REGISTER.put("percent", PercentIndicator.class);
     }
 
     public static Class<? extends Indicator> find(String functionName) {

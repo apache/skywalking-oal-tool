@@ -44,7 +44,7 @@ source
     ;
 
 sourceAttribute
-    : IDENTIFIER
+    : IDENTIFIER | ALL
     ;
 
 variable
@@ -52,13 +52,26 @@ variable
     ;
 
 aggregateFunction
-    : functionName LR_BRACKET (filterExpression)? RR_BRACKET
+    : functionName LR_BRACKET (funcParamExpression)? RR_BRACKET
     ;
 
 functionName
     : IDENTIFIER
     ;
 
-filterExpression
-    :
+funcParamExpression
+    : booleanBinaryMatch
+    ;
+
+booleanBinaryMatch
+    :  conditionAttribute DUALEQUALS conditionValue
+    ;
+
+
+conditionAttribute
+    : IDENTIFIER
+    ;
+
+conditionValue
+    : BOOL_LITERAL
     ;

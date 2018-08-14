@@ -104,3 +104,5 @@ RR_BRACKET:                          ')';
 COMMA:                               ',';
 SEMI:                                ';';
 EQUAL:                               '=';
+DUALEQUALS:                          '==';
+ALL:                                 '*';

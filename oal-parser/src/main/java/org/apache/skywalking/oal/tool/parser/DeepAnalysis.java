@@ -28,6 +28,10 @@ import org.apache.skywalking.oap.server.core.Indicators;
 import org.apache.skywalking.oap.server.core.analysis.indicator.Indicator;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.ConstOne;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.Entrance;
+import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.Expression;
+import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.ExpressionArg0;
+import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.ExpressionArg1;
+import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.IndicatorOperator;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.SourceFrom;
 import org.apache.skywalking.oap.server.core.storage.annotation.Column;
 
@@ -38,6 +42,12 @@ public class DeepAnalysis {
 
         Class<? extends Indicator> indicatorClass = Indicators.find(result.getAggregationFunctionName());
 
+        // 2. Assert indicator class has IndicatorOperator annotation.
+        IndicatorOperator indicatorClassAnnotation = indicatorClass.getAnnotation(IndicatorOperator.class);
+        if (indicatorClassAnnotation == null) {
+            throw new IllegalArgumentException("Can't find IndicatorOperator in class: " + indicatorClass.getName());
+        }
+        result.setIndicatorClassName(indicatorClass.getSimpleName());
 
         // 3. Find Entrance method of this indicator
         Class c = indicatorClass;
@@ -71,6 +81,26 @@ public class DeepAnalysis {
                 entryMethod.addArg("source." + ClassMethodUtil.toGetMethod(result.getSourceAttribute()) + "()");
             } else if (annotation instanceof ConstOne) {
                 entryMethod.addArg("1");
+            } else if (annotation instanceof Expression) {
+                entryMethod.addArg("new " + parameter.getType().getName() + "()");
+            } else if (annotation instanceof ExpressionArg0) {
+                if (result.getFuncConditionExpressions().size() == 1) {
+                    ConditionExpression conditionExpression = result.getFuncConditionExpressions().get(0);
+                    if ("booleanMatch".equals(conditionExpression.getExpressionType())) {
+                        entryMethod.addArg("source." + ClassMethodUtil.toIsMethod(conditionExpression.getAttribute()) + "()");
+                    } else {
+                        throw new IllegalArgumentException("Entrance method:" + entranceMethod + " argument has @ExpressionArg0, but expression type is not supported");
+                    }
+                } else {
+                    throw new IllegalArgumentException("Entrance method:" + entranceMethod + " argument has @ExpressionArg0, but can't find funcParamExpression.");
+                }
+            } else if (annotation instanceof ExpressionArg1) {
+                if (result.getFuncConditionExpressions().size() == 1) {
+                    ConditionExpression conditionExpression = result.getFuncConditionExpressions().get(0);
+                    entryMethod.addArg(conditionExpression.getValue());
+                } else {
+                    throw new IllegalArgumentException("Entrance method:" + entranceMethod + " argument has @ExpressionArg0, but can't find funcParamExpression.");
+                }
             } else {
                 throw new IllegalArgumentException("Entrance method:" + entranceMethod + " doesn't the expected annotation.");
             }

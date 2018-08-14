@@ -27,6 +27,6 @@ import java.lang.annotation.Target;
  * @author wusheng
  */
 @Target(ElementType.PARAMETER)
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface ExpressionArg1 {
 }

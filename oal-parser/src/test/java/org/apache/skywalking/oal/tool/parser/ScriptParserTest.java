@@ -46,4 +46,24 @@ public class ScriptParserTest {
         Assert.assertEquals("latency", serviceAvg.getSourceAttribute());
         Assert.assertEquals("avg", serviceAvg.getAggregationFunctionName());
     }
+
+    @Test
+    public void testParse2() throws IOException {
+        ScriptParser parser = ScriptParser.createFromScriptText(
+            "Endpoint_percent = from(Endpoint.*).percent(status == true);"
+        );
+        List<AnalysisResult> results = parser.parse();
+
+        AnalysisResult endpointPercent = results.get(0);
+        Assert.assertEquals("EndpointPercent", endpointPercent.getMetricName());
+        Assert.assertEquals("Endpoint", endpointPercent.getSourceName());
+        Assert.assertEquals("*", endpointPercent.getSourceAttribute());
+        Assert.assertEquals("percent", endpointPercent.getAggregationFunctionName());
+        List<ConditionExpression> expressions = endpointPercent.getFuncConditionExpressions();
+        EntryMethod entryMethod = endpointPercent.getEntryMethod();
+        List<String> methodArgsExpressions = entryMethod.getArgsExpressions();
+        Assert.assertEquals(3, methodArgsExpressions.size());
+        Assert.assertEquals("source.getStatus()", methodArgsExpressions.get(1));
+        Assert.assertEquals("true", methodArgsExpressions.get(2));
+    }
 }

@@ -19,7 +19,6 @@
 package org.apache.skywalking.oal.tool.parser;
 
 import java.util.List;
-import org.apache.skywalking.oap.server.core.remote.selector.Selector;
 import org.junit.Assert;
 import org.junit.Test;
 

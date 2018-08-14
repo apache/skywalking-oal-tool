@@ -16,18 +16,25 @@
  *
  */
 
-package org.apache.skywalking.oal.tool.util;
+package org.apache.skywalking.oap.server.core.analysis.indicator.expression;
 
-public class ClassMethodUtil {
-    public static String toGetMethod(String attribute) {
-        return "get" + attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
+/**
+ * BinaryMatchExpression accepts two calculate factors,
+ * and return the True/False result.
+ *
+ * @author wusheng
+ */
+public abstract class BinaryMatchExpression {
+    protected Object left;
+    protected Object right;
+
+    public void setLeft(Object left) {
+        this.left = left;
     }
 
-    public static String toSetMethod(String attribute) {
-        return "set" + attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
+    public void setRight(Object right) {
+        this.right = right;
     }
 
-    public static String toIsMethod(String attribute) {
-        return "is" + attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
-    }
+    public abstract boolean match();
 }

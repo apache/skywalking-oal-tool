@@ -19,3 +19,4 @@
 //Service_Avg = from(Service.latency).avg();
 
 endpoint_Avg = from(Endpoint.latency).avg();
+endpoint_percent = from(Endpoint.*).percent(status == true)

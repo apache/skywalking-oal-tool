@@ -16,17 +16,16 @@
  *
  */
 
-package org.apache.skywalking.oap.server.core.analysis.indicator.annotation;
+package org.apache.skywalking.oal.tool.parser;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
-/**
- * @author wusheng
- */
-@Target(ElementType.PARAMETER)
-@Retention(RetentionPolicy.SOURCE)
-public @interface ExpressionArg2 {
+@Getter(AccessLevel.PUBLIC)
+@Setter(AccessLevel.PUBLIC)
+public class ConditionExpression {
+    private String expressionType;
+    private String attribute;
+    private String value;
 }
