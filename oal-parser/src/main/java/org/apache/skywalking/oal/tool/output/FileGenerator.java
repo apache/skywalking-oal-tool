@@ -83,7 +83,6 @@ public class FileGenerator {
     private String buildSubFolderName(AnalysisResult result, String suffix) {
         return "generated/"
             + result.getSourceName().toLowerCase() + "/"
-            + result.getMetricName().toLowerCase() + "/"
             + result.getMetricName() + suffix;
     }
 
@@ -107,10 +106,10 @@ public class FileGenerator {
                 case "Service":
                     dispatcherContext.getServiceIndicators().add(result);
                     break;
-                case "Endpoint":
+                case "ServiceInstance":
                     dispatcherContext.getServiceInstanceIndicators().add(result);
                     break;
-                case "ServiceInstance":
+                case "Endpoint":
                     dispatcherContext.getEndpointIndicators().add(result);
                     break;
                 default:

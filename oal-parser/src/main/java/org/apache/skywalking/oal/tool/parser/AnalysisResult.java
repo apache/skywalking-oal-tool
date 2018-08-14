@@ -42,10 +42,6 @@ public class AnalysisResult {
 
     private String indicatorClassName;
 
-    private Selector remoteSelector;
-
-    private boolean needMerge;
-
     private EntryMethod entryMethod;
 
     private List<DataColumn> persistentFields;

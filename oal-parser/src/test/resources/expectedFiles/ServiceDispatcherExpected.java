@@ -16,7 +16,7 @@
  *
  */
 
-package org.apache.skywalking.oap.server.core.analysis.generated;
+package org.apache.skywalking.oap.server.core.analysis.generated.service;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
@@ -36,9 +36,8 @@ public class ServiceDispatcher implements SourceDispatcher<Service> {
         ServiceAvgIndicator indicator = new ServiceAvgIndicator();
 
         indicator.setTimeBucket(source.getTimeBucket());
-        indicator.setId(source.getId())
-        indicator.combine(
-            source.getLatency(), 1);
+        indicator.setId(source.getId());
+        indicator.combine(source.getLatency(), 1);
         avgAggregator.in(indicator);
     }
 }

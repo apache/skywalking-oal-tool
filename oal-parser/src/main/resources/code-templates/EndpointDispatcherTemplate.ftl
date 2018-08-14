@@ -16,10 +16,12 @@
  *
  */
 
-package org.apache.skywalking.oap.server.core.analysis.generated;
+package org.apache.skywalking.oap.server.core.analysis.generated.endpoint;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
+<#if (endpointIndicators?size>0) >
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
+</#if>
 import org.apache.skywalking.oap.server.core.source.Endpoint;
 
 /**
@@ -30,22 +32,21 @@ import org.apache.skywalking.oap.server.core.source.Endpoint;
 public class EndpointDispatcher implements SourceDispatcher<Endpoint> {
 
 
-    @Override public void dispatch(Service source) {
+    @Override public void dispatch(Endpoint source) {
 <#list endpointIndicators as indicator>
         do${indicator.metricName}(source);
 </#list>
     }
 
 <#list endpointIndicators as indicator>
-    private void do${indicator.metricName}(Service source) {
+    private void do${indicator.metricName}(Endpoint source) {
         ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
 
         indicator.setTimeBucket(source.getTimeBucket());
     <#list indicator.fieldsFromSource as field>
-        indicator.${field.fieldSetter}(source.${field.fieldGetter}())
+        indicator.${field.fieldSetter}(source.${field.fieldGetter}());
     </#list>
-        indicator.${indicator.entryMethod.methodName}(
-    <#list indicator.entryMethod.argsExpressions as arg>${arg}<#if arg_has_next>, </#if></#list>);
+        indicator.${indicator.entryMethod.methodName}(<#list indicator.entryMethod.argsExpressions as arg>${arg}<#if arg_has_next>, </#if></#list>);
         IndicatorProcess.INSTANCE.in(indicator);
     }
 </#list>

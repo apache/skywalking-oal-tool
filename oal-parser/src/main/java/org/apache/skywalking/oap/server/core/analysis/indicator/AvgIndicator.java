@@ -22,6 +22,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.ConstOne;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.Entrance;
+import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.IndicatorOperator;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.IndicatorType;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.SourceFrom;
 import org.apache.skywalking.oap.server.core.remote.selector.Selector;
@@ -30,7 +31,7 @@ import org.apache.skywalking.oap.server.core.storage.annotation.Column;
 /**
  * @author peng-yongsheng
  */
-@IndicatorType(selector = Selector.HashCode, needMerge = true)
+@IndicatorOperator
 public abstract class AvgIndicator extends Indicator {
 
     protected static final String SUMMATION = "summation";

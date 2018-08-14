@@ -25,6 +25,7 @@ import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.Indic
 import org.apache.skywalking.oap.server.core.remote.annotation.StreamData;
 import org.apache.skywalking.oap.server.core.remote.grpc.proto.RemoteData;
 import org.apache.skywalking.oap.server.core.storage.annotation.*;
+import org.apache.skywalking.oap.server.core.storage.StorageBuilder;
 
 /**
  * This class is auto generated. Please don't change this class manually.
@@ -39,10 +40,6 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
 <#list fieldsFromSource as sourceField>
     @Setter @Getter @Column(columnName = "${sourceField.columnName}") private ${sourceField.typeName} ${sourceField.fieldName};
 </#list>
-
-    @Override public String name() {
-        return "${tableName}";
-    }
 
     @Override public String id() {
         return String.valueOf(id);
@@ -121,7 +118,7 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
 </#list>
     }
 
-    static class Builder implements StorageBuilder<${metricName}Indicator> {
+    public static class Builder implements StorageBuilder<${metricName}Indicator> {
 
         @Override public Map<String, Object> data2Map(${metricName}Indicator storageData) {
             Map<String, Object> map = new HashMap<>();

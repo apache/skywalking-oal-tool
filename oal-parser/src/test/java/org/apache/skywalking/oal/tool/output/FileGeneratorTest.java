@@ -28,7 +28,6 @@ import java.util.List;
 import org.apache.skywalking.oal.tool.parser.AnalysisResult;
 import org.apache.skywalking.oal.tool.parser.EntryMethod;
 import org.apache.skywalking.oal.tool.parser.SourceColumnsFactory;
-import org.apache.skywalking.oap.server.core.remote.selector.Selector;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -41,8 +40,6 @@ public class FileGeneratorTest {
         result.setSourceAttribute("latency");
         result.setMetricName("ServiceAvg");
         result.setAggregationFunctionName("avg");
-        result.setRemoteSelector(Selector.HashCode);
-        result.setNeedMerge(true);
         result.setIndicatorClassName("AvgIndicator");
         EntryMethod method = new EntryMethod();
         method.setMethodName("combine");

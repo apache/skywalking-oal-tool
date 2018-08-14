@@ -28,25 +28,16 @@ import org.apache.skywalking.oap.server.core.Indicators;
 import org.apache.skywalking.oap.server.core.analysis.indicator.Indicator;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.ConstOne;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.Entrance;
-import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.IndicatorType;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.SourceFrom;
 import org.apache.skywalking.oap.server.core.storage.annotation.Column;
 
 public class DeepAnalysis {
     public AnalysisResult analysis(AnalysisResult result) {
         // 1. Set sub package name by source.metric
-        result.setPackageName(result.getSourceName().toLowerCase() + "." + result.getMetricName().toLowerCase());
+        result.setPackageName(result.getSourceName().toLowerCase());
 
         Class<? extends Indicator> indicatorClass = Indicators.find(result.getAggregationFunctionName());
 
-        // 2. based on class annotation, find selector and merge requirement
-        IndicatorType indicatorClassAnnotation = indicatorClass.getAnnotation(IndicatorType.class);
-        if (indicatorClassAnnotation == null) {
-            throw new IllegalArgumentException("Can't find IndicatorType in class: " + indicatorClass.getName());
-        }
-        result.setIndicatorClassName(indicatorClass.getSimpleName());
-        result.setRemoteSelector(indicatorClassAnnotation.selector());
-        result.setNeedMerge(indicatorClassAnnotation.needMerge());
 
         // 3. Find Entrance method of this indicator
         Class c = indicatorClass;

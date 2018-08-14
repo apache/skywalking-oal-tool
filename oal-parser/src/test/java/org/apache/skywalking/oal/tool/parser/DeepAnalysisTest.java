@@ -36,8 +36,6 @@ public class DeepAnalysisTest {
         DeepAnalysis analysis = new DeepAnalysis();
         result = analysis.analysis(result);
 
-        Assert.assertEquals(Selector.HashCode, result.getRemoteSelector());
-        Assert.assertEquals(true, result.isNeedMerge());
         EntryMethod method = result.getEntryMethod();
         Assert.assertEquals("combine", method.getMethodName());
         Assert.assertEquals("source.getLatency()", method.getArgsExpressions().get(0));
@@ -62,8 +60,6 @@ public class DeepAnalysisTest {
         DeepAnalysis analysis = new DeepAnalysis();
         result = analysis.analysis(result);
 
-        Assert.assertEquals(Selector.HashCode, result.getRemoteSelector());
-        Assert.assertEquals(true, result.isNeedMerge());
         EntryMethod method = result.getEntryMethod();
         Assert.assertEquals("combine", method.getMethodName());
         Assert.assertEquals("source.getLatency()", method.getArgsExpressions().get(0));

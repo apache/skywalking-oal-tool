@@ -25,6 +25,7 @@ import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.Indic
 import org.apache.skywalking.oap.server.core.remote.annotation.StreamData;
 import org.apache.skywalking.oap.server.core.remote.grpc.proto.RemoteData;
 import org.apache.skywalking.oap.server.core.storage.annotation.*;
+import org.apache.skywalking.oap.server.core.storage.StorageBuilder;
 
 /**
  * This class is auto generated. Please don't change this class manually.
@@ -37,10 +38,6 @@ import org.apache.skywalking.oap.server.core.storage.annotation.*;
 public class ServiceAvgIndicator extends AvgIndicator {
 
     @Setter @Getter @Column(columnName = "id") private int id;
-
-    @Override public String name() {
-        return "service_avg";
-    }
 
     @Override public String id() {
         return String.valueOf(id);
@@ -97,7 +94,7 @@ public class ServiceAvgIndicator extends AvgIndicator {
         setCount(remoteData.getDataIntegers(1));
     }
 
-    static class Builder implements StorageBuilder<ServiceAvgIndicator> {
+    public static class Builder implements StorageBuilder<ServiceAvgIndicator> {
 
         @Override public Map<String, Object> data2Map(ServiceAvgIndicator storageData) {
             Map<String, Object> map = new HashMap<>();

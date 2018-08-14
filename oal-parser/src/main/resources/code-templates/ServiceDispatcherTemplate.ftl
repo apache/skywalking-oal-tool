@@ -16,10 +16,12 @@
  *
  */
 
-package org.apache.skywalking.oap.server.core.analysis.generated;
+package org.apache.skywalking.oap.server.core.analysis.generated.service;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
+<#if (serviceIndicators?size>0) >
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
+</#if>
 import org.apache.skywalking.oap.server.core.source.Service;
 
 /**
@@ -40,10 +42,9 @@ public class ServiceDispatcher implements SourceDispatcher<Service> {
 
         indicator.setTimeBucket(source.getTimeBucket());
     <#list indicator.fieldsFromSource as field>
-        indicator.${field.fieldSetter}(source.${field.fieldGetter}())
+        indicator.${field.fieldSetter}(source.${field.fieldGetter}());
     </#list>
-        indicator.${indicator.entryMethod.methodName}(
-            <#list indicator.entryMethod.argsExpressions as arg>${arg}<#if arg_has_next>, </#if></#list>);
+        indicator.${indicator.entryMethod.methodName}(<#list indicator.entryMethod.argsExpressions as arg>${arg}<#if arg_has_next>, </#if></#list>);
         avgAggregator.in(indicator);
     }
 </#list>
