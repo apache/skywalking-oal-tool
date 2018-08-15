@@ -68,7 +68,6 @@ public class AnalysisResult {
 
     public void generateSerializeFields() {
         serializeFields = new PersistenceColumns();
-        serializeFields.addLongField("timeBucket");
         for (SourceColumn sourceColumn : fieldsFromSource) {
             String type = sourceColumn.getType().getSimpleName();
             switch (type) {
