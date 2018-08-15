@@ -50,6 +50,7 @@ public class FileGeneratorTest {
         result.addPersistentField("summation", "summation", long.class);
         result.addPersistentField("count", "count", int.class);
         result.addPersistentField("value", "value", long.class);
+        result.addPersistentField("timeBucket", "time_bucket", long.class);
         result.setFieldsFromSource(SourceColumnsFactory.getColumns("Service"));
         result.generateSerializeFields();
 

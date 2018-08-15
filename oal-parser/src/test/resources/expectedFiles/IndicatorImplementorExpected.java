@@ -72,9 +72,9 @@ public class ServiceAvgIndicator extends AvgIndicator {
     @Override public RemoteData.Builder serialize() {
         RemoteData.Builder remoteBuilder = RemoteData.newBuilder();
 
-        remoteBuilder.setDataLongs(0, getTimeBucket());
-        remoteBuilder.setDataLongs(1, getSummation());
-        remoteBuilder.setDataLongs(2, getValue());
+        remoteBuilder.setDataLongs(0, getSummation());
+        remoteBuilder.setDataLongs(1, getValue());
+        remoteBuilder.setDataLongs(2, getTimeBucket());
 
 
         remoteBuilder.setDataIntegers(0, getId());
@@ -85,9 +85,9 @@ public class ServiceAvgIndicator extends AvgIndicator {
 
     @Override public void deserialize(RemoteData remoteData) {
 
-        setTimeBucket(remoteData.getDataLongs(0));
-        setSummation(remoteData.getDataLongs(1));
-        setValue(remoteData.getDataLongs(2));
+        setSummation(remoteData.getDataLongs(0));
+        setValue(remoteData.getDataLongs(1));
+        setTimeBucket(remoteData.getDataLongs(2));
 
 
         setId(remoteData.getDataIntegers(0));
@@ -102,6 +102,7 @@ public class ServiceAvgIndicator extends AvgIndicator {
             map.put("summation", storageData.getSummation());
             map.put("count", storageData.getCount());
             map.put("value", storageData.getValue());
+            map.put("time_bucket", storageData.getTimeBucket());
             return map;
         }
 
@@ -111,6 +112,7 @@ public class ServiceAvgIndicator extends AvgIndicator {
             indicator.setSummation((long)dbMap.get("summation"));
             indicator.setCount((int)dbMap.get("count"));
             indicator.setValue((long)dbMap.get("value"));
+            indicator.setTimeBucket((long)dbMap.get("time_bucket"));
             return indicator;
         }
     }
