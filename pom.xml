@@ -157,6 +157,9 @@
                         <excldue>**/*.MD</excldue>
                         <exclude>**/*.txt</exclude>
                         <exclude>**/docs/**</exclude>
+
+                        <!-- antlr4 generated codes -->
+                        <exclude>**/src/main/antlr4/org/apache/skywalking/oal/tool/grammar/OALLexer.tokens</exclude>
                     </excludes>
                 </configuration>
                 <executions>
