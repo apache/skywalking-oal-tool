@@ -57,6 +57,21 @@ public class FileGenerator {
         createFile(file);
         this.generateEndpointDispatcher(new FileWriter(file));
 
+        file = new File(outputPath, "generated/serviceinstancejvmcpu/ServiceInstanceJVMCPUDispatcher.java");
+        createFile(file);
+        this.generateServiceInstanceJVMCPUDispatcher(new FileWriter(file));
+
+        file = new File(outputPath, "generated/serviceinstancejvmmemory/ServiceInstanceJVMMemoryDispatcher.java");
+        createFile(file);
+        this.generateServiceInstanceJVMMemoryDispatcher(new FileWriter(file));
+
+        file = new File(outputPath, "generated/serviceinstancejvmmemorypool/ServiceInstanceJVMMemoryPoolDispatcher.java");
+        createFile(file);
+        this.generateServiceInstanceJVMMemoryPoolDispatcher(new FileWriter(file));
+
+        file = new File(outputPath, "generated/serviceinstancejvmgc/ServiceInstanceJVMGCDispatcher.java");
+        createFile(file);
+        this.generateServiceInstanceJVMGCDispatcher(new FileWriter(file));
     }
 
     private void generate(AnalysisResult result, String fileSuffix,
@@ -98,6 +113,22 @@ public class FileGenerator {
         configuration.getTemplate("EndpointDispatcherTemplate.ftl").process(dispatcherContext, output);
     }
 
+    void generateServiceInstanceJVMCPUDispatcher(Writer output) throws IOException, TemplateException {
+        configuration.getTemplate("ServiceInstanceJVMCPUDispatcherTemplate.ftl").process(dispatcherContext, output);
+    }
+
+    void generateServiceInstanceJVMMemoryDispatcher(Writer output) throws IOException, TemplateException {
+        configuration.getTemplate("ServiceInstanceJVMMemoryDispatcherTemplate.ftl").process(dispatcherContext, output);
+    }
+
+    void generateServiceInstanceJVMMemoryPoolDispatcher(Writer output) throws IOException, TemplateException {
+        configuration.getTemplate("ServiceInstanceJVMMemoryPoolDispatcherTemplate.ftl").process(dispatcherContext, output);
+    }
+
+    void generateServiceInstanceJVMGCDispatcher(Writer output) throws IOException, TemplateException {
+        configuration.getTemplate("ServiceInstanceJVMGCDispatcherTemplate.ftl").process(dispatcherContext, output);
+    }
+
     private void toDispatchers() {
         dispatcherContext = new DispatcherContext();
         for (AnalysisResult result : results) {
@@ -112,8 +143,20 @@ public class FileGenerator {
                 case "Endpoint":
                     dispatcherContext.getEndpointIndicators().add(result);
                     break;
+                case "ServiceInstanceJVMCPU":
+                    dispatcherContext.getServiceInstanceJVMCPUIndicators().add(result);
+                    break;
+                case "ServiceInstanceJVMMemory":
+                    dispatcherContext.getServiceInstanceJVMMemoryIndicators().add(result);
+                    break;
+                case "ServiceInstanceJVMMemoryPool":
+                    dispatcherContext.getServiceInstanceJVMMemoryPoolIndicators().add(result);
+                    break;
+                case "ServiceInstanceJVMGC":
+                    dispatcherContext.getServiceInstanceJVMGCIndicators().add(result);
+                    break;
                 default:
-
+                    throw new RuntimeException("Unexpected dispatcher");
             }
         }
     }

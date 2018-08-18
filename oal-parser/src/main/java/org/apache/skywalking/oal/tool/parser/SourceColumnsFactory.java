@@ -50,16 +50,16 @@ public class SourceColumnsFactory {
                 SourceColumn serviceInstanceIdColumn = new SourceColumn("serviceInstanceId", "service_instance_id", int.class, false);
                 columnList.add(serviceInstanceIdColumn);
                 return columnList;
-            case "ServiceInstance_JVM_CPU":
-            case "ServiceInstance_JVM_Memory":
-            case "ServiceInstance_JVM_Memory_Pool":
-            case "ServiceInstance_JVM_GC":
+            case "ServiceInstanceJVMCPU":
+            case "ServiceInstanceJVMMemory":
+            case "ServiceInstanceJVMMemoryPool":
+            case "ServiceInstanceJVMGC":
                 columnList = new LinkedList<>();
                 // Service instance id;
                 idColumn = new SourceColumn("id", "id", int.class, true);
                 columnList.add(idColumn);
-                serviceIdColumn = new SourceColumn("serviceId", "service_id", int.class, false);
-                columnList.add(serviceIdColumn);
+                serviceInstanceIdColumn = new SourceColumn("serviceInstanceId", "service_instance_id", int.class, false);
+                columnList.add(serviceInstanceIdColumn);
                 return columnList;
             case "ServiceRelation":
                 columnList = new LinkedList<>();
