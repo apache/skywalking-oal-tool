@@ -16,15 +16,15 @@
  *
  */
 
-Service_Avg = from(Service.latency).avg();
+Service_Avg = from(Service.latency).longAvg();
 
-endpoint_Avg = from(Endpoint.latency).avg();
+endpoint_Avg = from(Endpoint.latency).longAvg();
 endpoint_percent = from(Endpoint.*).percent(status == true);
 
-instance_jvm_cpu = from(ServiceInstanceJVMCPU.usePercent).avg();
+instance_jvm_cpu = from(ServiceInstanceJVMCPU.usePercent).longAvg();
 
-instance_jvm_memory_max = from(ServiceInstanceJVMMemory.max).avg();
+instance_jvm_memory_max = from(ServiceInstanceJVMMemory.max).longAvg();
 
-instance_jvm_memory_pool_max = from(ServiceInstanceJVMMemoryPool.max).avg();
+instance_jvm_memory_pool_max = from(ServiceInstanceJVMMemoryPool.max).longAvg();
 
-instance_jvm_gc_time = from(ServiceInstanceJVMGC.time).avg();
+instance_jvm_gc_time = from(ServiceInstanceJVMGC.time).longAvg();

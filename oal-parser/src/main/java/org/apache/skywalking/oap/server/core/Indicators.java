@@ -20,7 +20,7 @@ package org.apache.skywalking.oap.server.core;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.skywalking.oap.server.core.analysis.indicator.AvgIndicator;
+import org.apache.skywalking.oap.server.core.analysis.indicator.LongAvgIndicator;
 import org.apache.skywalking.oap.server.core.analysis.indicator.Indicator;
 import org.apache.skywalking.oap.server.core.analysis.indicator.PercentIndicator;
 
@@ -28,12 +28,12 @@ public class Indicators {
     private static Map<String, Class<? extends Indicator>> REGISTER = new HashMap<>();
 
     static {
-        REGISTER.put("avg", AvgIndicator.class);
+        REGISTER.put("longAvg", LongAvgIndicator.class);
         REGISTER.put("percent", PercentIndicator.class);
     }
 
     public static Class<? extends Indicator> find(String functionName) {
-        String func = functionName.toLowerCase();
+        String func = functionName;
         Class<? extends Indicator> indicatorClass = REGISTER.get(func);
         if (indicatorClass == null) {
             throw new IllegalArgumentException("Can't find indicator.");

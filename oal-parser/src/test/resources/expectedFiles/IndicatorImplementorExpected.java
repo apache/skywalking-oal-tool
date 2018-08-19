@@ -35,7 +35,7 @@ import org.apache.skywalking.oap.server.core.storage.StorageBuilder;
 @IndicatorType
 @StreamData
 @StorageEntity(name = "service_avg", builder = ServiceAvgIndicator.Builder.class)
-public class ServiceAvgIndicator extends AvgIndicator {
+public class ServiceAvgIndicator extends LongAvgIndicator {
 
     @Setter @Getter @Column(columnName = "id") private int id;
 

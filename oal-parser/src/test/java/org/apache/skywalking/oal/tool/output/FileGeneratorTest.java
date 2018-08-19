@@ -40,7 +40,7 @@ public class FileGeneratorTest {
         result.setSourceAttribute("latency");
         result.setMetricName("ServiceAvg");
         result.setAggregationFunctionName("avg");
-        result.setIndicatorClassName("AvgIndicator");
+        result.setIndicatorClassName("LongAvgIndicator");
         EntryMethod method = new EntryMethod();
         method.setMethodName("combine");
         method.setArgsExpressions(new LinkedList<>());
