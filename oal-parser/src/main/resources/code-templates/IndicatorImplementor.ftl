@@ -56,7 +56,6 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
         return result;
     }
 
-
     @Override public boolean equals(Object obj) {
         if (this == obj)
             return true;
@@ -77,7 +76,6 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
 
         return true;
     }
-
 
     @Override public RemoteData.Builder serialize() {
         RemoteData.Builder remoteBuilder = RemoteData.newBuilder();
@@ -134,10 +132,18 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
         @Override public ${metricName}Indicator map2Data(Map<String, Object> dbMap) {
             ${metricName}Indicator indicator = new ${metricName}Indicator();
     <#list fieldsFromSource as field>
+        <#if field.typeName == "long" || field.typeName == "int" || field.typeName == "double" || field.typeName == "float">
+            indicator.${field.fieldSetter}(((Number)dbMap.get("${field.columnName}")).${field.typeName}Value());
+        <#else>
             indicator.${field.fieldSetter}((${field.typeName})dbMap.get("${field.columnName}"));
+        </#if>
     </#list>
     <#list persistentFields as field>
+        <#if field.typeName == "long" || field.typeName == "int" || field.typeName == "double" || field.typeName == "float">
+            indicator.${field.fieldSetter}(((Number)dbMap.get("${field.columnName}")).${field.typeName}Value());
+        <#else>
             indicator.${field.fieldSetter}((${field.typeName})dbMap.get("${field.columnName}"));
+        </#if>
     </#list>
             return indicator;
         }

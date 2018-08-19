@@ -31,7 +31,6 @@ import org.apache.skywalking.oap.server.core.source.ServiceInstanceJVMMemory;
  */
 public class ServiceInstanceJVMMemoryDispatcher implements SourceDispatcher<ServiceInstanceJVMMemory> {
 
-
     @Override public void dispatch(ServiceInstanceJVMMemory source) {
 <#list serviceInstanceJVMMemoryIndicators as indicator>
         do${indicator.metricName}(source);
@@ -50,4 +49,4 @@ public class ServiceInstanceJVMMemoryDispatcher implements SourceDispatcher<Serv
         IndicatorProcess.INSTANCE.in(indicator);
     }
 </#list>
-    }
+}
