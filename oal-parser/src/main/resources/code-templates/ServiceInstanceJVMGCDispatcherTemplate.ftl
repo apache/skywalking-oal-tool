@@ -31,7 +31,6 @@ import org.apache.skywalking.oap.server.core.source.ServiceInstanceJVMGC;
  */
 public class ServiceInstanceJVMGCDispatcher implements SourceDispatcher<ServiceInstanceJVMGC> {
 
-
     @Override public void dispatch(ServiceInstanceJVMGC source) {
 <#list serviceInstanceJVMGCIndicators as indicator>
         do${indicator.metricName}(source);
@@ -50,4 +49,4 @@ public class ServiceInstanceJVMGCDispatcher implements SourceDispatcher<ServiceI
         IndicatorProcess.INSTANCE.in(indicator);
     }
 </#list>
-    }
+}

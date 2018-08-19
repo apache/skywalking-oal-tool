@@ -56,7 +56,6 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
         return result;
     }
 
-
     @Override public boolean equals(Object obj) {
         if (this == obj)
             return true;
@@ -77,7 +76,6 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
 
         return true;
     }
-
 
     @Override public RemoteData.Builder serialize() {
         RemoteData.Builder remoteBuilder = RemoteData.newBuilder();

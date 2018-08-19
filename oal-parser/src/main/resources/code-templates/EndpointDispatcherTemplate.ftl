@@ -31,7 +31,6 @@ import org.apache.skywalking.oap.server.core.source.Endpoint;
  */
 public class EndpointDispatcher implements SourceDispatcher<Endpoint> {
 
-
     @Override public void dispatch(Endpoint source) {
 <#list endpointIndicators as indicator>
         do${indicator.metricName}(source);
@@ -49,5 +48,6 @@ public class EndpointDispatcher implements SourceDispatcher<Endpoint> {
         indicator.${indicator.entryMethod.methodName}(<#list indicator.entryMethod.argsExpressions as arg>${arg}<#if arg_has_next>, </#if></#list>);
         IndicatorProcess.INSTANCE.in(indicator);
     }
+
 </#list>
 }
