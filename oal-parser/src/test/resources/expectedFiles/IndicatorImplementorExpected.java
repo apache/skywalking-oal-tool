@@ -50,7 +50,6 @@ public class ServiceAvgIndicator extends AvgIndicator {
         return result;
     }
 
-
     @Override public boolean equals(Object obj) {
         if (this == obj)
             return true;
@@ -67,7 +66,6 @@ public class ServiceAvgIndicator extends AvgIndicator {
 
         return true;
     }
-
 
     @Override public RemoteData.Builder serialize() {
         RemoteData.Builder remoteBuilder = RemoteData.newBuilder();
@@ -108,11 +106,11 @@ public class ServiceAvgIndicator extends AvgIndicator {
 
         @Override public ServiceAvgIndicator map2Data(Map<String, Object> dbMap) {
             ServiceAvgIndicator indicator = new ServiceAvgIndicator();
-            indicator.setId((int)dbMap.get("id"));
-            indicator.setSummation((long)dbMap.get("summation"));
-            indicator.setCount((int)dbMap.get("count"));
-            indicator.setValue((long)dbMap.get("value"));
-            indicator.setTimeBucket((long)dbMap.get("time_bucket"));
+            indicator.setId(((Number)dbMap.get("id")).intValue());
+            indicator.setSummation(((Number)dbMap.get("summation")).longValue());
+            indicator.setCount(((Number)dbMap.get("count")).intValue());
+            indicator.setValue(((Number)dbMap.get("value")).longValue());
+            indicator.setTimeBucket(((Number)dbMap.get("time_bucket")).longValue());
             return indicator;
         }
     }

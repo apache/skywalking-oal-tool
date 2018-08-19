@@ -28,6 +28,7 @@ import org.apache.skywalking.oap.server.core.source.Service;
  * @author Observability Analysis Language code generator
  */
 public class ServiceDispatcher implements SourceDispatcher<Service> {
+
     @Override public void dispatch(Service source) {
         doServiceAvg(source);
     }
