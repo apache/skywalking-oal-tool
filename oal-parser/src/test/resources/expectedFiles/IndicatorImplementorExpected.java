@@ -20,6 +20,7 @@ package org.apache.skywalking.oap.server.core.analysis.generated.service.service
 
 import java.util.*;
 import lombok.*;
+import org.apache.skywalking.oap.server.core.Const;
 import org.apache.skywalking.oap.server.core.analysis.indicator.*;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.IndicatorType;
 import org.apache.skywalking.oap.server.core.remote.annotation.StreamData;
@@ -40,7 +41,9 @@ public class ServiceAvgIndicator extends LongAvgIndicator {
     @Setter @Getter @Column(columnName = "id") private int id;
 
     @Override public String id() {
-        return String.valueOf(id);
+        String splitJointId = String.valueOf(getTimeBucket());
+        splitJointId += Const.ID_SPLIT + String.valueOf(id);
+        return splitJointId;
     }
 
     @Override public int hashCode() {

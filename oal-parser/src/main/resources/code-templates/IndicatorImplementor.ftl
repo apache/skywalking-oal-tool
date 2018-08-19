@@ -20,6 +20,7 @@ package org.apache.skywalking.oap.server.core.analysis.generated.${packageName};
 
 import java.util.*;
 import lombok.*;
+import org.apache.skywalking.oap.server.core.Const;
 import org.apache.skywalking.oap.server.core.analysis.indicator.*;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.IndicatorType;
 import org.apache.skywalking.oap.server.core.remote.annotation.StreamData;
@@ -42,7 +43,13 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
 </#list>
 
     @Override public String id() {
-        return String.valueOf(id);
+        String splitJointId = String.valueOf(getTimeBucket());
+<#list fieldsFromSource as sourceField>
+    <#if sourceField.isID()>
+        splitJointId += Const.ID_SPLIT + String.valueOf(${sourceField.fieldName});
+    </#if>
+</#list>
+        return splitJointId;
     }
 
     @Override public int hashCode() {
