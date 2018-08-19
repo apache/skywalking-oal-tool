@@ -134,10 +134,10 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
         @Override public ${metricName}Indicator map2Data(Map<String, Object> dbMap) {
             ${metricName}Indicator indicator = new ${metricName}Indicator();
     <#list fieldsFromSource as field>
-            indicator.${field.fieldSetter}((${field.typeName})dbMap.get("${field.columnName}"));
+            indicator.${field.fieldSetter}(((Number)dbMap.get("${field.columnName}")).${field.typeName}Value());
     </#list>
     <#list persistentFields as field>
-            indicator.${field.fieldSetter}((${field.typeName})dbMap.get("${field.columnName}"));
+            indicator.${field.fieldSetter}(((Number)dbMap.get("${field.columnName}")).${field.typeName}Value());
     </#list>
             return indicator;
         }
