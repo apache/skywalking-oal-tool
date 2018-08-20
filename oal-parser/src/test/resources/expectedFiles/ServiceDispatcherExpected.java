@@ -20,7 +20,8 @@ package org.apache.skywalking.oap.server.core.analysis.generated.service;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
-import org.apache.skywalking.oap.server.core.source.Service;
+import org.apache.skywalking.oap.server.core.analysis.indicator.expression.*;
+import org.apache.skywalking.oap.server.core.source.*;
 
 /**
  * This class is auto generated. Please don't change this class manually.
