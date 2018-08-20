@@ -18,9 +18,7 @@
 
 package org.apache.skywalking.oap.server.core.analysis.indicator;
 
-import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.apache.skywalking.oap.server.core.storage.annotation.Column;
 
 /**
@@ -36,9 +34,5 @@ public abstract class Indicator {
 
     public abstract void combine(Indicator indicator);
 
-    public abstract String name();
-
-    public abstract Map<String, Object> toMap();
-
-    public abstract Indicator newOne(Map<String, Object> dbMap);
+    public abstract void calculate();
 }
