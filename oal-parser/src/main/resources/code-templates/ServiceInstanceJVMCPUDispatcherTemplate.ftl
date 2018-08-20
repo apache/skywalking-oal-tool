@@ -19,10 +19,15 @@
 package org.apache.skywalking.oap.server.core.analysis.generated.serviceinstancejvmcpu;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
-<#if (serviceInstanceJVMCPUIndicators?size>0) || indicator.filterExpressions??>
+<#if (serviceInstanceJVMCPUIndicators?size>0)>
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
+    <#list serviceInstanceJVMCPUIndicators as indicator>
+        <#if indicator.filterExpressions??>
+import org.apache.skywalking.oap.server.core.analysis.indicator.expression.*;
+        </#if>
+    </#list>
 </#if>
-import org.apache.skywalking.oap.server.core.source.ServiceInstanceJVMCPU;
+import org.apache.skywalking.oap.server.core.source.*;
 
 /**
  * This class is auto generated. Please don't change this class manually.

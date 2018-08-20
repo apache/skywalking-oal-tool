@@ -107,6 +107,10 @@ public class OALListener extends OALParserBaseListener {
         conditionExpression.setValue(ctx.getText());
     }
 
+    @Override public void enterEnumConditionValue(OALParser.EnumConditionValueContext ctx) {
+        conditionExpression.setValue(ctx.getText());
+    }
+
     /////////////
     // Expression end.
     ////////////

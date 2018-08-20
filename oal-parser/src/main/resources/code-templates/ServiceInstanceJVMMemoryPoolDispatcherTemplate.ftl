@@ -19,10 +19,15 @@
 package org.apache.skywalking.oap.server.core.analysis.generated.serviceinstancejvmmemorypool;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
-<#if (serviceInstanceJVMMemoryPoolIndicators?size>0) || indicator.filterExpressions??>
+<#if (serviceInstanceJVMMemoryPoolIndicators?size>0)>
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
+    <#list serviceInstanceJVMMemoryPoolIndicators as indicator>
+        <#if indicator.filterExpressions??>
+import org.apache.skywalking.oap.server.core.analysis.indicator.expression.*;
+        </#if>
+    </#list>
 </#if>
-import org.apache.skywalking.oap.server.core.source.ServiceInstanceJVMMemoryPool;
+import org.apache.skywalking.oap.server.core.source.*;
 
 /**
  * This class is auto generated. Please don't change this class manually.

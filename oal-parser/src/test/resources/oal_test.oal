@@ -30,4 +30,4 @@ instance_jvm_memory_max = from(ServiceInstanceJVMMemory.max).longAvg();
 
 instance_jvm_memory_pool_max = from(ServiceInstanceJVMMemoryPool.max).longAvg();
 
-instance_jvm_gc_time = from(ServiceInstanceJVMGC.time).longAvg();
+instance_jvm_young_gc_time = from(ServiceInstanceJVMGC.time).filter(phrase == GCPhrase.NEW).longAvg();

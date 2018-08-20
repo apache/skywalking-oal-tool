@@ -19,10 +19,15 @@
 package org.apache.skywalking.oap.server.core.analysis.generated.endpoint;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
-<#if (endpointIndicators?size>0) || indicator.filterExpressions?? >
+<#if (endpointIndicators?size>0)>
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
+    <#list endpointIndicators as indicator>
+        <#if indicator.filterExpressions??>
+import org.apache.skywalking.oap.server.core.analysis.indicator.expression.*;
+        </#if>
+    </#list>
 </#if>
-import org.apache.skywalking.oap.server.core.source.Endpoint;
+import org.apache.skywalking.oap.server.core.source.*;
 
 /**
  * This class is auto generated. Please don't change this class manually.

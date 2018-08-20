@@ -80,7 +80,7 @@ booleanMatch
     ;
 
 stringMatch
-    :  conditionAttribute DUALEQUALS stringConditionValue
+    :  conditionAttribute DUALEQUALS (stringConditionValue | enumConditionValue)
     ;
 
 conditionAttribute
@@ -93,4 +93,8 @@ booleanConditionValue
 
 stringConditionValue
     : STRING_LITERAL
+    ;
+
+enumConditionValue
+    : IDENTIFIER DOT IDENTIFIER
     ;
