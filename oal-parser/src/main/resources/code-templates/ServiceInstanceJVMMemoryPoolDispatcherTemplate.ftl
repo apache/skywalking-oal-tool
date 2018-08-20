@@ -39,7 +39,7 @@ public class ServiceInstanceJVMMemoryPoolDispatcher implements SourceDispatcher<
 
 <#list serviceInstanceJVMMemoryPoolIndicators as indicator>
     private void do${indicator.metricName}(ServiceInstanceJVMMemoryPool source) {
-    ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
+        ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
 
         indicator.setTimeBucket(source.getTimeBucket());
     <#list indicator.fieldsFromSource as field>

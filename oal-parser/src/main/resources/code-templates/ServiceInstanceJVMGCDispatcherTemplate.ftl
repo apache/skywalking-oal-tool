@@ -39,7 +39,7 @@ public class ServiceInstanceJVMGCDispatcher implements SourceDispatcher<ServiceI
 
 <#list serviceInstanceJVMGCIndicators as indicator>
     private void do${indicator.metricName}(ServiceInstanceJVMGC source) {
-    ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
+        ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
 
         indicator.setTimeBucket(source.getTimeBucket());
     <#list indicator.fieldsFromSource as field>

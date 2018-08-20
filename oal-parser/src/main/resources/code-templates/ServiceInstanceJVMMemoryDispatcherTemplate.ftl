@@ -39,7 +39,7 @@ public class ServiceInstanceJVMMemoryDispatcher implements SourceDispatcher<Serv
 
 <#list serviceInstanceJVMMemoryIndicators as indicator>
     private void do${indicator.metricName}(ServiceInstanceJVMMemory source) {
-    ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
+        ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
 
         indicator.setTimeBucket(source.getTimeBucket());
     <#list indicator.fieldsFromSource as field>
