@@ -18,12 +18,8 @@
 
 package org.apache.skywalking.oap.server.core.analysis.indicator;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.ConstOne;
-import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.Entrance;
-import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.IndicatorOperator;
-import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.SourceFrom;
+import lombok.*;
+import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.*;
 import org.apache.skywalking.oap.server.core.storage.annotation.Column;
 
 /**
@@ -49,5 +45,9 @@ public abstract class DoubleAvgIndicator extends Indicator {
     @Override public final void combine(Indicator indicator) {
         DoubleAvgIndicator longAvgIndicator = (DoubleAvgIndicator)indicator;
         combine(longAvgIndicator.summation, longAvgIndicator.count);
+    }
+
+    @Override public final void calculate() {
+        this.value = this.summation / this.count;
     }
 }
