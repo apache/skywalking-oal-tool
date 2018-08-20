@@ -19,7 +19,7 @@
 package org.apache.skywalking.oap.server.core.analysis.generated.serviceinstancejvmgc;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
-<#if (serviceInstanceJVMGCIndicators?size>0) >
+<#if (serviceInstanceJVMGCIndicators?size>0) || indicator.filterExpressions??>
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
 </#if>
 import org.apache.skywalking.oap.server.core.source.ServiceInstanceJVMGC;
@@ -40,6 +40,14 @@ public class ServiceInstanceJVMGCDispatcher implements SourceDispatcher<ServiceI
 <#list serviceInstanceJVMGCIndicators as indicator>
     private void do${indicator.metricName}(ServiceInstanceJVMGC source) {
         ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
+
+    <#if indicator.filterExpressions??>
+        <#list indicator.filterExpressions as filterExpression>
+        if(!(new ${filterExpression.expressionObject}().setLeft(${filterExpression.left}).setRight(${filterExpression.right}).match())) {
+            return;
+        }
+        </#list>
+    </#if>
 
         indicator.setTimeBucket(source.getTimeBucket());
     <#list indicator.fieldsFromSource as field>

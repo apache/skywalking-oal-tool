@@ -43,6 +43,10 @@ public class AnalysisResult {
 
     private EntryMethod entryMethod;
 
+    private List<FilterExpression> filterExpressions;
+
+    private List<ConditionExpression> filterExpressionsParserResult;
+
     private List<ConditionExpression> funcConditionExpressions;
 
     private List<DataColumn> persistentFields;
@@ -64,6 +68,20 @@ public class AnalysisResult {
             funcConditionExpressions = new LinkedList<>();
         }
         funcConditionExpressions.add(conditionExpression);
+    }
+
+    public void addFilterExpressions(FilterExpression filterExpression) {
+        if (filterExpressions == null) {
+            filterExpressions = new LinkedList<>();
+        }
+        filterExpressions.add(filterExpression);
+    }
+
+    public void addFilterExpressionsParserResult(ConditionExpression conditionExpression) {
+        if (filterExpressionsParserResult == null) {
+            filterExpressionsParserResult = new LinkedList<>();
+        }
+        filterExpressionsParserResult.add(conditionExpression);
     }
 
     public void generateSerializeFields() {

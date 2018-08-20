@@ -49,6 +49,27 @@ public class DeepAnalysis {
         }
         result.setIndicatorClassName(indicatorClass.getSimpleName());
 
+        // Optional for filter
+        List<ConditionExpression> expressions = result.getFilterExpressionsParserResult();
+        if (expressions != null && expressions.size() > 0) {
+            for (ConditionExpression expression : expressions) {
+                FilterExpression filterExpression = new FilterExpression();
+                if ("booleanMatch".equals(expression.getExpressionType())) {
+                    filterExpression.setExpressionObject("EqualMatch");
+                    filterExpression.setLeft("source." + ClassMethodUtil.toIsMethod(expression.getAttribute()) + "()");
+                    filterExpression.setRight(expression.getValue());
+                    result.addFilterExpressions(filterExpression);
+                } else if ("stringMatch".equals(expression.getExpressionType())) {
+                    filterExpression.setExpressionObject("EqualMatch");
+                    filterExpression.setLeft("source." + ClassMethodUtil.toGetMethod(expression.getAttribute()) + "()");
+                    filterExpression.setRight(expression.getValue());
+                    result.addFilterExpressions(filterExpression);
+                } else{
+                    throw new IllegalArgumentException("filter expression [" + expression.getExpressionType() + "] not found");
+                }
+            }
+        }
+
         // 3. Find Entrance method of this indicator
         Class c = indicatorClass;
         Method entranceMethod = null;
@@ -88,6 +109,8 @@ public class DeepAnalysis {
                     ConditionExpression conditionExpression = result.getFuncConditionExpressions().get(0);
                     if ("booleanMatch".equals(conditionExpression.getExpressionType())) {
                         entryMethod.addArg("source." + ClassMethodUtil.toIsMethod(conditionExpression.getAttribute()) + "()");
+                    } else if ("stringMatch".equals(conditionExpression.getExpressionType())) {
+                        entryMethod.addArg("source." + ClassMethodUtil.toGetMethod(conditionExpression.getAttribute()) + "()");
                     } else {
                         throw new IllegalArgumentException("Entrance method:" + entranceMethod + " argument has @ExpressionArg0, but expression type is not supported");
                     }

@@ -59,11 +59,37 @@ public class ScriptParserTest {
         Assert.assertEquals("Endpoint", endpointPercent.getSourceName());
         Assert.assertEquals("*", endpointPercent.getSourceAttribute());
         Assert.assertEquals("percent", endpointPercent.getAggregationFunctionName());
-        List<ConditionExpression> expressions = endpointPercent.getFuncConditionExpressions();
         EntryMethod entryMethod = endpointPercent.getEntryMethod();
         List<String> methodArgsExpressions = entryMethod.getArgsExpressions();
         Assert.assertEquals(3, methodArgsExpressions.size());
         Assert.assertEquals("source.isStatus()", methodArgsExpressions.get(1));
         Assert.assertEquals("true", methodArgsExpressions.get(2));
+    }
+
+    @Test
+    public void testParse3() throws IOException {
+        ScriptParser parser = ScriptParser.createFromScriptText(
+            "Endpoint_percent = from(Endpoint.*).filter(status == true).filter(name == \"/product/abc\").longAvg();"
+        );
+        List<AnalysisResult> results = parser.parse();
+
+        AnalysisResult endpointPercent = results.get(0);
+        Assert.assertEquals("EndpointPercent", endpointPercent.getMetricName());
+        Assert.assertEquals("Endpoint", endpointPercent.getSourceName());
+        Assert.assertEquals("*", endpointPercent.getSourceAttribute());
+        Assert.assertEquals("longAvg", endpointPercent.getAggregationFunctionName());
+        List<ConditionExpression> expressions = endpointPercent.getFilterExpressionsParserResult();
+
+        Assert.assertEquals(2, expressions.size());
+
+        ConditionExpression booleanMatchExp = expressions.get(0);
+        Assert.assertEquals("status", booleanMatchExp.getAttribute());
+        Assert.assertEquals("true", booleanMatchExp.getValue());
+        Assert.assertEquals("booleanMatch", booleanMatchExp.getExpressionType());
+
+        ConditionExpression stringMatchExp = expressions.get(1);
+        Assert.assertEquals("name", stringMatchExp.getAttribute());
+        Assert.assertEquals("\"/product/abc\"", stringMatchExp.getValue());
+        Assert.assertEquals("stringMatch", stringMatchExp.getExpressionType());
     }
 }

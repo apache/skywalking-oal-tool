@@ -34,7 +34,15 @@ aggregationStatement
     ;
 
 metricStatement
-    : FROM LR_BRACKET source  DOT sourceAttribute RR_BRACKET DOT aggregateFunction
+    : FROM LR_BRACKET source  DOT sourceAttribute RR_BRACKET (filterStatement+)? DOT aggregateFunction
+    ;
+
+filterStatement
+    : DOT FILTER LR_BRACKET filterExpression RR_BRACKET
+    ;
+
+filterExpression
+    : expression
     ;
 
 source
@@ -60,18 +68,29 @@ functionName
     ;
 
 funcParamExpression
-    : booleanBinaryMatch
+    : expression
     ;
 
-booleanBinaryMatch
-    :  conditionAttribute DUALEQUALS conditionValue
+expression
+    : booleanMatch | stringMatch
     ;
 
+booleanMatch
+    :  conditionAttribute DUALEQUALS booleanConditionValue
+    ;
+
+stringMatch
+    :  conditionAttribute DUALEQUALS stringConditionValue
+    ;
 
 conditionAttribute
     : IDENTIFIER
     ;
 
-conditionValue
+booleanConditionValue
     : BOOL_LITERAL
+    ;
+
+stringConditionValue
+    : STRING_LITERAL
     ;

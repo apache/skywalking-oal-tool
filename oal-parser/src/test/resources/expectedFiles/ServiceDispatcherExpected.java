@@ -36,6 +36,10 @@ public class ServiceDispatcher implements SourceDispatcher<Service> {
     private void doServiceAvg(Service source) {
         ServiceAvgIndicator indicator = new ServiceAvgIndicator();
 
+        if(!(new EqualMatch().setLeft(source.getName()).setRight("/service/prod/save").match())) {
+            return;
+        }
+
         indicator.setTimeBucket(source.getTimeBucket());
         indicator.setId(source.getId());
         indicator.combine(source.getLatency(), 1);

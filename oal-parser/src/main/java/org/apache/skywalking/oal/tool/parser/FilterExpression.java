@@ -16,14 +16,16 @@
  *
  */
 
-package org.apache.skywalking.oap.server.core.analysis.indicator.expression;
+package org.apache.skywalking.oal.tool.parser;
 
-/**
- *
- * @author wusheng
- */
-public class BooleanBinaryMatch extends BinaryMatchExpression {
-    @Override public boolean match() {
-        return left == right;
-    }
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter(AccessLevel.PUBLIC)
+@Setter(AccessLevel.PUBLIC)
+public class FilterExpression {
+    private String expressionObject;
+    private String left;
+    private String right;
 }

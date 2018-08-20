@@ -66,16 +66,13 @@ public class OALListener extends OALParserBaseListener {
         current.setAggregationFunctionName(ctx.getText());
     }
 
-    @Override public void enterConditionAttribute(OALParser.ConditionAttributeContext ctx) {
-        conditionExpression.setAttribute(ctx.getText());
+    @Override public void enterFilterStatement(OALParser.FilterStatementContext ctx) {
+        conditionExpression = new ConditionExpression();
     }
 
-    @Override public void enterBooleanBinaryMatch(OALParser.BooleanBinaryMatchContext ctx) {
-        conditionExpression.setExpressionType("booleanMatch");
-    }
-
-    @Override public void enterConditionValue(OALParser.ConditionValueContext ctx) {
-        conditionExpression.setValue(ctx.getText());
+    @Override public void exitFilterStatement(OALParser.FilterStatementContext ctx) {
+        current.addFilterExpressionsParserResult(conditionExpression);
+        conditionExpression = null;
     }
 
     @Override public void enterFuncParamExpression(OALParser.FuncParamExpressionContext ctx) {
@@ -84,10 +81,36 @@ public class OALListener extends OALParserBaseListener {
 
     @Override public void exitFuncParamExpression(OALParser.FuncParamExpressionContext ctx) {
         current.addFuncConditionExpression(conditionExpression);
+        conditionExpression = null;
     }
 
-    @Override public void exitBooleanBinaryMatch(OALParser.BooleanBinaryMatchContext ctx) {
+    /////////////
+    // Expression
+    ////////////
+    @Override public void enterConditionAttribute(OALParser.ConditionAttributeContext ctx) {
+        conditionExpression.setAttribute(ctx.getText());
     }
+
+    @Override public void enterBooleanMatch(OALParser.BooleanMatchContext ctx) {
+        conditionExpression.setExpressionType("booleanMatch");
+    }
+
+    @Override public void enterStringMatch(OALParser.StringMatchContext ctx) {
+        conditionExpression.setExpressionType("stringMatch");
+    }
+
+    @Override public void enterBooleanConditionValue(OALParser.BooleanConditionValueContext ctx) {
+        conditionExpression.setValue(ctx.getText());
+    }
+
+    @Override public void enterStringConditionValue(OALParser.StringConditionValueContext ctx) {
+        conditionExpression.setValue(ctx.getText());
+    }
+
+    /////////////
+    // Expression end.
+    ////////////
+
 
     private String metricNameFormat(String source) {
         source = firstLetterUpper(source);

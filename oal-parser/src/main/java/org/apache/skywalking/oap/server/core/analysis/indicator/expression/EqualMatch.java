@@ -16,18 +16,14 @@
  *
  */
 
-Service_Avg = from(Service.latency).longAvg();
+package org.apache.skywalking.oap.server.core.analysis.indicator.expression;
 
-endpoint_Avg = from(Endpoint.latency).longAvg();
-
-// endpoint_Avg_for_prod_serv = from(Endpoint.latency).filter(name == "/product/service").longAvg();
-
-endpoint_percent = from(Endpoint.*).percent(status == true);
-
-instance_jvm_cpu = from(ServiceInstanceJVMCPU.usePercent).doubleAvg();
-
-instance_jvm_memory_max = from(ServiceInstanceJVMMemory.max).longAvg();
-
-instance_jvm_memory_pool_max = from(ServiceInstanceJVMMemoryPool.max).longAvg();
-
-instance_jvm_gc_time = from(ServiceInstanceJVMGC.time).longAvg();
+/**
+ *
+ * @author wusheng
+ */
+public class EqualMatch extends BinaryMatchExpression {
+    @Override public boolean match() {
+        return left == right;
+    }
+}

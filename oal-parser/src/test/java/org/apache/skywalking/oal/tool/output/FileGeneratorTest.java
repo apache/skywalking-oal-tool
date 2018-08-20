@@ -26,7 +26,9 @@ import java.io.StringWriter;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.skywalking.oal.tool.parser.AnalysisResult;
+import org.apache.skywalking.oal.tool.parser.ConditionExpression;
 import org.apache.skywalking.oal.tool.parser.EntryMethod;
+import org.apache.skywalking.oal.tool.parser.FilterExpression;
 import org.apache.skywalking.oal.tool.parser.SourceColumnsFactory;
 import org.junit.Assert;
 import org.junit.Test;
@@ -41,6 +43,13 @@ public class FileGeneratorTest {
         result.setMetricName("ServiceAvg");
         result.setAggregationFunctionName("avg");
         result.setIndicatorClassName("LongAvgIndicator");
+
+        FilterExpression expression = new FilterExpression();
+        expression.setExpressionObject("EqualMatch");
+        expression.setLeft("source.getName()");
+        expression.setRight("\"/service/prod/save\"");
+        result.addFilterExpressions(expression);
+
         EntryMethod method = new EntryMethod();
         method.setMethodName("combine");
         method.setArgsExpressions(new LinkedList<>());
