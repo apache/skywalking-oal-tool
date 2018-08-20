@@ -40,7 +40,7 @@ public class FileGeneratorTest {
         result.setSourceAttribute("latency");
         result.setMetricName("ServiceAvg");
         result.setAggregationFunctionName("avg");
-        result.setIndicatorClassName("AvgIndicator");
+        result.setIndicatorClassName("LongAvgIndicator");
         EntryMethod method = new EntryMethod();
         method.setMethodName("combine");
         method.setArgsExpressions(new LinkedList<>());
@@ -51,6 +51,7 @@ public class FileGeneratorTest {
         result.addPersistentField("count", "count", int.class);
         result.addPersistentField("value", "value", long.class);
         result.addPersistentField("timeBucket", "time_bucket", long.class);
+        result.addPersistentField("stringField", "string_field", String.class);
         result.setFieldsFromSource(SourceColumnsFactory.getColumns("Service"));
         result.generateSerializeFields();
 

@@ -27,8 +27,8 @@ public class ScriptParserTest {
     @Test
     public void testParse() throws IOException {
         ScriptParser parser = ScriptParser.createFromScriptText(
-            "Endpoint_avg = from(Endpoint.latency).avg(); //comment test" + "\n" +
-                "Service_avg = from(Service.latency).avg()"
+            "Endpoint_avg = from(Endpoint.latency).longAvg(); //comment test" + "\n" +
+                "Service_avg = from(Service.latency).longAvg()"
         );
         List<AnalysisResult> results = parser.parse();
 
@@ -38,13 +38,13 @@ public class ScriptParserTest {
         Assert.assertEquals("EndpointAvg", endpointAvg.getMetricName());
         Assert.assertEquals("Endpoint", endpointAvg.getSourceName());
         Assert.assertEquals("latency", endpointAvg.getSourceAttribute());
-        Assert.assertEquals("avg", endpointAvg.getAggregationFunctionName());
+        Assert.assertEquals("longAvg", endpointAvg.getAggregationFunctionName());
 
         AnalysisResult serviceAvg = results.get(1);
         Assert.assertEquals("ServiceAvg", serviceAvg.getMetricName());
         Assert.assertEquals("Service", serviceAvg.getSourceName());
         Assert.assertEquals("latency", serviceAvg.getSourceAttribute());
-        Assert.assertEquals("avg", serviceAvg.getAggregationFunctionName());
+        Assert.assertEquals("longAvg", serviceAvg.getAggregationFunctionName());
     }
 
     @Test

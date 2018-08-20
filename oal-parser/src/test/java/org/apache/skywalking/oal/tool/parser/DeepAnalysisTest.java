@@ -30,7 +30,7 @@ public class DeepAnalysisTest {
         result.setPackageName("service.serviceavg");
         result.setSourceAttribute("latency");
         result.setMetricName("ServiceAvg");
-        result.setAggregationFunctionName("avg");
+        result.setAggregationFunctionName("longAvg");
 
         DeepAnalysis analysis = new DeepAnalysis();
         result = analysis.analysis(result);
@@ -54,7 +54,7 @@ public class DeepAnalysisTest {
         result.setPackageName("endpoint.endpointavg");
         result.setSourceAttribute("latency");
         result.setMetricName("EndpointAvg");
-        result.setAggregationFunctionName("avg");
+        result.setAggregationFunctionName("longAvg");
 
         DeepAnalysis analysis = new DeepAnalysis();
         result = analysis.analysis(result);

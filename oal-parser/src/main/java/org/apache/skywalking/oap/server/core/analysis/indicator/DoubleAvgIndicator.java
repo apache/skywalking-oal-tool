@@ -23,33 +23,31 @@ import lombok.Setter;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.ConstOne;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.Entrance;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.IndicatorOperator;
-import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.IndicatorType;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.SourceFrom;
-import org.apache.skywalking.oap.server.core.remote.selector.Selector;
 import org.apache.skywalking.oap.server.core.storage.annotation.Column;
 
 /**
  * @author peng-yongsheng
  */
 @IndicatorOperator
-public abstract class AvgIndicator extends Indicator {
+public abstract class DoubleAvgIndicator extends Indicator {
 
     protected static final String SUMMATION = "summation";
     protected static final String COUNT = "count";
     protected static final String VALUE = "value";
 
-    @Getter @Setter @Column(columnName = SUMMATION) private long summation;
+    @Getter @Setter @Column(columnName = SUMMATION) private double summation;
     @Getter @Setter @Column(columnName = COUNT) private int count;
-    @Getter @Setter @Column(columnName = VALUE) private long value;
+    @Getter @Setter @Column(columnName = VALUE) private double value;
 
     @Entrance
-    public final void combine(@SourceFrom long summation, @ConstOne int count) {
+    public final void combine(@SourceFrom double summation, @ConstOne int count) {
         this.summation += summation;
         this.count += count;
     }
 
     @Override public final void combine(Indicator indicator) {
-        AvgIndicator avgIndicator = (AvgIndicator)indicator;
-        combine(avgIndicator.summation, avgIndicator.count);
+        DoubleAvgIndicator longAvgIndicator = (DoubleAvgIndicator)indicator;
+        combine(longAvgIndicator.summation, longAvgIndicator.count);
     }
 }

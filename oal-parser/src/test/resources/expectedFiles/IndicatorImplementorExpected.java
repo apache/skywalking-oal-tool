@@ -36,7 +36,7 @@ import org.apache.skywalking.oap.server.core.storage.StorageBuilder;
 @IndicatorType
 @StreamData
 @StorageEntity(name = "service_avg", builder = ServiceAvgIndicator.Builder.class)
-public class ServiceAvgIndicator extends AvgIndicator {
+public class ServiceAvgIndicator extends LongAvgIndicator {
 
     @Setter @Getter @Column(columnName = "id") private int id;
 
@@ -72,6 +72,7 @@ public class ServiceAvgIndicator extends AvgIndicator {
 
     @Override public RemoteData.Builder serialize() {
         RemoteData.Builder remoteBuilder = RemoteData.newBuilder();
+        remoteBuilder.setDataStrings(0, getStringField());
 
         remoteBuilder.setDataLongs(0, getSummation());
         remoteBuilder.setDataLongs(1, getValue());
@@ -85,6 +86,7 @@ public class ServiceAvgIndicator extends AvgIndicator {
     }
 
     @Override public void deserialize(RemoteData remoteData) {
+        setStringField(remoteData.getDataStrings(0));
 
         setSummation(remoteData.getDataLongs(0));
         setValue(remoteData.getDataLongs(1));
@@ -104,6 +106,7 @@ public class ServiceAvgIndicator extends AvgIndicator {
             map.put("count", storageData.getCount());
             map.put("value", storageData.getValue());
             map.put("time_bucket", storageData.getTimeBucket());
+            map.put("string_field", storageData.getStringField());
             return map;
         }
 
@@ -114,6 +117,7 @@ public class ServiceAvgIndicator extends AvgIndicator {
             indicator.setCount(((Number)dbMap.get("count")).intValue());
             indicator.setValue(((Number)dbMap.get("value")).longValue());
             indicator.setTimeBucket(((Number)dbMap.get("time_bucket")).longValue());
+            indicator.setStringField((java.lang.String)dbMap.get("string_field"));
             return indicator;
         }
     }
