@@ -59,7 +59,7 @@ public class ServiceDispatcher implements SourceDispatcher<Service> {
         indicator.${field.fieldSetter}(source.${field.fieldGetter}());
     </#list>
         indicator.${indicator.entryMethod.methodName}(<#list indicator.entryMethod.argsExpressions as arg>${arg}<#if arg_has_next>, </#if></#list>);
-        avgAggregator.in(indicator);
+        IndicatorProcess.INSTANCE.in(indicator);
     }
 </#list>
 }
