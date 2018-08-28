@@ -58,6 +58,7 @@ public class OALListener extends OALParserBaseListener {
     }
 
     @Override public void exitVariable(OALParser.VariableContext ctx) {
+        current.setVarName(ctx.getText());
         current.setMetricName(metricNameFormat(ctx.getText()));
         current.setTableName(ctx.getText().toLowerCase());
     }

@@ -36,6 +36,7 @@ import org.junit.Test;
 public class FileGeneratorTest {
     private AnalysisResult buildResult() {
         AnalysisResult result = new AnalysisResult();
+        result.setVarName("generate_indicator");
         result.setSourceName("Service");
         result.setPackageName("service.serviceavg");
         result.setTableName("service_avg");

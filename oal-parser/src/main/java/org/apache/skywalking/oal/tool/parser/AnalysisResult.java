@@ -27,6 +27,8 @@ import lombok.Setter;
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PUBLIC)
 public class AnalysisResult {
+    private String varName;
+
     private String metricName;
 
     private String tableName;

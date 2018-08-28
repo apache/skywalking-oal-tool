@@ -21,12 +21,15 @@ package org.apache.skywalking.oap.server.core.analysis.generated.service.service
 import java.util.*;
 import lombok.*;
 import org.apache.skywalking.oap.server.core.Const;
+import org.apache.skywalking.oap.server.core.alarm.AlarmMeta;
+import org.apache.skywalking.oap.server.core.alarm.AlarmSupported;
 import org.apache.skywalking.oap.server.core.analysis.indicator.*;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.IndicatorType;
 import org.apache.skywalking.oap.server.core.remote.annotation.StreamData;
 import org.apache.skywalking.oap.server.core.remote.grpc.proto.RemoteData;
 import org.apache.skywalking.oap.server.core.storage.annotation.*;
 import org.apache.skywalking.oap.server.core.storage.StorageBuilder;
+import org.apache.skywalking.oap.server.core.source.Scope;
 
 /**
  * This class is auto generated. Please don't change this class manually.
@@ -36,7 +39,7 @@ import org.apache.skywalking.oap.server.core.storage.StorageBuilder;
 @IndicatorType
 @StreamData
 @StorageEntity(name = "service_avg", builder = ServiceAvgIndicator.Builder.class)
-public class ServiceAvgIndicator extends LongAvgIndicator {
+public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSupported {
 
     @Setter @Getter @Column(columnName = "id") private int id;
 
@@ -95,6 +98,10 @@ public class ServiceAvgIndicator extends LongAvgIndicator {
 
         setId(remoteData.getDataIntegers(0));
         setCount(remoteData.getDataIntegers(1));
+    }
+
+    @Override public AlarmMeta getAlarmMeta() {
+        return new AlarmMeta("generate_indicator", Scope.Service, id);
     }
 
     public static class Builder implements StorageBuilder<ServiceAvgIndicator> {

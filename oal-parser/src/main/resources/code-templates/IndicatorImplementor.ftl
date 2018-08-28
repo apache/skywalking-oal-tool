@@ -21,12 +21,15 @@ package org.apache.skywalking.oap.server.core.analysis.generated.${packageName};
 import java.util.*;
 import lombok.*;
 import org.apache.skywalking.oap.server.core.Const;
+import org.apache.skywalking.oap.server.core.alarm.AlarmMeta;
+import org.apache.skywalking.oap.server.core.alarm.AlarmSupported;
 import org.apache.skywalking.oap.server.core.analysis.indicator.*;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.IndicatorType;
 import org.apache.skywalking.oap.server.core.remote.annotation.StreamData;
 import org.apache.skywalking.oap.server.core.remote.grpc.proto.RemoteData;
 import org.apache.skywalking.oap.server.core.storage.annotation.*;
 import org.apache.skywalking.oap.server.core.storage.StorageBuilder;
+import org.apache.skywalking.oap.server.core.source.Scope;
 
 /**
  * This class is auto generated. Please don't change this class manually.
@@ -36,7 +39,7 @@ import org.apache.skywalking.oap.server.core.storage.StorageBuilder;
 @IndicatorType
 @StreamData
 @StorageEntity(name = "${tableName}", builder = ${metricName}Indicator.Builder.class)
-public class ${metricName}Indicator extends ${indicatorClassName} {
+public class ${metricName}Indicator extends ${indicatorClassName} implements AlarmSupported {
 
 <#list fieldsFromSource as sourceField>
     @Setter @Getter @Column(columnName = "${sourceField.columnName}") private ${sourceField.typeName} ${sourceField.fieldName};
@@ -121,6 +124,10 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
 <#list serializeFields.intFields as field>
         ${field.setter}(remoteData.getDataIntegers(${field?index}));
 </#list>
+    }
+
+    @Override public AlarmMeta getAlarmMeta() {
+        return new AlarmMeta("${varName}", Scope.${sourceName}, <#list fieldsFromSource as field>${field.fieldName}<#if field_has_next>, </#if></#list>);
     }
 
     public static class Builder implements StorageBuilder<${metricName}Indicator> {
