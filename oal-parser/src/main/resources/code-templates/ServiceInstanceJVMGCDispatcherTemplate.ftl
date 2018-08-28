@@ -48,7 +48,7 @@ public class ServiceInstanceJVMGCDispatcher implements SourceDispatcher<ServiceI
 
     <#if indicator.filterExpressions??>
         <#list indicator.filterExpressions as filterExpression>
-        if(!(new ${filterExpression.expressionObject}().setLeft(${filterExpression.left}).setRight(${filterExpression.right}).match())) {
+        if(!new ${filterExpression.expressionObject}().setLeft(${filterExpression.left}).setRight(${filterExpression.right}).match()) {
             return;
         }
         </#list>
