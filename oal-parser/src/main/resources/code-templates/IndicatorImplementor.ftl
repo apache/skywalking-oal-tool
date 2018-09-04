@@ -78,9 +78,10 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
 <#list fieldsFromSource as sourceField>
     <#if sourceField.isID()>
         if (${sourceField.fieldName} != indicator.${sourceField.fieldName})
+            return false;
     </#if>
 </#list>
-            return false;
+
         if (getTimeBucket() != indicator.getTimeBucket())
             return false;
 

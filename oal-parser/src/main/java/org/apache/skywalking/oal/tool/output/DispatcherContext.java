@@ -31,6 +31,9 @@ public class DispatcherContext {
     private List<AnalysisResult> serviceIndicators = new LinkedList<>();
     private List<AnalysisResult> serviceInstanceIndicators = new LinkedList<>();
     private List<AnalysisResult> endpointIndicators = new LinkedList<>();
+    private List<AnalysisResult> serviceRelationIndicators = new LinkedList<>();
+    private List<AnalysisResult> serviceInstanceRelationIndicators = new LinkedList<>();
+    private List<AnalysisResult> endpointRelationIndicators = new LinkedList<>();
     private List<AnalysisResult> serviceInstanceJVMCPUIndicators = new LinkedList<>();
     private List<AnalysisResult> serviceInstanceJVMMemoryIndicators = new LinkedList<>();
     private List<AnalysisResult> serviceInstanceJVMMemoryPoolIndicators = new LinkedList<>();

@@ -63,34 +63,37 @@ public class SourceColumnsFactory {
                 return columnList;
             case "ServiceRelation":
                 columnList = new LinkedList<>();
-                SourceColumn sourceService = new SourceColumn("sourceServiceId", "source_service_id", int.class, false);
+                SourceColumn sourceService = new SourceColumn("sourceServiceId", "source_service_id", int.class, true);
                 columnList.add(sourceService);
-                SourceColumn destService = new SourceColumn("destServiceId", "dest_service_id", int.class, false);
+                SourceColumn destService = new SourceColumn("destServiceId", "dest_service_id", int.class, true);
                 columnList.add(destService);
+                return columnList;
             case "ServiceInstanceRelation":
                 columnList = new LinkedList<>();
                 sourceService = new SourceColumn("sourceServiceId", "source_service_id", int.class, false);
                 columnList.add(sourceService);
                 destService = new SourceColumn("destServiceId", "dest_service_id", int.class, false);
                 columnList.add(destService);
-                SourceColumn sourceServiceInstance = new SourceColumn("sourceServiceInstanceId", "source_service_instance_id", int.class, false);
+                SourceColumn sourceServiceInstance = new SourceColumn("sourceServiceInstanceId", "source_service_instance_id", int.class, true);
                 columnList.add(sourceServiceInstance);
-                SourceColumn destServiceInstance = new SourceColumn("destServiceInstanceId", "dest_service_instance_id", int.class, false);
+                SourceColumn destServiceInstance = new SourceColumn("destServiceInstanceId", "dest_service_instance_id", int.class, true);
                 columnList.add(destServiceInstance);
+                return columnList;
             case "EndpointRelation":
                 columnList = new LinkedList<>();
                 SourceColumn sourceEndpointColumn = new SourceColumn("endpointId", "endpoint_id", int.class, true);
                 columnList.add(sourceEndpointColumn);
                 SourceColumn childEndpointColumne  = new SourceColumn("childEndpointId", "child_endpoint_id", int.class, true);
                 columnList.add(childEndpointColumne);
-                sourceService = new SourceColumn("sourceServiceId", "source_service_id", int.class, false);
+                sourceService = new SourceColumn("serviceId", "service_id", int.class, false);
                 columnList.add(sourceService);
-                destService = new SourceColumn("destServiceId", "dest_service_id", int.class, false);
+                destService = new SourceColumn("childServiceId", "child_service_id", int.class, false);
                 columnList.add(destService);
-                sourceServiceInstance = new SourceColumn("sourceServiceInstanceId", "source_service_instance_id", int.class, false);
+                sourceServiceInstance = new SourceColumn("serviceInstanceId", "service_instance_id", int.class, false);
                 columnList.add(sourceServiceInstance);
-                destServiceInstance = new SourceColumn("destServiceInstanceId", "dest_service_instance_id", int.class, false);
+                destServiceInstance = new SourceColumn("childServiceInstanceId", "child_service_instance_id", int.class, false);
                 columnList.add(destServiceInstance);
+                return columnList;
             default:
                 throw new IllegalArgumentException("Illegal source :" + source);
         }

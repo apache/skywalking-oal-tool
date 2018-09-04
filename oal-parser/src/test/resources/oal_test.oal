@@ -18,11 +18,19 @@
 
 Service_Avg = from(Service.latency).longAvg();
 
+ServiceInstance_RespTime= from(ServiceInstance.latency).longAvg();
+
 endpoint_Avg = from(Endpoint.latency).longAvg();
 
 // endpoint_Avg_for_prod_serv = from(Endpoint.latency).filter(name == "/product/service").longAvg();
 
 endpoint_percent = from(Endpoint.*).percent(status == true);
+
+ServiceRelation_Avg = from(ServiceRelation.latency).longAvg();
+
+ServiceInstanceRelation_Avg = from(ServiceInstanceRelation.latency).longAvg();
+
+EndpointRelation_Avg = from(EndpointRelation.rpcLatency).longAvg();
 
 instance_jvm_cpu = from(ServiceInstanceJVMCPU.usePercent).doubleAvg();
 
