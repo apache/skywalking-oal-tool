@@ -22,6 +22,7 @@ import freemarker.template.TemplateException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.util.LinkedList;
 import java.util.List;
@@ -80,7 +81,7 @@ public class FileGeneratorTest {
         fileGenerator.generateIndicatorImplementor(result, writer);
         Assert.assertEquals(readExpectedFile("IndicatorImplementorExpected.java"), writer.toString());
 
-        //fileGenerator.generateIndicatorImplementor(result, new OutputStreamWriter(System.out));
+        // fileGenerator.generateIndicatorImplementor(result, new OutputStreamWriter(System.out));
     }
 
     @Test
