@@ -20,6 +20,10 @@ Service_Avg = from(Service.latency).longAvg();
 
 ServiceInstance_RespTime= from(ServiceInstance.latency).longAvg();
 
+Service_Calls_Sum = from(Service.*).sum();
+
+Service_Relation_Calls_Sum = from(ServiceRelation.*).sum();
+
 endpoint_Avg = from(Endpoint.latency).longAvg();
 
 // endpoint_Avg_for_prod_serv = from(Endpoint.latency).filter(name == "/product/service").longAvg();
