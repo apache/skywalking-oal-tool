@@ -68,7 +68,7 @@ public class SourceColumnsFactory {
                 SourceColumn destService = new SourceColumn("destServiceId", "dest_service_id", int.class, true);
                 columnList.add(destService);
                 SourceColumn callType = new SourceColumn("callType", "call_type", int.class, true);
-                columnList.add(destService);
+                columnList.add(callType);
                 return columnList;
             case "ServiceInstanceRelation":
                 columnList = new LinkedList<>();
