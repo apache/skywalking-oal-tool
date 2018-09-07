@@ -18,8 +18,7 @@
 
 package org.apache.skywalking.oal.tool.parser;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class SourceColumnsFactory {
     public static List<SourceColumn> getColumns(String source) {
@@ -83,7 +82,7 @@ public class SourceColumnsFactory {
                 columnList = new LinkedList<>();
                 SourceColumn sourceEndpointColumn = new SourceColumn("endpointId", "endpoint_id", int.class, true);
                 columnList.add(sourceEndpointColumn);
-                SourceColumn childEndpointColumne  = new SourceColumn("childEndpointId", "child_endpoint_id", int.class, true);
+                SourceColumn childEndpointColumne = new SourceColumn("childEndpointId", "child_endpoint_id", int.class, true);
                 columnList.add(childEndpointColumne);
                 sourceService = new SourceColumn("serviceId", "service_id", int.class, false);
                 columnList.add(sourceService);
