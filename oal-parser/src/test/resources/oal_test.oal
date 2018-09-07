@@ -22,7 +22,9 @@ ServiceInstance_RespTime= from(ServiceInstance.latency).longAvg();
 
 Service_Calls_Sum = from(Service.*).sum();
 
-Service_Relation_Calls_Sum = from(ServiceRelation.*).sum();
+Service_Relation_Client_Calls_Sum = from(ServiceRelation.*).filter(detectPoint == DetectPoint.CLIENT).sum();
+
+Service_Relation_Server_Calls_Sum = from(ServiceRelation.*).filter(detectPoint == DetectPoint.SERVER).sum();
 
 endpoint_Avg = from(Endpoint.latency).longAvg();
 
