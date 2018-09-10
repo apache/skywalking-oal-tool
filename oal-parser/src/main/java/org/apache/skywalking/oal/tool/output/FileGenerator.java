@@ -49,7 +49,11 @@ public class FileGenerator {
             generate(result, "Indicator.java", (writer) -> generateIndicatorImplementor(result, writer));
         }
 
-        File file = new File(outputPath, "generated/service/ServiceDispatcher.java");
+        File file = new File(outputPath, "generated/all/AllDispatcher.java");
+        createFile(file);
+        this.generateAllDispatcher(new FileWriter(file));
+
+        file = new File(outputPath, "generated/service/ServiceDispatcher.java");
         createFile(file);
         this.generateServiceDispatcher(new FileWriter(file));
 
@@ -121,6 +125,10 @@ public class FileGenerator {
         configuration.getTemplate("IndicatorImplementor.ftl").process(result, output);
     }
 
+    void generateAllDispatcher(Writer output) throws IOException, TemplateException {
+        configuration.getTemplate("AllDispatcherTemplate.ftl").process(dispatcherContext, output);
+    }
+
     void generateServiceDispatcher(Writer output) throws IOException, TemplateException {
         configuration.getTemplate("ServiceDispatcherTemplate.ftl").process(dispatcherContext, output);
     }
@@ -166,6 +174,9 @@ public class FileGenerator {
         for (AnalysisResult result : results) {
             String sourceName = result.getSourceName();
             switch (sourceName) {
+                case "All":
+                    dispatcherContext.getAllIndicators().add(result);
+                    break;
                 case "Service":
                     dispatcherContext.getServiceIndicators().add(result);
                     break;

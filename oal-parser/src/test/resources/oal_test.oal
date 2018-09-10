@@ -16,6 +16,8 @@
  *
  */
 
+All_p99 = from(All.latency).p99(10);
+
 Service_Avg = from(Service.latency).longAvg();
 
 ServiceInstance_RespTime= from(ServiceInstance.latency).longAvg();

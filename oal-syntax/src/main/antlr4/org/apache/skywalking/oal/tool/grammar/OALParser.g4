@@ -60,7 +60,7 @@ variable
     ;
 
 aggregateFunction
-    : functionName LR_BRACKET (funcParamExpression)? RR_BRACKET
+    : functionName LR_BRACKET (funcParamExpression | literalExpression)? RR_BRACKET
     ;
 
 functionName
@@ -69,6 +69,10 @@ functionName
 
 funcParamExpression
     : expression
+    ;
+
+literalExpression
+    : BOOL_LITERAL | INT_LITERAL
     ;
 
 expression

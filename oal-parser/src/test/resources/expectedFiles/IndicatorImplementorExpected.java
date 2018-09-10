@@ -99,6 +99,8 @@ public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSuppor
 
         setId(remoteData.getDataIntegers(0));
         setCount(remoteData.getDataIntegers(1));
+
+
     }
 
     @Override public AlarmMeta getAlarmMeta() {

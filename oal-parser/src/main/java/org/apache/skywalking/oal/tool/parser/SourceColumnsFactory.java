@@ -25,6 +25,8 @@ public class SourceColumnsFactory {
         List<SourceColumn> columnList;
         SourceColumn idColumn;
         switch (source) {
+            case "All":
+                return new LinkedList<>();
             case "Service":
                 columnList = new LinkedList<>();
                 // Service id;

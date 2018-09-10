@@ -51,6 +51,9 @@ public class AnalysisResult {
 
     private List<ConditionExpression> funcConditionExpressions;
 
+    private List<String> funcArgs;
+    private int argGetIdx = 0;
+
     private List<DataColumn> persistentFields;
 
     private List<SourceColumn> fieldsFromSource;
@@ -84,6 +87,17 @@ public class AnalysisResult {
             filterExpressionsParserResult = new LinkedList<>();
         }
         filterExpressionsParserResult.add(conditionExpression);
+    }
+
+    public void addFuncArg(String value) {
+        if (funcArgs == null) {
+            funcArgs = new LinkedList<>();
+        }
+        funcArgs.add(value);
+    }
+
+    public String getNextFuncArg() {
+        return funcArgs.get(argGetIdx++);
     }
 
     public void generateSerializeFields() {
@@ -122,6 +136,9 @@ public class AnalysisResult {
                     break;
                 case "long":
                     serializeFields.addLongField(column.getFieldName());
+                    break;
+                case "List":
+                    serializeFields.addIntLongValuePairelistField(column.getFieldName());
                     break;
                 default:
                     throw new IllegalStateException("Unexpected field type [" + type + "] of persistence column [" + column.getFieldName() + "]");

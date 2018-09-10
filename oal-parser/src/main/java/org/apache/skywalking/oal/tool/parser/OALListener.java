@@ -116,6 +116,9 @@ public class OALListener extends OALParserBaseListener {
     // Expression end.
     ////////////
 
+    @Override public void enterLiteralExpression(OALParser.LiteralExpressionContext ctx) {
+        current.addFuncArg(ctx.getText());
+    }
 
     private String metricNameFormat(String source) {
         source = firstLetterUpper(source);

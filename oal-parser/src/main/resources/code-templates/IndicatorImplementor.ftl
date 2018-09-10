@@ -105,6 +105,9 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
 <#list serializeFields.intFields as field>
         remoteBuilder.setDataIntegers(${field?index}, ${field.getter}());
 </#list>
+<#list serializeFields.intLongValuePairListFields as field>
+        ${field.getter}().forEach(element -> remoteBuilder.addDataIntLongPairList(element.serialize()));
+</#list>
 
         return remoteBuilder;
     }
@@ -125,10 +128,18 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
 <#list serializeFields.intFields as field>
         ${field.setter}(remoteData.getDataIntegers(${field?index}));
 </#list>
+
+<#list serializeFields.intLongValuePairListFields as field>
+        setDetailGroup(new ArrayList<>(30));
+        remoteData.getDataIntLongPairListList().forEach(element -> {
+            getDetailGroup().add(new IntKeyLongValue(element.getKey(), element.getValue()));
+        });
+</#list>
+
     }
 
     @Override public AlarmMeta getAlarmMeta() {
-        return new AlarmMeta("${varName}", Scope.${sourceName}, <#list fieldsFromSource as field>${field.fieldName}<#if field_has_next>, </#if></#list>);
+        return new AlarmMeta("${varName}", Scope.${sourceName}<#if (fieldsFromSource?size>0) >, <#list fieldsFromSource as field>${field.fieldName}<#if field_has_next>, </#if></#list></#if>);
     }
 
     public static class Builder implements StorageBuilder<${metricName}Indicator> {
