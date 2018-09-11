@@ -34,6 +34,7 @@ public class Indicators {
         REGISTER.put("p90", P90Indicator.class);
         REGISTER.put("p75", P75Indicator.class);
         REGISTER.put("p50", P50Indicator.class);
+        REGISTER.put("thermodynamic", ThermodynamicIndicator.class);
     }
 
     public static Class<? extends Indicator> find(String functionName) {
