@@ -44,7 +44,7 @@ public class AllDispatcher implements SourceDispatcher<All> {
 
 <#list allIndicators as indicator>
     private void do${indicator.metricName}(All source) {
-    ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
+        ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
 
     <#if indicator.filterExpressions??>
         <#list indicator.filterExpressions as filterExpression>

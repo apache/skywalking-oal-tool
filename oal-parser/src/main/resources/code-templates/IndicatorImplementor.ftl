@@ -19,8 +19,15 @@
 package org.apache.skywalking.oap.server.core.analysis.generated.${packageName};
 
 import java.util.*;
+<#if (fieldsFromSource?size>0) >
 import lombok.*;
+</#if>
+<#list fieldsFromSource as sourceField>
+    <#if sourceField.isID()>
 import org.apache.skywalking.oap.server.core.Const;
+        <#break>
+    </#if>
+</#list>
 import org.apache.skywalking.oap.server.core.alarm.AlarmMeta;
 import org.apache.skywalking.oap.server.core.alarm.AlarmSupported;
 import org.apache.skywalking.oap.server.core.analysis.indicator.*;

@@ -17,6 +17,10 @@
  */
 
 All_p99 = from(All.latency).p99(10);
+All_p95 = from(All.latency).p95(10);
+All_p90 = from(All.latency).p90(10);
+All_p75 = from(All.latency).p75(10);
+All_p50 = from(All.latency).p50(10);
 
 Service_Avg = from(Service.latency).longAvg();
 
