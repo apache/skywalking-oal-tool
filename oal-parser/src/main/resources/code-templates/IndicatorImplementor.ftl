@@ -149,6 +149,45 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
         return new AlarmMeta("${varName}", Scope.${sourceName}<#if (fieldsFromSource?size>0) >, <#list fieldsFromSource as field>${field.fieldName}<#if field_has_next>, </#if></#list></#if>);
     }
 
+    @Override
+    public Indicator toHour() {
+        ${metricName}Indicator indicator = new ${metricName}Indicator();
+        indicator.setTimeBucket(toTimeBucketInHour());
+<#list fieldsFromSource as field>
+        indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+</#list>
+<#list persistentFields as field>
+        indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+</#list>
+        return indicator;
+    }
+
+    @Override
+    public Indicator toDay() {
+        ${metricName}Indicator indicator = new ${metricName}Indicator();
+        indicator.setTimeBucket(toTimeBucketInDay());
+<#list fieldsFromSource as field>
+        indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+</#list>
+<#list persistentFields as field>
+        indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+</#list>
+        return indicator;
+    }
+
+    @Override
+    public Indicator toMonth() {
+        ${metricName}Indicator indicator = new ${metricName}Indicator();
+        indicator.setTimeBucket(toTimeBucketInMonth());
+<#list fieldsFromSource as field>
+        indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+</#list>
+<#list persistentFields as field>
+        indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+</#list>
+        return indicator;
+    }
+
     public static class Builder implements StorageBuilder<${metricName}Indicator> {
 
         @Override public Map<String, Object> data2Map(${metricName}Indicator storageData) {

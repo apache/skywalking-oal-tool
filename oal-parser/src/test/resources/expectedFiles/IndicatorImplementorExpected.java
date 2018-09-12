@@ -107,6 +107,45 @@ public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSuppor
         return new AlarmMeta("generate_indicator", Scope.Service, id);
     }
 
+    @Override
+    public Indicator toHour() {
+        ServiceAvgIndicator indicator = new ServiceAvgIndicator();
+        indicator.setTimeBucket(toTimeBucketInHour());
+        indicator.setId(this.getId());
+        indicator.setSummation(this.getSummation());
+        indicator.setCount(this.getCount());
+        indicator.setValue(this.getValue());
+        indicator.setTimeBucket(this.getTimeBucket());
+        indicator.setStringField(this.getStringField());
+        return indicator;
+    }
+
+    @Override
+    public Indicator toDay() {
+        ServiceAvgIndicator indicator = new ServiceAvgIndicator();
+        indicator.setTimeBucket(toTimeBucketInDay());
+        indicator.setId(this.getId());
+        indicator.setSummation(this.getSummation());
+        indicator.setCount(this.getCount());
+        indicator.setValue(this.getValue());
+        indicator.setTimeBucket(this.getTimeBucket());
+        indicator.setStringField(this.getStringField());
+        return indicator;
+    }
+
+    @Override
+    public Indicator toMonth() {
+        ServiceAvgIndicator indicator = new ServiceAvgIndicator();
+        indicator.setTimeBucket(toTimeBucketInMonth());
+        indicator.setId(this.getId());
+        indicator.setSummation(this.getSummation());
+        indicator.setCount(this.getCount());
+        indicator.setValue(this.getValue());
+        indicator.setTimeBucket(this.getTimeBucket());
+        indicator.setStringField(this.getStringField());
+        return indicator;
+    }
+
     public static class Builder implements StorageBuilder<ServiceAvgIndicator> {
 
         @Override public Map<String, Object> data2Map(ServiceAvgIndicator storageData) {
