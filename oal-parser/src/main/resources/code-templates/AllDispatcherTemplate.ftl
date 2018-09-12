@@ -24,6 +24,7 @@ import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
     <#list allIndicators as indicator>
         <#if indicator.filterExpressions??>
 import org.apache.skywalking.oap.server.core.analysis.indicator.expression.*;
+            <#break>
         </#if>
     </#list>
 </#if>
