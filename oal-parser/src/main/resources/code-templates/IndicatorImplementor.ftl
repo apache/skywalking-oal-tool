@@ -49,7 +49,7 @@ import org.apache.skywalking.oap.server.core.source.Scope;
 public class ${metricName}Indicator extends ${indicatorClassName} implements AlarmSupported {
 
 <#list fieldsFromSource as sourceField>
-    @Setter @Getter @Column(columnName = "${sourceField.columnName}") private ${sourceField.typeName} ${sourceField.fieldName};
+    @Setter @Getter @Column(columnName = "${sourceField.columnName}") <#if sourceField.isID()>@IDColumn</#if> private ${sourceField.typeName} ${sourceField.fieldName};
 </#list>
 
     @Override public String id() {
