@@ -42,7 +42,7 @@ public class ServiceDispatcher implements SourceDispatcher<Service> {
         }
 
         indicator.setTimeBucket(source.getTimeBucket());
-        indicator.setId(source.getId());
+        indicator.setEntityId(source.getEntityId());
         indicator.combine(source.getLatency(), 1);
         IndicatorProcess.INSTANCE.in(indicator);
     }
