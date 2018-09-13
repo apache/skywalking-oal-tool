@@ -56,7 +56,11 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
         String splitJointId = String.valueOf(getTimeBucket());
 <#list fieldsFromSource as sourceField>
     <#if sourceField.isID()>
+        <#if sourceField.getTypeName() == "String">
+        splitJointId += Const.ID_SPLIT + ${sourceField.fieldName};
+        <#else>
         splitJointId += Const.ID_SPLIT + String.valueOf(${sourceField.fieldName});
+        </#if>
     </#if>
 </#list>
         return splitJointId;
@@ -66,10 +70,29 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
         int result = 17;
 <#list fieldsFromSource as sourceField>
     <#if sourceField.isID()>
-        result = 31 * result + ${sourceField.fieldName};
+        <#if sourceField.getTypeName() == "String">
+        result = 31 * result + ${sourceField.fieldName}.hashCode();
+        <#else>
+        result += Const.ID_SPLIT + ${sourceField.fieldName};
+        </#if>
     </#if>
 </#list>
         result = 31 * result + (int)getTimeBucket();
+        return result;
+    }
+
+
+    @Override public int remoteHashCode() {
+        int result = 17;
+<#list fieldsFromSource as sourceField>
+    <#if sourceField.isID()>
+        <#if sourceField.getTypeName() == "String">
+        result = 31 * result + ${sourceField.fieldName}.hashCode();
+        <#else>
+        result += Const.ID_SPLIT + ${sourceField.fieldName};
+        </#if>
+    </#if>
+</#list>
         return result;
     }
 
@@ -146,7 +169,7 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
     }
 
     @Override public AlarmMeta getAlarmMeta() {
-        return new AlarmMeta("${varName}", Scope.${sourceName}<#if (fieldsFromSource?size>0) >, <#list fieldsFromSource as field>${field.fieldName}<#if field_has_next>, </#if></#list></#if>);
+        return new AlarmMeta("${varName}", Scope.${sourceName}<#if (fieldsFromSource?size>0) ><#list fieldsFromSource as field><#if field.isID()>, ${field.fieldName}</#if></#list></#if>);
     }
 
     @Override
