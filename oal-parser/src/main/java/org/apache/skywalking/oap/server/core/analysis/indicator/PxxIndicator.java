@@ -38,7 +38,7 @@ import org.apache.skywalking.oap.server.core.storage.annotation.Column;
  * observations in a group of observations fall. For example, the 20th percentile is the value (or score) below which
  * 20% of the observations may be found.
  *
- * @author wusheng
+ * @author wusheng, peng-yongsheng
  */
 @IndicatorOperator
 public abstract class PxxIndicator extends Indicator {
@@ -48,14 +48,14 @@ public abstract class PxxIndicator extends Indicator {
 
     @Getter @Setter @Column(columnName = VALUE) private int value;
     @Getter @Setter @Column(columnName = PRECISION) private int precision;
-    @Getter @Setter @Column(columnName = DETAIL_GROUP) private List<IntKeyLongValue> detailGroup;
+    @Getter @Setter @Column(columnName = DETAIL_GROUP) private IntKeyLongValueArray detailGroup;
 
     private final int percentileRank;
     private Map<Integer, IntKeyLongValue> detailIndex;
 
     public PxxIndicator(int percentileRank) {
         this.percentileRank = percentileRank;
-        detailGroup = new ArrayList<>(30);
+        detailGroup = new IntKeyLongValueArray(30);
     }
 
     @Entrance
@@ -105,7 +105,7 @@ public abstract class PxxIndicator extends Indicator {
         for (IntKeyLongValue element : detailGroup) {
             count += element.getValue();
             if (count >= roof) {
-                value = element.getKey();
+                value = element.getKey() * precision;
                 return;
             }
         }
