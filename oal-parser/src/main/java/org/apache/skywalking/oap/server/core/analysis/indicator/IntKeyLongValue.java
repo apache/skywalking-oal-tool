@@ -16,17 +16,42 @@
  *
  */
 
-package org.apache.skywalking.oal.tool.parser;
+package org.apache.skywalking.oap.server.core.analysis.indicator;
 
-import lombok.AccessLevel;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter(AccessLevel.PUBLIC)
-@Setter(AccessLevel.PUBLIC)
-public class ConditionExpression {
-    // original from script
-    private String expressionType;
-    private String attribute;
-    private String value;
+/**
+ * IntKeyLongValue is a common bean, with key in Int and value in Long
+ *
+ * @author wusheng
+ */
+@Setter
+@Getter
+public class IntKeyLongValue implements Comparable<IntKeyLongValue>{
+    private int key;
+    private long value;
+
+    public void addValue(long value) {
+        this.value += value;
+    }
+
+    @Override
+    public int compareTo(IntKeyLongValue o) {
+        return key - o.key;
+    }
+
+    @Override public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        IntKeyLongValue value = (IntKeyLongValue)o;
+        return key == value.key;
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(key);
+    }
 }

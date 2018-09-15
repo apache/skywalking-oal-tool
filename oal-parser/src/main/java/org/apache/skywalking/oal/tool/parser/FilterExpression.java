@@ -24,9 +24,8 @@ import lombok.Setter;
 
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PUBLIC)
-public class ConditionExpression {
-    // original from script
-    private String expressionType;
-    private String attribute;
-    private String value;
+public class FilterExpression {
+    private String expressionObject;
+    private String left;
+    private String right;
 }

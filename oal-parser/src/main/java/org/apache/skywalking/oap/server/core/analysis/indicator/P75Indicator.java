@@ -16,17 +16,15 @@
  *
  */
 
-package org.apache.skywalking.oal.tool.parser;
+package org.apache.skywalking.oap.server.core.analysis.indicator;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter(AccessLevel.PUBLIC)
-@Setter(AccessLevel.PUBLIC)
-public class ConditionExpression {
-    // original from script
-    private String expressionType;
-    private String attribute;
-    private String value;
+/**
+ * P75
+ *
+ * @author wusheng
+ */
+public abstract class P75Indicator extends PxxIndicator {
+    public P75Indicator() {
+        super(75);
+    }
 }

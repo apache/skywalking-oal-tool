@@ -49,13 +49,33 @@ public class FileGenerator {
             generate(result, "Indicator.java", (writer) -> generateIndicatorImplementor(result, writer));
         }
 
-        File file = new File(outputPath, "generated/service/ServiceDispatcher.java");
+        File file = new File(outputPath, "generated/all/AllDispatcher.java");
+        createFile(file);
+        this.generateAllDispatcher(new FileWriter(file));
+
+        file = new File(outputPath, "generated/service/ServiceDispatcher.java");
         createFile(file);
         this.generateServiceDispatcher(new FileWriter(file));
+
+        file = new File(outputPath, "generated/servicerelation/ServiceRelationDispatcher.java");
+        createFile(file);
+        this.generateServiceRelationDispatcher(new FileWriter(file));
 
         file = new File(outputPath, "generated/endpoint/EndpointDispatcher.java");
         createFile(file);
         this.generateEndpointDispatcher(new FileWriter(file));
+
+        file = new File(outputPath, "generated/endpointrelation/EndpointRelationDispatcher.java");
+        createFile(file);
+        this.generateEndpointRelationDispatcher(new FileWriter(file));
+
+        file = new File(outputPath, "generated/serviceinstance/ServiceInstanceDispatcher.java");
+        createFile(file);
+        this.generateServiceInstanceDispatcher(new FileWriter(file));
+
+        file = new File(outputPath, "generated/serviceinstancerelation/ServiceInstanceRelationDispatcher.java");
+        createFile(file);
+        this.generateServiceInstanceRelationDispatcher(new FileWriter(file));
 
         file = new File(outputPath, "generated/serviceinstancejvmcpu/ServiceInstanceJVMCPUDispatcher.java");
         createFile(file);
@@ -105,12 +125,32 @@ public class FileGenerator {
         configuration.getTemplate("IndicatorImplementor.ftl").process(result, output);
     }
 
+    void generateAllDispatcher(Writer output) throws IOException, TemplateException {
+        configuration.getTemplate("AllDispatcherTemplate.ftl").process(dispatcherContext, output);
+    }
+
     void generateServiceDispatcher(Writer output) throws IOException, TemplateException {
         configuration.getTemplate("ServiceDispatcherTemplate.ftl").process(dispatcherContext, output);
     }
 
+    void generateServiceRelationDispatcher(Writer output) throws IOException, TemplateException {
+        configuration.getTemplate("ServiceRelationDispatcherTemplate.ftl").process(dispatcherContext, output);
+    }
+
     void generateEndpointDispatcher(Writer output) throws IOException, TemplateException {
         configuration.getTemplate("EndpointDispatcherTemplate.ftl").process(dispatcherContext, output);
+    }
+
+    void generateEndpointRelationDispatcher(Writer output) throws IOException, TemplateException {
+        configuration.getTemplate("EndpointRelationDispatcherTemplate.ftl").process(dispatcherContext, output);
+    }
+
+    void generateServiceInstanceDispatcher(Writer output) throws IOException, TemplateException {
+        configuration.getTemplate("ServiceInstanceDispatcherTemplate.ftl").process(dispatcherContext, output);
+    }
+
+    void generateServiceInstanceRelationDispatcher(Writer output) throws IOException, TemplateException {
+        configuration.getTemplate("ServiceInstanceRelationDispatcherTemplate.ftl").process(dispatcherContext, output);
     }
 
     void generateServiceInstanceJVMCPUDispatcher(Writer output) throws IOException, TemplateException {
@@ -134,14 +174,26 @@ public class FileGenerator {
         for (AnalysisResult result : results) {
             String sourceName = result.getSourceName();
             switch (sourceName) {
+                case "All":
+                    dispatcherContext.getAllIndicators().add(result);
+                    break;
                 case "Service":
                     dispatcherContext.getServiceIndicators().add(result);
+                    break;
+                case "ServiceRelation":
+                    dispatcherContext.getServiceRelationIndicators().add(result);
                     break;
                 case "ServiceInstance":
                     dispatcherContext.getServiceInstanceIndicators().add(result);
                     break;
+                case "ServiceInstanceRelation":
+                    dispatcherContext.getServiceInstanceRelationIndicators().add(result);
+                    break;
                 case "Endpoint":
                     dispatcherContext.getEndpointIndicators().add(result);
+                    break;
+                case "EndpointRelation":
+                    dispatcherContext.getEndpointRelationIndicators().add(result);
                     break;
                 case "ServiceInstanceJVMCPU":
                     dispatcherContext.getServiceInstanceJVMCPUIndicators().add(result);

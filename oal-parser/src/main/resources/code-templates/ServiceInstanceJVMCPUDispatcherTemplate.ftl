@@ -19,10 +19,16 @@
 package org.apache.skywalking.oap.server.core.analysis.generated.serviceinstancejvmcpu;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
-<#if (serviceInstanceJVMCPUIndicators?size>0) >
+<#if (serviceInstanceJVMCPUIndicators?size>0)>
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
+    <#list serviceInstanceJVMCPUIndicators as indicator>
+        <#if indicator.filterExpressions??>
+import org.apache.skywalking.oap.server.core.analysis.indicator.expression.*;
+            <#break>
+        </#if>
+    </#list>
 </#if>
-import org.apache.skywalking.oap.server.core.source.ServiceInstanceJVMCPU;
+import org.apache.skywalking.oap.server.core.source.*;
 
 /**
  * This class is auto generated. Please don't change this class manually.
@@ -40,6 +46,14 @@ public class ServiceInstanceJVMCPUDispatcher implements SourceDispatcher<Service
 <#list serviceInstanceJVMCPUIndicators as indicator>
     private void do${indicator.metricName}(ServiceInstanceJVMCPU source) {
         ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
+
+    <#if indicator.filterExpressions??>
+        <#list indicator.filterExpressions as filterExpression>
+        if (!new ${filterExpression.expressionObject}().setLeft(${filterExpression.left}).setRight(${filterExpression.right}).match()) {
+            return;
+        }
+        </#list>
+    </#if>
 
         indicator.setTimeBucket(source.getTimeBucket());
     <#list indicator.fieldsFromSource as field>

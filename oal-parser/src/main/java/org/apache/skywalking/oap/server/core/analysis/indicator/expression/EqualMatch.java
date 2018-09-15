@@ -16,17 +16,14 @@
  *
  */
 
-package org.apache.skywalking.oal.tool.parser;
+package org.apache.skywalking.oap.server.core.analysis.indicator.expression;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter(AccessLevel.PUBLIC)
-@Setter(AccessLevel.PUBLIC)
-public class ConditionExpression {
-    // original from script
-    private String expressionType;
-    private String attribute;
-    private String value;
+/**
+ *
+ * @author wusheng
+ */
+public class EqualMatch extends BinaryMatchExpression {
+    @Override public boolean match() {
+        return left == right;
+    }
 }

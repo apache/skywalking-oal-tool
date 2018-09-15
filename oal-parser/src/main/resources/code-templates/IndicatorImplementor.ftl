@@ -19,14 +19,24 @@
 package org.apache.skywalking.oap.server.core.analysis.generated.${packageName};
 
 import java.util.*;
+<#if (fieldsFromSource?size>0) >
 import lombok.*;
+</#if>
+<#list fieldsFromSource as sourceField>
+    <#if sourceField.isID()>
 import org.apache.skywalking.oap.server.core.Const;
+        <#break>
+    </#if>
+</#list>
+import org.apache.skywalking.oap.server.core.alarm.AlarmMeta;
+import org.apache.skywalking.oap.server.core.alarm.AlarmSupported;
 import org.apache.skywalking.oap.server.core.analysis.indicator.*;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.IndicatorType;
 import org.apache.skywalking.oap.server.core.remote.annotation.StreamData;
 import org.apache.skywalking.oap.server.core.remote.grpc.proto.RemoteData;
 import org.apache.skywalking.oap.server.core.storage.annotation.*;
 import org.apache.skywalking.oap.server.core.storage.StorageBuilder;
+import org.apache.skywalking.oap.server.core.source.Scope;
 
 /**
  * This class is auto generated. Please don't change this class manually.
@@ -36,17 +46,21 @@ import org.apache.skywalking.oap.server.core.storage.StorageBuilder;
 @IndicatorType
 @StreamData
 @StorageEntity(name = "${tableName}", builder = ${metricName}Indicator.Builder.class)
-public class ${metricName}Indicator extends ${indicatorClassName} {
+public class ${metricName}Indicator extends ${indicatorClassName} implements AlarmSupported {
 
 <#list fieldsFromSource as sourceField>
-    @Setter @Getter @Column(columnName = "${sourceField.columnName}") private ${sourceField.typeName} ${sourceField.fieldName};
+    @Setter @Getter @Column(columnName = "${sourceField.columnName}") <#if sourceField.isID()>@IDColumn</#if> private ${sourceField.typeName} ${sourceField.fieldName};
 </#list>
 
     @Override public String id() {
         String splitJointId = String.valueOf(getTimeBucket());
 <#list fieldsFromSource as sourceField>
     <#if sourceField.isID()>
+        <#if sourceField.getTypeName() == "String">
+        splitJointId += Const.ID_SPLIT + ${sourceField.fieldName};
+        <#else>
         splitJointId += Const.ID_SPLIT + String.valueOf(${sourceField.fieldName});
+        </#if>
     </#if>
 </#list>
         return splitJointId;
@@ -56,10 +70,29 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
         int result = 17;
 <#list fieldsFromSource as sourceField>
     <#if sourceField.isID()>
-        result = 31 * result + ${sourceField.fieldName};
+        <#if sourceField.getTypeName() == "String">
+        result = 31 * result + ${sourceField.fieldName}.hashCode();
+        <#else>
+        result += Const.ID_SPLIT + ${sourceField.fieldName};
+        </#if>
     </#if>
 </#list>
         result = 31 * result + (int)getTimeBucket();
+        return result;
+    }
+
+
+    @Override public int remoteHashCode() {
+        int result = 17;
+<#list fieldsFromSource as sourceField>
+    <#if sourceField.isID()>
+        <#if sourceField.getTypeName() == "String">
+        result = 31 * result + ${sourceField.fieldName}.hashCode();
+        <#else>
+        result += Const.ID_SPLIT + ${sourceField.fieldName};
+        </#if>
+    </#if>
+</#list>
         return result;
     }
 
@@ -75,9 +108,10 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
 <#list fieldsFromSource as sourceField>
     <#if sourceField.isID()>
         if (${sourceField.fieldName} != indicator.${sourceField.fieldName})
+            return false;
     </#if>
 </#list>
-            return false;
+
         if (getTimeBucket() != indicator.getTimeBucket())
             return false;
 
@@ -101,6 +135,9 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
 <#list serializeFields.intFields as field>
         remoteBuilder.setDataIntegers(${field?index}, ${field.getter}());
 </#list>
+<#list serializeFields.intLongValuePairListFields as field>
+        ${field.getter}().forEach(element -> remoteBuilder.addDataIntLongPairList(element.serialize()));
+</#list>
 
         return remoteBuilder;
     }
@@ -121,6 +158,57 @@ public class ${metricName}Indicator extends ${indicatorClassName} {
 <#list serializeFields.intFields as field>
         ${field.setter}(remoteData.getDataIntegers(${field?index}));
 </#list>
+
+<#list serializeFields.intLongValuePairListFields as field>
+        setDetailGroup(new ArrayList<>(30));
+        remoteData.getDataIntLongPairListList().forEach(element -> {
+            getDetailGroup().add(new IntKeyLongValue(element.getKey(), element.getValue()));
+        });
+</#list>
+
+    }
+
+    @Override public AlarmMeta getAlarmMeta() {
+        return new AlarmMeta("${varName}", Scope.${sourceName}<#if (fieldsFromSource?size>0) ><#list fieldsFromSource as field><#if field.isID()>, ${field.fieldName}</#if></#list></#if>);
+    }
+
+    @Override
+    public Indicator toHour() {
+        ${metricName}Indicator indicator = new ${metricName}Indicator();
+        indicator.setTimeBucket(toTimeBucketInHour());
+<#list fieldsFromSource as field>
+        indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+</#list>
+<#list persistentFields as field>
+        indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+</#list>
+        return indicator;
+    }
+
+    @Override
+    public Indicator toDay() {
+        ${metricName}Indicator indicator = new ${metricName}Indicator();
+        indicator.setTimeBucket(toTimeBucketInDay());
+<#list fieldsFromSource as field>
+        indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+</#list>
+<#list persistentFields as field>
+        indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+</#list>
+        return indicator;
+    }
+
+    @Override
+    public Indicator toMonth() {
+        ${metricName}Indicator indicator = new ${metricName}Indicator();
+        indicator.setTimeBucket(toTimeBucketInMonth());
+<#list fieldsFromSource as field>
+        indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+</#list>
+<#list persistentFields as field>
+        indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+</#list>
+        return indicator;
     }
 
     public static class Builder implements StorageBuilder<${metricName}Indicator> {

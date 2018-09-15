@@ -27,6 +27,8 @@ import lombok.Setter;
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PUBLIC)
 public class AnalysisResult {
+    private String varName;
+
     private String metricName;
 
     private String tableName;
@@ -43,7 +45,14 @@ public class AnalysisResult {
 
     private EntryMethod entryMethod;
 
+    private List<FilterExpression> filterExpressions;
+
+    private List<ConditionExpression> filterExpressionsParserResult;
+
     private List<ConditionExpression> funcConditionExpressions;
+
+    private List<String> funcArgs;
+    private int argGetIdx = 0;
 
     private List<DataColumn> persistentFields;
 
@@ -64,6 +73,31 @@ public class AnalysisResult {
             funcConditionExpressions = new LinkedList<>();
         }
         funcConditionExpressions.add(conditionExpression);
+    }
+
+    public void addFilterExpressions(FilterExpression filterExpression) {
+        if (filterExpressions == null) {
+            filterExpressions = new LinkedList<>();
+        }
+        filterExpressions.add(filterExpression);
+    }
+
+    public void addFilterExpressionsParserResult(ConditionExpression conditionExpression) {
+        if (filterExpressionsParserResult == null) {
+            filterExpressionsParserResult = new LinkedList<>();
+        }
+        filterExpressionsParserResult.add(conditionExpression);
+    }
+
+    public void addFuncArg(String value) {
+        if (funcArgs == null) {
+            funcArgs = new LinkedList<>();
+        }
+        funcArgs.add(value);
+    }
+
+    public String getNextFuncArg() {
+        return funcArgs.get(argGetIdx++);
     }
 
     public void generateSerializeFields() {
@@ -102,6 +136,9 @@ public class AnalysisResult {
                     break;
                 case "long":
                     serializeFields.addLongField(column.getFieldName());
+                    break;
+                case "List":
+                    serializeFields.addIntLongValuePairelistField(column.getFieldName());
                     break;
                 default:
                     throw new IllegalStateException("Unexpected field type [" + type + "] of persistence column [" + column.getFieldName() + "]");

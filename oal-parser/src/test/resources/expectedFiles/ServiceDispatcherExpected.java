@@ -20,7 +20,8 @@ package org.apache.skywalking.oap.server.core.analysis.generated.service;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
-import org.apache.skywalking.oap.server.core.source.Service;
+import org.apache.skywalking.oap.server.core.analysis.indicator.expression.*;
+import org.apache.skywalking.oap.server.core.source.*;
 
 /**
  * This class is auto generated. Please don't change this class manually.
@@ -36,9 +37,13 @@ public class ServiceDispatcher implements SourceDispatcher<Service> {
     private void doServiceAvg(Service source) {
         ServiceAvgIndicator indicator = new ServiceAvgIndicator();
 
+        if (!new EqualMatch().setLeft(source.getName()).setRight("/service/prod/save").match()) {
+            return;
+        }
+
         indicator.setTimeBucket(source.getTimeBucket());
-        indicator.setId(source.getId());
+        indicator.setEntityId(source.getEntityId());
         indicator.combine(source.getLatency(), 1);
-        avgAggregator.in(indicator);
+        IndicatorProcess.INSTANCE.in(indicator);
     }
 }

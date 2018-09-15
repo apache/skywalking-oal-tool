@@ -16,17 +16,32 @@
  *
  */
 
-package org.apache.skywalking.oal.tool.parser;
+package org.apache.skywalking.oap.server.core.analysis.indicator;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.*;
+import org.apache.skywalking.oap.server.core.storage.annotation.Column;
 
-@Getter(AccessLevel.PUBLIC)
-@Setter(AccessLevel.PUBLIC)
-public class ConditionExpression {
-    // original from script
-    private String expressionType;
-    private String attribute;
-    private String value;
+/**
+ * @author peng-yongsheng
+ */
+@IndicatorOperator
+public abstract class SumIndicator extends Indicator {
+
+    protected static final String VALUE = "value";
+
+    @Getter @Setter @Column(columnName = VALUE) private long value;
+
+    @Entrance
+    public final void combine(@ConstOne long count) {
+        this.value += count;
+    }
+
+    @Override public final void combine(Indicator indicator) {
+        SumIndicator sumIndicator = (SumIndicator)indicator;
+        combine(sumIndicator.value);
+    }
+
+    @Override public void calculate() {
+    }
 }

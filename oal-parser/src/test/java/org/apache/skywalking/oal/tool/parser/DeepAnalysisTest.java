@@ -70,4 +70,40 @@ public class DeepAnalysisTest {
         List<DataColumn> persistentFields = result.getPersistentFields();
         Assert.assertEquals(4, persistentFields.size());
     }
+
+    @Test
+    public void testFilterAnalysis(){
+        AnalysisResult result = new AnalysisResult();
+        result.setSourceName("Endpoint");
+        result.setPackageName("endpoint.endpointavg");
+        result.setSourceAttribute("latency");
+        result.setMetricName("EndpointAvg");
+        result.setAggregationFunctionName("longAvg");
+        ConditionExpression expression = new ConditionExpression();
+        expression.setExpressionType("stringMatch");
+        expression.setAttribute("name");
+        expression.setValue("\"/service/prod/save\"");
+        result.addFilterExpressionsParserResult(expression);
+
+        DeepAnalysis analysis = new DeepAnalysis();
+        result = analysis.analysis(result);
+
+        EntryMethod method = result.getEntryMethod();
+        Assert.assertEquals("combine", method.getMethodName());
+        Assert.assertEquals("source.getLatency()", method.getArgsExpressions().get(0));
+        Assert.assertEquals("1", method.getArgsExpressions().get(1));
+
+        List<SourceColumn> source = result.getFieldsFromSource();
+        Assert.assertEquals(3, source.size());
+
+        List<DataColumn> persistentFields = result.getPersistentFields();
+        Assert.assertEquals(4, persistentFields.size());
+
+        List<FilterExpression> filterExpressions = result.getFilterExpressions();
+        Assert.assertEquals(1, filterExpressions.size());
+        FilterExpression filterExpression = filterExpressions.get(0);
+        Assert.assertEquals("EqualMatch", filterExpression.getExpressionObject());
+        Assert.assertEquals("source.getName()", filterExpression.getLeft());
+        Assert.assertEquals("\"/service/prod/save\"", filterExpression.getRight());
+    }
 }

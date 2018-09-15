@@ -16,14 +16,15 @@
  *
  */
 
-package org.apache.skywalking.oap.server.core.analysis.indicator.expression;
+package org.apache.skywalking.oap.server.core.analysis.indicator;
 
 /**
+ * P90
  *
  * @author wusheng
  */
-public class BooleanBinaryMatch extends BinaryMatchExpression {
-    @Override public boolean match() {
-        return left == right;
+public abstract class P90Indicator extends PxxIndicator {
+    public P90Indicator() {
+        super(90);
     }
 }

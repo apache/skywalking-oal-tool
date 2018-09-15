@@ -19,10 +19,16 @@
 package org.apache.skywalking.oap.server.core.analysis.generated.service;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
-<#if (serviceIndicators?size>0) >
+<#if (serviceIndicators?size>0)>
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
+    <#list serviceIndicators as indicator>
+        <#if indicator.filterExpressions??>
+import org.apache.skywalking.oap.server.core.analysis.indicator.expression.*;
+            <#break>
+        </#if>
+    </#list>
 </#if>
-import org.apache.skywalking.oap.server.core.source.Service;
+import org.apache.skywalking.oap.server.core.source.*;
 
 /**
  * This class is auto generated. Please don't change this class manually.
@@ -41,12 +47,20 @@ public class ServiceDispatcher implements SourceDispatcher<Service> {
     private void do${indicator.metricName}(Service source) {
         ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
 
+    <#if indicator.filterExpressions??>
+        <#list indicator.filterExpressions as filterExpression>
+        if (!new ${filterExpression.expressionObject}().setLeft(${filterExpression.left}).setRight(${filterExpression.right}).match()) {
+            return;
+        }
+        </#list>
+    </#if>
+
         indicator.setTimeBucket(source.getTimeBucket());
     <#list indicator.fieldsFromSource as field>
         indicator.${field.fieldSetter}(source.${field.fieldGetter}());
     </#list>
         indicator.${indicator.entryMethod.methodName}(<#list indicator.entryMethod.argsExpressions as arg>${arg}<#if arg_has_next>, </#if></#list>);
-        avgAggregator.in(indicator);
+        IndicatorProcess.INSTANCE.in(indicator);
     }
 </#list>
 }

@@ -26,6 +26,7 @@ import java.util.List;
 import org.apache.skywalking.oal.tool.util.ClassMethodUtil;
 import org.apache.skywalking.oap.server.core.Indicators;
 import org.apache.skywalking.oap.server.core.analysis.indicator.Indicator;
+import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.Arg;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.ConstOne;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.Entrance;
 import org.apache.skywalking.oap.server.core.analysis.indicator.annotation.Expression;
@@ -41,13 +42,47 @@ public class DeepAnalysis {
         result.setPackageName(result.getSourceName().toLowerCase());
 
         Class<? extends Indicator> indicatorClass = Indicators.find(result.getAggregationFunctionName());
+        String indicatorClassSimpleName = indicatorClass.getSimpleName();
 
         // 2. Assert indicator class has IndicatorOperator annotation.
-        IndicatorOperator indicatorClassAnnotation = indicatorClass.getAnnotation(IndicatorOperator.class);
+        // 2. Assert indicator class has IndicatorOperator annotation.
+        IndicatorOperator indicatorClassAnnotation = null;
+        do {
+            indicatorClassAnnotation = indicatorClass.getAnnotation(IndicatorOperator.class);
+            if (indicatorClassAnnotation == null) {
+                indicatorClass = (Class<? extends Indicator>)indicatorClass.getSuperclass();
+                if (indicatorClass.equals(Indicator.class)) {
+                    break;
+                }
+            }
+        }
+        while (indicatorClassAnnotation == null);
+
         if (indicatorClassAnnotation == null) {
             throw new IllegalArgumentException("Can't find IndicatorOperator in class: " + indicatorClass.getName());
         }
-        result.setIndicatorClassName(indicatorClass.getSimpleName());
+        result.setIndicatorClassName(indicatorClassSimpleName);
+
+        // Optional for filter
+        List<ConditionExpression> expressions = result.getFilterExpressionsParserResult();
+        if (expressions != null && expressions.size() > 0) {
+            for (ConditionExpression expression : expressions) {
+                FilterExpression filterExpression = new FilterExpression();
+                if ("booleanMatch".equals(expression.getExpressionType())) {
+                    filterExpression.setExpressionObject("EqualMatch");
+                    filterExpression.setLeft("source." + ClassMethodUtil.toIsMethod(expression.getAttribute()) + "()");
+                    filterExpression.setRight(expression.getValue());
+                    result.addFilterExpressions(filterExpression);
+                } else if ("stringMatch".equals(expression.getExpressionType())) {
+                    filterExpression.setExpressionObject("EqualMatch");
+                    filterExpression.setLeft("source." + ClassMethodUtil.toGetMethod(expression.getAttribute()) + "()");
+                    filterExpression.setRight(expression.getValue());
+                    result.addFilterExpressions(filterExpression);
+                } else {
+                    throw new IllegalArgumentException("filter expression [" + expression.getExpressionType() + "] not found");
+                }
+            }
+        }
 
         // 3. Find Entrance method of this indicator
         Class c = indicatorClass;
@@ -88,6 +123,8 @@ public class DeepAnalysis {
                     ConditionExpression conditionExpression = result.getFuncConditionExpressions().get(0);
                     if ("booleanMatch".equals(conditionExpression.getExpressionType())) {
                         entryMethod.addArg("source." + ClassMethodUtil.toIsMethod(conditionExpression.getAttribute()) + "()");
+                    } else if ("stringMatch".equals(conditionExpression.getExpressionType())) {
+                        entryMethod.addArg("source." + ClassMethodUtil.toGetMethod(conditionExpression.getAttribute()) + "()");
                     } else {
                         throw new IllegalArgumentException("Entrance method:" + entranceMethod + " argument has @ExpressionArg0, but expression type is not supported");
                     }
@@ -101,6 +138,8 @@ public class DeepAnalysis {
                 } else {
                     throw new IllegalArgumentException("Entrance method:" + entranceMethod + " argument has @ExpressionArg0, but can't find funcParamExpression.");
                 }
+            } else if (annotation instanceof Arg) {
+                entryMethod.addArg(result.getNextFuncArg());
             } else {
                 throw new IllegalArgumentException("Entrance method:" + entranceMethod + " doesn't the expected annotation.");
             }

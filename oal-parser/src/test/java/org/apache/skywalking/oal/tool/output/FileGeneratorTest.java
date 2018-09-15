@@ -22,11 +22,14 @@ import freemarker.template.TemplateException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.skywalking.oal.tool.parser.AnalysisResult;
+import org.apache.skywalking.oal.tool.parser.ConditionExpression;
 import org.apache.skywalking.oal.tool.parser.EntryMethod;
+import org.apache.skywalking.oal.tool.parser.FilterExpression;
 import org.apache.skywalking.oal.tool.parser.SourceColumnsFactory;
 import org.junit.Assert;
 import org.junit.Test;
@@ -34,6 +37,7 @@ import org.junit.Test;
 public class FileGeneratorTest {
     private AnalysisResult buildResult() {
         AnalysisResult result = new AnalysisResult();
+        result.setVarName("generate_indicator");
         result.setSourceName("Service");
         result.setPackageName("service.serviceavg");
         result.setTableName("service_avg");
@@ -41,6 +45,13 @@ public class FileGeneratorTest {
         result.setMetricName("ServiceAvg");
         result.setAggregationFunctionName("avg");
         result.setIndicatorClassName("LongAvgIndicator");
+
+        FilterExpression expression = new FilterExpression();
+        expression.setExpressionObject("EqualMatch");
+        expression.setLeft("source.getName()");
+        expression.setRight("\"/service/prod/save\"");
+        result.addFilterExpressions(expression);
+
         EntryMethod method = new EntryMethod();
         method.setMethodName("combine");
         method.setArgsExpressions(new LinkedList<>());
@@ -70,7 +81,7 @@ public class FileGeneratorTest {
         fileGenerator.generateIndicatorImplementor(result, writer);
         Assert.assertEquals(readExpectedFile("IndicatorImplementorExpected.java"), writer.toString());
 
-        //fileGenerator.generateIndicatorImplementor(result, new OutputStreamWriter(System.out));
+        // fileGenerator.generateIndicatorImplementor(result, new OutputStreamWriter(System.out));
     }
 
     @Test

@@ -40,11 +40,11 @@ SRC_SERVICE_INSTANCE_JVM_GC: 'ServiceInstanceJVMGC';
 
 // Literals
 
-DECIMAL_LITERAL:    ('0' | [1-9] (Digits? | '_'+ Digits)) [lL]?;
-
 BOOL_LITERAL:       'true'
             |       'false'
             ;
+
+INT_LITERAL :   Digits+;
 
 CHAR_LITERAL:       '\'' (~['\\\r\n] | EscapeSequence) '\'';
 

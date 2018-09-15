@@ -19,10 +19,16 @@
 package org.apache.skywalking.oap.server.core.analysis.generated.serviceinstancejvmmemory;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
-<#if (serviceInstanceJVMMemoryIndicators?size>0) >
+<#if (serviceInstanceJVMMemoryIndicators?size>0)>
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
+    <#list serviceInstanceJVMMemoryIndicators as indicator>
+        <#if indicator.filterExpressions??>
+import org.apache.skywalking.oap.server.core.analysis.indicator.expression.*;
+            <#break>
+        </#if>
+    </#list>
 </#if>
-import org.apache.skywalking.oap.server.core.source.ServiceInstanceJVMMemory;
+import org.apache.skywalking.oap.server.core.source.*;
 
 /**
  * This class is auto generated. Please don't change this class manually.
@@ -40,6 +46,17 @@ public class ServiceInstanceJVMMemoryDispatcher implements SourceDispatcher<Serv
 <#list serviceInstanceJVMMemoryIndicators as indicator>
     private void do${indicator.metricName}(ServiceInstanceJVMMemory source) {
         ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
+<<<<<<< HEAD
+=======
+
+    <#if indicator.filterExpressions??>
+        <#list indicator.filterExpressions as filterExpression>
+        if (!new ${filterExpression.expressionObject}().setLeft(${filterExpression.left}).setRight(${filterExpression.right}).match()) {
+            return;
+        }
+        </#list>
+    </#if>
+>>>>>>> ec8e105709a1377c62448cafe9049e79959827f1
 
         indicator.setTimeBucket(source.getTimeBucket());
     <#list indicator.fieldsFromSource as field>

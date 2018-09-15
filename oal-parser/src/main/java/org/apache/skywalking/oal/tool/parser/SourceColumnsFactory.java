@@ -18,24 +18,25 @@
 
 package org.apache.skywalking.oal.tool.parser;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class SourceColumnsFactory {
     public static List<SourceColumn> getColumns(String source) {
         List<SourceColumn> columnList;
         SourceColumn idColumn;
         switch (source) {
+            case "All":
+                return new LinkedList<>();
             case "Service":
                 columnList = new LinkedList<>();
                 // Service id;
-                idColumn = new SourceColumn("id", "id", int.class, true);
+                idColumn = new SourceColumn("entityId", "entity_id", String.class, true);
                 columnList.add(idColumn);
                 return columnList;
             case "ServiceInstance":
                 columnList = new LinkedList<>();
                 // Service instance id;
-                idColumn = new SourceColumn("id", "id", int.class, true);
+                idColumn = new SourceColumn("entityId", "entity_id", String.class, true);
                 columnList.add(idColumn);
                 SourceColumn serviceIdColumn = new SourceColumn("serviceId", "service_id", int.class, false);
                 columnList.add(serviceIdColumn);
@@ -43,7 +44,7 @@ public class SourceColumnsFactory {
             case "Endpoint":
                 columnList = new LinkedList<>();
                 // Endpoint id;
-                idColumn = new SourceColumn("id", "id", int.class, true);
+                idColumn = new SourceColumn("entityId", "entity_id", String.class, true);
                 columnList.add(idColumn);
                 serviceIdColumn = new SourceColumn("serviceId", "service_id", int.class, false);
                 columnList.add(serviceIdColumn);
@@ -56,43 +57,39 @@ public class SourceColumnsFactory {
             case "ServiceInstanceJVMGC":
                 columnList = new LinkedList<>();
                 // Service instance id;
-                idColumn = new SourceColumn("id", "id", int.class, true);
+                idColumn = new SourceColumn("entityId", "entity_id", String.class, true);
                 columnList.add(idColumn);
                 serviceInstanceIdColumn = new SourceColumn("serviceInstanceId", "service_instance_id", int.class, false);
                 columnList.add(serviceInstanceIdColumn);
                 return columnList;
             case "ServiceRelation":
                 columnList = new LinkedList<>();
-                idColumn = new SourceColumn("id", "id", int.class, true);
-                columnList.add(idColumn);
-                SourceColumn sourceService = new SourceColumn("sourceServiceId", "source_service_id", int.class, false);
+                SourceColumn sourceService = new SourceColumn("entityId", "source_service_id", String.class, true);
                 columnList.add(sourceService);
-                SourceColumn destService = new SourceColumn("destServiceId", "dest_service_id", int.class, false);
-                columnList.add(destService);
+                return columnList;
             case "ServiceInstanceRelation":
                 columnList = new LinkedList<>();
-                idColumn = new SourceColumn("id", "id", int.class, true);
-                columnList.add(idColumn);
+                sourceService = new SourceColumn("entityId", "entity_id", String.class, true);
+                columnList.add(sourceService);
                 sourceService = new SourceColumn("sourceServiceId", "source_service_id", int.class, false);
                 columnList.add(sourceService);
-                destService = new SourceColumn("destServiceId", "dest_service_id", int.class, false);
+                SourceColumn destService = new SourceColumn("destServiceId", "destServiceId", int.class, false);
                 columnList.add(destService);
-                SourceColumn sourceServiceInstance = new SourceColumn("sourceServiceInstanceId", "source_service_instance_id", int.class, false);
-                columnList.add(sourceServiceInstance);
-                SourceColumn destServiceInstance = new SourceColumn("destServiceInstanceId", "dest_service_instance_id", int.class, false);
-                columnList.add(destServiceInstance);
+
+                return columnList;
             case "EndpointRelation":
                 columnList = new LinkedList<>();
-                idColumn = new SourceColumn("id", "id", int.class, true);
-                columnList.add(idColumn);
-                sourceService = new SourceColumn("sourceServiceId", "source_service_id", int.class, false);
+                SourceColumn sourceEndpointColumn = new SourceColumn("entityId", "entity_id", String.class, true);
+                columnList.add(sourceEndpointColumn);
+                sourceService = new SourceColumn("serviceId", "service_id", int.class, false);
                 columnList.add(sourceService);
-                destService = new SourceColumn("destServiceId", "dest_service_id", int.class, false);
+                destService = new SourceColumn("childServiceId", "child_service_id", int.class, false);
                 columnList.add(destService);
-                sourceServiceInstance = new SourceColumn("sourceServiceInstanceId", "source_service_instance_id", int.class, false);
+                SourceColumn sourceServiceInstance = new SourceColumn("serviceInstanceId", "service_instance_id", int.class, false);
                 columnList.add(sourceServiceInstance);
-                destServiceInstance = new SourceColumn("destServiceInstanceId", "dest_service_instance_id", int.class, false);
+                SourceColumn destServiceInstance = new SourceColumn("childServiceInstanceId", "child_service_instance_id", int.class, false);
                 columnList.add(destServiceInstance);
+                return columnList;
             default:
                 throw new IllegalArgumentException("Illegal source :" + source);
         }

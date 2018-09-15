@@ -16,12 +16,12 @@
  *
  */
 
-package org.apache.skywalking.oap.server.core.analysis.generated.endpoint;
+package org.apache.skywalking.oap.server.core.analysis.generated.all;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
-<#if (endpointIndicators?size>0)>
+<#if (allIndicators?size>0)>
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
-    <#list endpointIndicators as indicator>
+    <#list allIndicators as indicator>
         <#if indicator.filterExpressions??>
 import org.apache.skywalking.oap.server.core.analysis.indicator.expression.*;
             <#break>
@@ -35,16 +35,16 @@ import org.apache.skywalking.oap.server.core.source.*;
  *
  * @author Observability Analysis Language code generator
  */
-public class EndpointDispatcher implements SourceDispatcher<Endpoint> {
+public class AllDispatcher implements SourceDispatcher<All> {
 
-    @Override public void dispatch(Endpoint source) {
-<#list endpointIndicators as indicator>
+    @Override public void dispatch(All source) {
+<#list allIndicators as indicator>
         do${indicator.metricName}(source);
 </#list>
     }
 
-<#list endpointIndicators as indicator>
-    private void do${indicator.metricName}(Endpoint source) {
+<#list allIndicators as indicator>
+    private void do${indicator.metricName}(All source) {
         ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
 
     <#if indicator.filterExpressions??>
@@ -62,6 +62,5 @@ public class EndpointDispatcher implements SourceDispatcher<Endpoint> {
         indicator.${indicator.entryMethod.methodName}(<#list indicator.entryMethod.argsExpressions as arg>${arg}<#if arg_has_next>, </#if></#list>);
         IndicatorProcess.INSTANCE.in(indicator);
     }
-
 </#list>
 }

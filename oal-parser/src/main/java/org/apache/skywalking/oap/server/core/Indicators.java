@@ -18,12 +18,8 @@
 
 package org.apache.skywalking.oap.server.core;
 
-import java.util.HashMap;
-import java.util.Map;
-import org.apache.skywalking.oap.server.core.analysis.indicator.DoubleAvgIndicator;
-import org.apache.skywalking.oap.server.core.analysis.indicator.LongAvgIndicator;
-import org.apache.skywalking.oap.server.core.analysis.indicator.Indicator;
-import org.apache.skywalking.oap.server.core.analysis.indicator.PercentIndicator;
+import java.util.*;
+import org.apache.skywalking.oap.server.core.analysis.indicator.*;
 
 public class Indicators {
     private static Map<String, Class<? extends Indicator>> REGISTER = new HashMap<>();
@@ -32,6 +28,13 @@ public class Indicators {
         REGISTER.put("longAvg", LongAvgIndicator.class);
         REGISTER.put("doubleAvg", DoubleAvgIndicator.class);
         REGISTER.put("percent", PercentIndicator.class);
+        REGISTER.put("sum", SumIndicator.class);
+        REGISTER.put("p99", P99Indicator.class);
+        REGISTER.put("p95", P95Indicator.class);
+        REGISTER.put("p90", P90Indicator.class);
+        REGISTER.put("p75", P75Indicator.class);
+        REGISTER.put("p50", P50Indicator.class);
+        REGISTER.put("thermodynamic", ThermodynamicIndicator.class);
     }
 
     public static Class<? extends Indicator> find(String functionName) {
