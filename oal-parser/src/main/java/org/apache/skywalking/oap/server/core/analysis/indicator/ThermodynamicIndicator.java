@@ -18,9 +18,7 @@
 
 package org.apache.skywalking.oap.server.core.analysis.indicator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,7 +46,7 @@ public abstract class ThermodynamicIndicator extends Indicator {
 
     @Getter @Setter @Column(columnName = STEP) private int step = 0;
     @Getter @Setter @Column(columnName = NUM_OF_STEPS) private int numOfSteps = 0;
-    @Getter @Setter @Column(columnName = DETAIL_GROUP) private List<IntKeyLongValue> detailGroup = new ArrayList<>(30);
+    @Getter @Setter @Column(columnName = DETAIL_GROUP) private IntKeyLongValueArray detailGroup = new IntKeyLongValueArray(30);
 
     private Map<Integer, IntKeyLongValue> detailIndex;
 
