@@ -16,12 +16,12 @@
  *
  */
 
-package org.apache.skywalking.oap.server.core.analysis.generated.serviceinstancejvmmemory;
+package org.apache.skywalking.oap.server.core.analysis.generated.serviceinstancejvmgc;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
-<#if (serviceInstanceJVMMemoryIndicators?size>0)>
+<#if (serviceInstanceJVMGCIndicators?size>0)>
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
-    <#list serviceInstanceJVMMemoryIndicators as indicator>
+    <#list serviceInstanceJVMGCIndicators as indicator>
         <#if indicator.filterExpressions??>
 import org.apache.skywalking.oap.server.core.analysis.indicator.expression.*;
             <#break>
@@ -35,16 +35,16 @@ import org.apache.skywalking.oap.server.core.source.*;
  *
  * @author Observability Analysis Language code generator
  */
-public class ServiceInstanceJVMMemoryDispatcher implements SourceDispatcher<ServiceInstanceJVMMemory> {
+public class ServiceInstanceJVMGCDispatcher implements SourceDispatcher<ServiceInstanceJVMGC> {
 
-    @Override public void dispatch(ServiceInstanceJVMMemory source) {
-<#list serviceInstanceJVMMemoryIndicators as indicator>
+    @Override public void dispatch(ServiceInstanceJVMGC source) {
+<#list serviceInstanceJVMGCIndicators as indicator>
         do${indicator.metricName}(source);
 </#list>
     }
 
-<#list serviceInstanceJVMMemoryIndicators as indicator>
-    private void do${indicator.metricName}(ServiceInstanceJVMMemory source) {
+<#list serviceInstanceJVMGCIndicators as indicator>
+    private void do${indicator.metricName}(ServiceInstanceJVMGC source) {
     ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
 
     <#if indicator.filterExpressions??>
