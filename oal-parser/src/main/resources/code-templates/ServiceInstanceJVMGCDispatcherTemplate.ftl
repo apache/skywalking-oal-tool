@@ -16,12 +16,12 @@
  *
  */
 
-package org.apache.skywalking.oap.server.core.analysis.generated.serviceinstancejvmgc;
+package org.apache.skywalking.oap.server.core.analysis.generated.serviceinstancejvmmemory;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
-<#if (serviceInstanceJVMGCIndicators?size>0)>
+<#if (serviceInstanceJVMMemoryIndicators?size>0)>
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
-    <#list serviceInstanceJVMGCIndicators as indicator>
+    <#list serviceInstanceJVMMemoryIndicators as indicator>
         <#if indicator.filterExpressions??>
 import org.apache.skywalking.oap.server.core.analysis.indicator.expression.*;
             <#break>
@@ -35,19 +35,17 @@ import org.apache.skywalking.oap.server.core.source.*;
  *
  * @author Observability Analysis Language code generator
  */
-public class ServiceInstanceJVMGCDispatcher implements SourceDispatcher<ServiceInstanceJVMGC> {
+public class ServiceInstanceJVMMemoryDispatcher implements SourceDispatcher<ServiceInstanceJVMMemory> {
 
-    @Override public void dispatch(ServiceInstanceJVMGC source) {
-<#list serviceInstanceJVMGCIndicators as indicator>
+    @Override public void dispatch(ServiceInstanceJVMMemory source) {
+<#list serviceInstanceJVMMemoryIndicators as indicator>
         do${indicator.metricName}(source);
 </#list>
     }
 
-<#list serviceInstanceJVMGCIndicators as indicator>
-    private void do${indicator.metricName}(ServiceInstanceJVMGC source) {
-        ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
-<<<<<<< HEAD
-=======
+<#list serviceInstanceJVMMemoryIndicators as indicator>
+    private void do${indicator.metricName}(ServiceInstanceJVMMemory source) {
+    ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
 
     <#if indicator.filterExpressions??>
         <#list indicator.filterExpressions as filterExpression>
@@ -56,7 +54,6 @@ public class ServiceInstanceJVMGCDispatcher implements SourceDispatcher<ServiceI
         }
         </#list>
     </#if>
->>>>>>> ec8e105709a1377c62448cafe9049e79959827f1
 
         indicator.setTimeBucket(source.getTimeBucket());
     <#list indicator.fieldsFromSource as field>
