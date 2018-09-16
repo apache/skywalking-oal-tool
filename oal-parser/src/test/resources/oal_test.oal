@@ -16,40 +16,57 @@
  *
  */
 
-All_p99 = from(All.latency).p99(10);
-All_p95 = from(All.latency).p95(10);
-All_p90 = from(All.latency).p90(10);
-All_p75 = from(All.latency).p75(10);
-All_p50 = from(All.latency).p50(10);
+// All scope metric
+all_p99 = from(All.latency).p99(10);
+all_p95 = from(All.latency).p95(10);
+all_p90 = from(All.latency).p90(10);
+all_p75 = from(All.latency).p75(10);
+all_p50 = from(All.latency).p50(10);
+all_heatmap = from(All.latency).thermodynamic(100, 20);
 
-All_heatmap = from(All.latency).thermodynamic(100, 20);
+// Service scope metric
+service_resp_time = from(Service.latency).longAvg();
+service_sla = from(Service.*).percent(status == true);
+service_cpm = from(Service.*).cpm();
+service_p99 = from(Service.latency).p99(10);
+service_p95 = from(Service.latency).p95(10);
+service_p90 = from(Service.latency).p90(10);
+service_p75 = from(Service.latency).p75(10);
+service_p50 = from(Service.latency).p50(10);
 
-Service_Avg = from(Service.latency).longAvg();
+// Service relation scope metric for topology
+service_relation_client_cpm = from(ServiceRelation.*).filter(detectPoint == DetectPoint.CLIENT).cpm();
+service_relation_server_cpm = from(ServiceRelation.*).filter(detectPoint == DetectPoint.SERVER).cpm();
+service_relation_client_call_sla = from(ServiceRelation.*).filter(detectPoint == DetectPoint.CLIENT).percent(status == true);
+service_relation_server_call_sla = from(ServiceRelation.*).filter(detectPoint == DetectPoint.SERVER).percent(status == true);
+service_relation_client_resp_time = from(ServiceRelation.latency).filter(detectPoint == DetectPoint.CLIENT).longAvg();
+service_relation_server_resp_time = from(ServiceRelation.latency).filter(detectPoint == DetectPoint.SERVER).longAvg();
 
-ServiceInstance_RespTime= from(ServiceInstance.latency).longAvg();
+// Service Instance Scope metric
+serviceInstance_resp_time= from(ServiceInstance.latency).longAvg();
+service_instance_cpm = from(ServiceInstance.*).cpm();
 
-Service_Calls_Sum = from(Service.*).sum();
-
-Service_Relation_Client_Calls_Sum = from(ServiceRelation.*).filter(detectPoint == DetectPoint.CLIENT).sum();
-
-Service_Relation_Server_Calls_Sum = from(ServiceRelation.*).filter(detectPoint == DetectPoint.SERVER).sum();
-
+// Endpoint scope metric
 endpoint_Avg = from(Endpoint.latency).longAvg();
+endpoint_sla = from(Endpoint.*).percent(status == true);
+endpoint_p99 = from(Endpoint.latency).p99(10);
+endpoint_p95 = from(Endpoint.latency).p95(10);
+endpoint_p90 = from(Endpoint.latency).p90(10);
+endpoint_p75 = from(Endpoint.latency).p75(10);
+endpoint_p50 = from(Endpoint.latency).p50(10);
+
+// Endpoint relation scope metric
+endpoint_relation_cpm = from(EndpointRelation.*).filter(detectPoint == DetectPoint.SERVER).cpm();
+endpoint_relation_resp_time = from(EndpointRelation.rpcLatency).filter(detectPoint == DetectPoint.SERVER).longAvg();
+
+// JVM instance metric
+instance_jvm_cpu = from(ServiceInstanceJVMCPU.usePercent).doubleAvg();
+instance_jvm_memory_heap = from(ServiceInstanceJVMMemory.max).filter(isHeap == true).longAvg();
+instance_jvm_memory_noheap = from(ServiceInstanceJVMMemory.max).filter(isHeap == false).longAvg();
+instance_jvm_young_gc_time = from(ServiceInstanceJVMGC.time).filter(phrase == GCPhrase.NEW).longAvg();
+instance_jvm_old_gc_time = from(ServiceInstanceJVMGC.time).filter(phrase == GCPhrase.OLD).longAvg();
+instance_jvm_young_gc_count = from(ServiceInstanceJVMGC.count).filter(phrase == GCPhrase.NEW).sum();
+instance_jvm_old_gc_count = from(ServiceInstanceJVMGC.count).filter(phrase == GCPhrase.OLD).sum();
+
 
 // endpoint_Avg_for_prod_serv = from(Endpoint.latency).filter(name == "/product/service").longAvg();
-
-endpoint_percent = from(Endpoint.*).percent(status == true);
-
-ServiceRelation_Avg = from(ServiceRelation.latency).longAvg();
-
-ServiceInstanceRelation_Avg = from(ServiceInstanceRelation.latency).longAvg();
-
-EndpointRelation_Avg = from(EndpointRelation.rpcLatency).longAvg();
-
-instance_jvm_cpu = from(ServiceInstanceJVMCPU.usePercent).doubleAvg();
-
-instance_jvm_memory_max = from(ServiceInstanceJVMMemory.max).longAvg();
-
-instance_jvm_memory_pool_max = from(ServiceInstanceJVMMemoryPool.max).longAvg();
-
-instance_jvm_young_gc_time = from(ServiceInstanceJVMGC.time).filter(phrase == GCPhrase.NEW).longAvg();
