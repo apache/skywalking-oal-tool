@@ -61,8 +61,8 @@ endpoint_relation_resp_time = from(EndpointRelation.rpcLatency).filter(detectPoi
 
 // JVM instance metric
 instance_jvm_cpu = from(ServiceInstanceJVMCPU.usePercent).doubleAvg();
-instance_jvm_memory_heap = from(ServiceInstanceJVMMemory.max).filter(isHeap == true).longAvg();
-instance_jvm_memory_noheap = from(ServiceInstanceJVMMemory.max).filter(isHeap == false).longAvg();
+instance_jvm_memory_heap = from(ServiceInstanceJVMMemory.max).filter(heapStatus == true).longAvg();
+instance_jvm_memory_noheap = from(ServiceInstanceJVMMemory.max).filter(heapStatus == false).longAvg();
 instance_jvm_young_gc_time = from(ServiceInstanceJVMGC.time).filter(phrase == GCPhrase.NEW).longAvg();
 instance_jvm_old_gc_time = from(ServiceInstanceJVMGC.time).filter(phrase == GCPhrase.OLD).longAvg();
 instance_jvm_young_gc_count = from(ServiceInstanceJVMGC.count).filter(phrase == GCPhrase.NEW).sum();

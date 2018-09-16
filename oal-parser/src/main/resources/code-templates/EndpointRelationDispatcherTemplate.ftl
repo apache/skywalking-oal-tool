@@ -19,9 +19,9 @@
 package org.apache.skywalking.oap.server.core.analysis.generated.endpointrelation;
 
 import org.apache.skywalking.oap.server.core.analysis.SourceDispatcher;
-<#if (serviceInstanceRelationIndicators?size>0)>
+<#if (endpointRelationIndicators?size>0)>
 import org.apache.skywalking.oap.server.core.analysis.worker.IndicatorProcess;
-    <#list serviceInstanceRelationIndicators as indicator>
+    <#list endpointRelationIndicators as indicator>
         <#if indicator.filterExpressions??>
 import org.apache.skywalking.oap.server.core.analysis.indicator.expression.*;
             <#break>

@@ -160,7 +160,7 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
 </#list>
 
 <#list serializeFields.intLongValuePairListFields as field>
-        setDetailGroup(new ArrayList<>(30));
+        setDetailGroup(new IntKeyLongValueArray(30));
         remoteData.getDataIntLongPairListList().forEach(element -> {
             getDetailGroup().add(new IntKeyLongValue(element.getKey(), element.getValue()));
         });
