@@ -18,40 +18,18 @@
 
 package org.apache.skywalking.oap.server.core.analysis.indicator;
 
-import java.util.Objects;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.ArrayList;
 
 /**
- * IntKeyLongValue is a common bean, with key in Int and value in Long
- *
- * @author wusheng, peng-yongsheng
+ * @author peng-yongsheng
  */
-@Setter
-@Getter
-public class IntKeyLongValue implements Comparable<IntKeyLongValue>{
-    private int key;
-    private long value;
+public class IntKeyLongValueArray extends ArrayList<IntKeyLongValue> {
 
-    public void addValue(long value) {
-        this.value += value;
+    public IntKeyLongValueArray(int initialCapacity) {
+        super(initialCapacity);
     }
 
-    @Override
-    public int compareTo(IntKeyLongValue o) {
-        return key - o.key;
-    }
-
-    @Override public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        IntKeyLongValue value = (IntKeyLongValue)o;
-        return key == value.key;
-    }
-
-    @Override public int hashCode() {
-        return Objects.hash(key);
+    public IntKeyLongValueArray() {
+        super();
     }
 }

@@ -46,6 +46,8 @@ public class ServiceInstanceJVMMemoryPoolDispatcher implements SourceDispatcher<
 <#list serviceInstanceJVMMemoryPoolIndicators as indicator>
     private void do${indicator.metricName}(ServiceInstanceJVMMemoryPool source) {
         ${indicator.metricName}Indicator indicator = new ${indicator.metricName}Indicator();
+<<<<<<< HEAD
+=======
 
     <#if indicator.filterExpressions??>
         <#list indicator.filterExpressions as filterExpression>
@@ -54,6 +56,7 @@ public class ServiceInstanceJVMMemoryPoolDispatcher implements SourceDispatcher<
         }
         </#list>
     </#if>
+>>>>>>> ec8e105709a1377c62448cafe9049e79959827f1
 
         indicator.setTimeBucket(source.getTimeBucket());
     <#list indicator.fieldsFromSource as field>
