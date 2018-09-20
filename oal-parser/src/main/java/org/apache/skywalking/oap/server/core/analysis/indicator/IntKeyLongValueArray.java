@@ -29,7 +29,7 @@ public class IntKeyLongValueArray extends ArrayList<IntKeyLongValue> {
         super(initialCapacity);
     }
 
-    public IntKeyLongValueArray() {
+    public IntKeyLongValueArray(String data) {
         super();
     }
 }
