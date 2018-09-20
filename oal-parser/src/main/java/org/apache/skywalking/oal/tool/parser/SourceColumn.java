@@ -38,7 +38,7 @@ public class SourceColumn {
         this.fieldName = fieldName;
         this.columnName = columnName;
         this.type = type;
-        this.typeName = type.getSimpleName();
+        this.typeName = type.getName();
         this.isID = isID;
 
         this.fieldGetter = ClassMethodUtil.toGetMethod(fieldName);

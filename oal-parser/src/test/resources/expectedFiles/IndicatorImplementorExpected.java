@@ -41,7 +41,7 @@ import org.apache.skywalking.oap.server.core.source.Scope;
 @StorageEntity(name = "service_avg", builder = ServiceAvgIndicator.Builder.class)
 public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSupported {
 
-    @Setter @Getter @Column(columnName = "entity_id") @IDColumn private String entityId;
+    @Setter @Getter @Column(columnName = "entity_id") @IDColumn private java.lang.String entityId;
 
     @Override public String id() {
         String splitJointId = String.valueOf(getTimeBucket());
@@ -173,7 +173,7 @@ public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSuppor
             indicator.setCount(((Number)dbMap.get("count")).intValue());
             indicator.setValue(((Number)dbMap.get("value")).longValue());
             indicator.setTimeBucket(((Number)dbMap.get("time_bucket")).longValue());
-            indicator.setStringField((java.lang.String)dbMap.get("string_field"));
+            indicator.setStringField((String)dbMap.get("string_field"));
             return indicator;
         }
     }

@@ -56,7 +56,7 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
         String splitJointId = String.valueOf(getTimeBucket());
 <#list fieldsFromSource as sourceField>
     <#if sourceField.isID()>
-        <#if sourceField.getTypeName() == "String">
+        <#if sourceField.getTypeName() == "java.lang.String">
         splitJointId += Const.ID_SPLIT + ${sourceField.fieldName};
         <#else>
         splitJointId += Const.ID_SPLIT + String.valueOf(${sourceField.fieldName});
@@ -70,7 +70,7 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
         int result = 17;
 <#list fieldsFromSource as sourceField>
     <#if sourceField.isID()>
-        <#if sourceField.getTypeName() == "String">
+        <#if sourceField.getTypeName() == "java.lang.String">
         result = 31 * result + ${sourceField.fieldName}.hashCode();
         <#else>
         result += Const.ID_SPLIT + ${sourceField.fieldName};
@@ -86,7 +86,7 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
         int result = 17;
 <#list fieldsFromSource as sourceField>
     <#if sourceField.isID()>
-        <#if sourceField.getTypeName() == "String">
+        <#if sourceField.getTypeName() == "java.lang.String">
         result = 31 * result + ${sourceField.fieldName}.hashCode();
         <#else>
         result += Const.ID_SPLIT + ${sourceField.fieldName};
@@ -229,8 +229,8 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
     <#list fieldsFromSource as field>
         <#if field.typeName == "long" || field.typeName == "int" || field.typeName == "double" || field.typeName == "float">
             indicator.${field.fieldSetter}(((Number)dbMap.get("${field.columnName}")).${field.typeName}Value());
-        <#elseif field.typeName == "java.lang.String" || field.typeName == "String">
-            indicator.${field.fieldSetter}((${field.typeName})dbMap.get("${field.columnName}"));
+        <#elseif field.typeName == "java.lang.String">
+            indicator.${field.fieldSetter}((String)dbMap.get("${field.columnName}"));
         <#else>
             indicator.${field.fieldSetter}(new ${field.typeName}((String)dbMap.get("${field.columnName}")));
         </#if>
@@ -238,8 +238,8 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
     <#list persistentFields as field>
         <#if field.typeName == "long" || field.typeName == "int" || field.typeName == "double" || field.typeName == "float">
             indicator.${field.fieldSetter}(((Number)dbMap.get("${field.columnName}")).${field.typeName}Value());
-        <#elseif field.typeName == "java.lang.String" || field.typeName == "String">
-            indicator.${field.fieldSetter}((${field.typeName})dbMap.get("${field.columnName}"));
+        <#elseif field.typeName == "java.lang.String">
+            indicator.${field.fieldSetter}((String)dbMap.get("${field.columnName}"));
         <#else>
             indicator.${field.fieldSetter}(new ${field.typeName}((String)dbMap.get("${field.columnName}")));
         </#if>
