@@ -229,7 +229,7 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
     <#list fieldsFromSource as field>
         <#if field.typeName == "long" || field.typeName == "int" || field.typeName == "double" || field.typeName == "float">
             indicator.${field.fieldSetter}(((Number)dbMap.get("${field.columnName}")).${field.typeName}Value());
-        <#elseif field.typeName == "String">
+        <#elseif field.typeName == "java.lang.String" || field.typeName == "String">
             indicator.${field.fieldSetter}((${field.typeName})dbMap.get("${field.columnName}"));
         <#else>
             indicator.${field.fieldSetter}(new ${field.typeName}((String)dbMap.get("${field.columnName}")));
@@ -238,7 +238,7 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
     <#list persistentFields as field>
         <#if field.typeName == "long" || field.typeName == "int" || field.typeName == "double" || field.typeName == "float">
             indicator.${field.fieldSetter}(((Number)dbMap.get("${field.columnName}")).${field.typeName}Value());
-        <#elseif field.typeName == "String">
+        <#elseif field.typeName == "java.lang.String" || field.typeName == "String">
             indicator.${field.fieldSetter}((${field.typeName})dbMap.get("${field.columnName}"));
         <#else>
             indicator.${field.fieldSetter}(new ${field.typeName}((String)dbMap.get("${field.columnName}")));
