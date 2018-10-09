@@ -64,7 +64,7 @@ public class SourceColumnsFactory {
                 return columnList;
             case "ServiceRelation":
                 columnList = new LinkedList<>();
-                SourceColumn sourceService = new SourceColumn("entityId", "source_service_id", String.class, true);
+                SourceColumn sourceService = new SourceColumn("entityId", "entity_id", String.class, true);
                 columnList.add(sourceService);
                 return columnList;
             case "ServiceInstanceRelation":
