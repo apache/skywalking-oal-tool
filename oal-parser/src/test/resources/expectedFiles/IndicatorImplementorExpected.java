@@ -122,7 +122,6 @@ public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSuppor
         indicator.setSummation(this.getSummation());
         indicator.setCount(this.getCount());
         indicator.setValue(this.getValue());
-        indicator.setTimeBucket(this.getTimeBucket());
         indicator.setStringField(this.getStringField());
         return indicator;
     }
@@ -135,7 +134,6 @@ public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSuppor
         indicator.setSummation(this.getSummation());
         indicator.setCount(this.getCount());
         indicator.setValue(this.getValue());
-        indicator.setTimeBucket(this.getTimeBucket());
         indicator.setStringField(this.getStringField());
         return indicator;
     }
@@ -148,7 +146,6 @@ public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSuppor
         indicator.setSummation(this.getSummation());
         indicator.setCount(this.getCount());
         indicator.setValue(this.getValue());
-        indicator.setTimeBucket(this.getTimeBucket());
         indicator.setStringField(this.getStringField());
         return indicator;
     }
