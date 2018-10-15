@@ -177,10 +177,14 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
         ${metricName}Indicator indicator = new ${metricName}Indicator();
         indicator.setTimeBucket(toTimeBucketInHour());
 <#list fieldsFromSource as field>
+    <#if field.columnName != "time_bucket">
         indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+    </#if>
 </#list>
 <#list persistentFields as field>
+    <#if field.columnName != "time_bucket">
         indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+    </#if>
 </#list>
         return indicator;
     }
@@ -190,10 +194,14 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
         ${metricName}Indicator indicator = new ${metricName}Indicator();
         indicator.setTimeBucket(toTimeBucketInDay());
 <#list fieldsFromSource as field>
+    <#if field.columnName != "time_bucket">
         indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+    </#if>
 </#list>
 <#list persistentFields as field>
+    <#if field.columnName != "time_bucket">
         indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+    </#if>
 </#list>
         return indicator;
     }
@@ -203,10 +211,14 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
         ${metricName}Indicator indicator = new ${metricName}Indicator();
         indicator.setTimeBucket(toTimeBucketInMonth());
 <#list fieldsFromSource as field>
+    <#if field.columnName != "time_bucket">
         indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+    </#if>
 </#list>
 <#list persistentFields as field>
+    <#if field.columnName != "time_bucket">
         indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+    </#if>
 </#list>
         return indicator;
     }
