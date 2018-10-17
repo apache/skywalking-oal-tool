@@ -107,7 +107,11 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
         ${metricName}Indicator indicator = (${metricName}Indicator)obj;
 <#list fieldsFromSource as sourceField>
     <#if sourceField.isID()>
+        <#if sourceField.getTypeName() == "java.lang.String">
+        if (!${sourceField.fieldName}.equals(indicator.${sourceField.fieldName}))
+        <#else>
         if (${sourceField.fieldName} != indicator.${sourceField.fieldName})
+        </#if>
             return false;
     </#if>
 </#list>

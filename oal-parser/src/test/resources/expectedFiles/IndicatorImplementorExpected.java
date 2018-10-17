@@ -56,7 +56,6 @@ public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSuppor
         return result;
     }
 
-
     @Override public int remoteHashCode() {
         int result = 17;
         result = 31 * result + entityId.hashCode();
@@ -72,7 +71,7 @@ public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSuppor
             return false;
 
         ServiceAvgIndicator indicator = (ServiceAvgIndicator)obj;
-        if (entityId != indicator.entityId)
+        if (!entityId.equals(indicator.entityId))
             return false;
 
         if (getTimeBucket() != indicator.getTimeBucket())
@@ -90,7 +89,6 @@ public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSuppor
         remoteBuilder.setDataLongs(1, getValue());
         remoteBuilder.setDataLongs(2, getTimeBucket());
 
-
         remoteBuilder.setDataIntegers(0, getCount());
 
         return remoteBuilder;
@@ -104,9 +102,7 @@ public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSuppor
         setValue(remoteData.getDataLongs(1));
         setTimeBucket(remoteData.getDataLongs(2));
 
-
         setCount(remoteData.getDataIntegers(0));
-
 
     }
 
