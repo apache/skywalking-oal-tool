@@ -81,7 +81,6 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
         return result;
     }
 
-
     @Override public int remoteHashCode() {
         int result = 17;
 <#list fieldsFromSource as sourceField>
