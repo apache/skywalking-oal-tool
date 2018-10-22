@@ -116,11 +116,11 @@ public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSuppor
     @Override
     public Indicator toHour() {
         ServiceAvgIndicator indicator = new ServiceAvgIndicator();
-        indicator.setTimeBucket(toTimeBucketInHour());
         indicator.setEntityId(this.getEntityId());
         indicator.setSummation(this.getSummation());
         indicator.setCount(this.getCount());
         indicator.setValue(this.getValue());
+        indicator.setTimeBucket(toTimeBucketInHour());
         indicator.setStringField(this.getStringField());
         return indicator;
     }
@@ -128,11 +128,11 @@ public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSuppor
     @Override
     public Indicator toDay() {
         ServiceAvgIndicator indicator = new ServiceAvgIndicator();
-        indicator.setTimeBucket(toTimeBucketInDay());
         indicator.setEntityId(this.getEntityId());
         indicator.setSummation(this.getSummation());
         indicator.setCount(this.getCount());
         indicator.setValue(this.getValue());
+        indicator.setTimeBucket(toTimeBucketInDay());
         indicator.setStringField(this.getStringField());
         return indicator;
     }
@@ -140,11 +140,11 @@ public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSuppor
     @Override
     public Indicator toMonth() {
         ServiceAvgIndicator indicator = new ServiceAvgIndicator();
-        indicator.setTimeBucket(toTimeBucketInMonth());
         indicator.setEntityId(this.getEntityId());
         indicator.setSummation(this.getSummation());
         indicator.setCount(this.getCount());
         indicator.setValue(this.getValue());
+        indicator.setTimeBucket(toTimeBucketInMonth());
         indicator.setStringField(this.getStringField());
         return indicator;
     }

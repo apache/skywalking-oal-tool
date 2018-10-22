@@ -178,15 +178,26 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
     @Override
     public Indicator toHour() {
         ${metricName}Indicator indicator = new ${metricName}Indicator();
-        indicator.setTimeBucket(toTimeBucketInHour());
 <#list fieldsFromSource as field>
-    <#if field.columnName != "time_bucket">
+    <#if field.columnName == "time_bucket">
+        indicator.setTimeBucket(toTimeBucketInHour());
+    <#elseif field.typeName == "java.lang.String" || field.typeName == "long" || field.typeName == "int" || field.typeName == "double" || field.typeName == "float">
         indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+    <#else>
+        ${field.typeName} newValue = new ${field.typeName}();
+        newValue.copyFrom(this.${field.fieldGetter}());
+        indicator.${field.fieldSetter}(newValue);
     </#if>
 </#list>
 <#list persistentFields as field>
-    <#if field.columnName != "time_bucket">
+    <#if field.columnName == "time_bucket">
+        indicator.setTimeBucket(toTimeBucketInHour());
+    <#elseif field.typeName == "java.lang.String" || field.typeName == "long" || field.typeName == "int" || field.typeName == "double" || field.typeName == "float">
         indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+    <#else>
+        ${field.typeName} newValue = new ${field.typeName}();
+        newValue.copyFrom(this.${field.fieldGetter}());
+        indicator.${field.fieldSetter}(newValue);
     </#if>
 </#list>
         return indicator;
@@ -195,15 +206,26 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
     @Override
     public Indicator toDay() {
         ${metricName}Indicator indicator = new ${metricName}Indicator();
-        indicator.setTimeBucket(toTimeBucketInDay());
 <#list fieldsFromSource as field>
-    <#if field.columnName != "time_bucket">
+    <#if field.columnName == "time_bucket">
+        indicator.setTimeBucket(toTimeBucketInDay());
+    <#elseif field.typeName == "java.lang.String" || field.typeName == "long" || field.typeName == "int" || field.typeName == "double" || field.typeName == "float">
         indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+    <#else>
+        ${field.typeName} newValue = new ${field.typeName}();
+        newValue.copyFrom(this.${field.fieldGetter}());
+        indicator.${field.fieldSetter}(newValue);
     </#if>
 </#list>
 <#list persistentFields as field>
-    <#if field.columnName != "time_bucket">
+    <#if field.columnName == "time_bucket">
+        indicator.setTimeBucket(toTimeBucketInDay());
+    <#elseif field.typeName == "java.lang.String" || field.typeName == "long" || field.typeName == "int" || field.typeName == "double" || field.typeName == "float">
         indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+    <#else>
+        ${field.typeName} newValue = new ${field.typeName}();
+        newValue.copyFrom(this.${field.fieldGetter}());
+        indicator.${field.fieldSetter}(newValue);
     </#if>
 </#list>
         return indicator;
@@ -212,15 +234,26 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
     @Override
     public Indicator toMonth() {
         ${metricName}Indicator indicator = new ${metricName}Indicator();
-        indicator.setTimeBucket(toTimeBucketInMonth());
 <#list fieldsFromSource as field>
-    <#if field.columnName != "time_bucket">
+    <#if field.columnName == "time_bucket">
+        indicator.setTimeBucket(toTimeBucketInMonth());
+    <#elseif field.typeName == "java.lang.String" || field.typeName == "long" || field.typeName == "int" || field.typeName == "double" || field.typeName == "float">
         indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+    <#else>
+        ${field.typeName} newValue = new ${field.typeName}();
+        newValue.copyFrom(this.${field.fieldGetter}());
+        indicator.${field.fieldSetter}(newValue);
     </#if>
 </#list>
 <#list persistentFields as field>
-    <#if field.columnName != "time_bucket">
+    <#if field.columnName == "time_bucket">
+        indicator.setTimeBucket(toTimeBucketInMonth());
+    <#elseif field.typeName == "java.lang.String" || field.typeName == "long" || field.typeName == "int" || field.typeName == "double" || field.typeName == "float">
         indicator.${field.fieldSetter}(this.${field.fieldGetter}());
+    <#else>
+        ${field.typeName} newValue = new ${field.typeName}();
+        newValue.copyFrom(this.${field.fieldGetter}());
+        indicator.${field.fieldSetter}(newValue);
     </#if>
 </#list>
         return indicator;
