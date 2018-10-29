@@ -124,19 +124,19 @@ public class ${metricName}Indicator extends ${indicatorClassName} implements Ala
     @Override public RemoteData.Builder serialize() {
         RemoteData.Builder remoteBuilder = RemoteData.newBuilder();
 <#list serializeFields.stringFields as field>
-        remoteBuilder.setDataStrings(${field?index}, ${field.getter}());
+        remoteBuilder.addDataStrings(${field.getter}());
 </#list>
 
 <#list serializeFields.longFields as field>
-        remoteBuilder.setDataLongs(${field?index}, ${field.getter}());
+        remoteBuilder.addDataLongs(${field.getter}());
 </#list>
 
 <#list serializeFields.doubleFields as field>
-        remoteBuilder.setDataDoubles(${field?index}, ${field.getter}());
+        remoteBuilder.addDataDoubles(${field.getter}());
 </#list>
 
 <#list serializeFields.intFields as field>
-        remoteBuilder.setDataIntegers(${field?index}, ${field.getter}());
+        remoteBuilder.addDataIntegers(${field.getter}());
 </#list>
 <#list serializeFields.intLongValuePairListFields as field>
         ${field.getter}().forEach(element -> remoteBuilder.addDataIntLongPairList(element.serialize()));

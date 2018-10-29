@@ -82,15 +82,15 @@ public class ServiceAvgIndicator extends LongAvgIndicator implements AlarmSuppor
 
     @Override public RemoteData.Builder serialize() {
         RemoteData.Builder remoteBuilder = RemoteData.newBuilder();
-        remoteBuilder.setDataStrings(0, getEntityId());
-        remoteBuilder.setDataStrings(1, getStringField());
+        remoteBuilder.addDataStrings(getEntityId());
+        remoteBuilder.addDataStrings(getStringField());
 
-        remoteBuilder.setDataLongs(0, getSummation());
-        remoteBuilder.setDataLongs(1, getValue());
-        remoteBuilder.setDataLongs(2, getTimeBucket());
+        remoteBuilder.addDataLongs(getSummation());
+        remoteBuilder.addDataLongs(getValue());
+        remoteBuilder.addDataLongs(getTimeBucket());
 
 
-        remoteBuilder.setDataIntegers(0, getCount());
+        remoteBuilder.addDataIntegers(getCount());
 
         return remoteBuilder;
     }
