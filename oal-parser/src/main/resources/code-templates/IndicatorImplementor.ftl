@@ -45,7 +45,7 @@ import org.apache.skywalking.oap.server.core.source.Scope;
  */
 @IndicatorType
 @StreamData
-@StorageEntity(name = "${tableName}", builder = ${metricName}Indicator.Builder.class)
+@StorageEntity(name = "${tableName}", builder = ${metricName}Indicator.Builder.class, source = Scope.${sourceName})
 public class ${metricName}Indicator extends ${indicatorClassName} implements AlarmSupported {
 
 <#list fieldsFromSource as sourceField>
